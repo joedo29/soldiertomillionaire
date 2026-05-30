@@ -62,9 +62,9 @@ const benefits = [
 ]
 
 const placeholderPosts = [
-  { emoji: '🐷', gradient: 'g1', cat: 'Investing',  title: 'Why Every Soldier Should Open a Roth IRA Today',        meta: '5 min · Tuan' },
-  { emoji: '🧮', gradient: 'g2', cat: 'Budgeting',  title: 'The 50/30/20 Rule — Military Edition',                   meta: '4 min · Tuan' },
-  { emoji: '🛡️', gradient: 'g3', cat: 'Benefits',   title: 'The TSP Match Is Free Money — Are You Getting It?',     meta: '3 min · Tuan' },
+  { emoji: '🐷', gradient: 'g1', cat: 'Investing',  title: 'Why Every Soldier Should Open a Roth IRA Today',        meta: '5 min · Joe Do' },
+  { emoji: '🧮', gradient: 'g2', cat: 'Budgeting',  title: 'The 50/30/20 Rule — Military Edition',                   meta: '4 min · Joe Do' },
+  { emoji: '🛡️', gradient: 'g3', cat: 'Benefits',   title: 'The TSP Match Is Free Money — Are You Getting It?',     meta: '3 min · Joe Do' },
 ]
 
 export default async function HomePage() {
@@ -109,7 +109,7 @@ export default async function HomePage() {
           &ldquo;At 30, I was working 3 jobs and still broke. At 38, I hit $750K.
           The military gave me the discipline. This site gives you the roadmap.&rdquo;
         </blockquote>
-        <p className="strip-attr">— Tuan, US Army &amp; Founder</p>
+        <p className="strip-attr">— Joe Do, US Army &amp; Founder</p>
       </div>
 
       {/* ── Journey ── */}
@@ -185,7 +185,7 @@ export default async function HomePage() {
                   <div className="blog-body">
                     <div className="blog-cat">{post.tags?.[0] ?? 'Finance'}</div>
                     <div className="blog-title">{post.title}</div>
-                    <div className="blog-meta">Tuan</div>
+                    <div className="blog-meta">Joe Do</div>
                   </div>
                 </Link>
               ))

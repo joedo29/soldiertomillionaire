@@ -140,7 +140,7 @@ export default function MilitaryBenefitsPage() {
             &ldquo;I didn&apos;t know about most of these when I enlisted. I found them by reading, asking, and digging.
             This page is everything I wish someone had handed me on day one.&rdquo;
           </p>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 10 }}>— Tuan, US Army</p>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 10 }}>— Joe Do, US Army</p>
         </div>
       </section>
 

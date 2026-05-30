@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Book a Free Session — Soldier to Millionaire',
   description:
-    'Book a free 30-minute financial strategy session with Tuan — a US Army soldier who built $750K net worth. Get a personalized military financial freedom plan.',
+    'Book a free 30-minute financial strategy session with Joe Do — a US Army soldier who built $750K net worth. Get a personalized military financial freedom plan.',
   keywords: ['military financial coaching', 'free financial planning soldiers', 'army financial advisor', 'military wealth coaching'],
 }
 
@@ -73,7 +73,7 @@ export default function BookPage() {
           <div style={{ background: 'var(--army)', borderRadius: 14, padding: '24px 20px' }}>
             <div className="section-tag gold" style={{ marginBottom: 12 }}>What Soldiers Say</div>
             <blockquote style={{ fontFamily: 'DM Serif Display, serif', fontStyle: 'italic', fontSize: 17, color: '#fff', lineHeight: 1.6, marginBottom: 14 }}>
-              &ldquo;I had no idea about the TSP match. In 30 minutes with Tuan I set up my
+              &ldquo;I had no idea about the TSP match. In 30 minutes with Joe I set up my
               account, started investing, and now I have $8,000 more than I would have had otherwise.&rdquo;
             </blockquote>
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>— Specialist, Fort Campbell</p>
