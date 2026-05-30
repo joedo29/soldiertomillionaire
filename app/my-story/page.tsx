@@ -20,9 +20,9 @@ const milestones = [
   { year: '2022', age: 35, icon: '📈', title: 'First $100K — The Hardest Milestone',
     body: `Hitting $100,000 net worth took years and felt impossibly slow. But there is a mathematical reality most people do not feel until they see it: the first $100K is the hardest because you are building the machine, not running it. After $100K, compounding starts doing the heavy lifting. I knew then that the system was working.` },
   { year: '2025', age: 38, icon: '🏆', title: '$750,000 Net Worth',
-    body: `At 38, my net worth crossed $750,000. Not from luck. Not from a high salary. From a simple system applied with discipline over seven years. The same system I started with $0 and a $20-in-my-pocket moment in Hawaii.` },
+    body: `At 38, my net worth crossed $750,000. Not from luck. Not from a high salary. From a simple system applied with discipline over eight years. The same system I started with $0 and a $20-in-my-pocket moment in Hawaii.` },
   { year: 'Jan 2026', age: 38, icon: '🎖️', title: 'Enlisted in the US Army',
-    body: `In January 2026, I enlisted in the US Army. I had already reached financial freedom — I joined because I wanted to serve and because I saw an opportunity to help soldiers who were in the same position I was in a decade ago. Since Basic Combat Training, I have shared my financial system with more than 25 soldiers. Four have fully committed to the plan and are executing it. I built this site to reach the thousands more who need it.` },
+    body: `In January 2026, I enlisted in the US Army. I had already reached financial freedom — I joined because I wanted to serve and because I saw an opportunity to help soldiers who were in the same position I was in a decade ago. Since Basic Combat Training, I have shared my financial system with more than 25 soldiers. Five have fully committed to the plan and are executing it. I built this site to reach the thousands more who need it.` },
 ]
 
 export default function MyStoryPage() {
