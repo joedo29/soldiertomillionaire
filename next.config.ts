@@ -6,16 +6,10 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
-      // Serve the standalone finance tracker at /finance
-      {
-        source: '/finance',
-        destination: '/finance-app/index.html',
-      },
-      // Also pass through any assets the tracker needs
-      {
-        source: '/finance-app/:path*',
-        destination: '/finance-app/:path*',
-      },
+      // Finance tracker at /finance (legacy URL)
+      { source: '/finance', destination: '/finance-app/index.html' },
+      // Finance tracker at /tracker (primary URL shown in nav)
+      { source: '/tracker', destination: '/finance-app/index.html' },
     ]
   },
 }
