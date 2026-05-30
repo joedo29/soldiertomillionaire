@@ -63,7 +63,7 @@ const strategies = [
       `I paid my home off in 2 years and 9 months. By doing so, I paid only $13,500 in total interest — a fraction of what a standard 30-year mortgage would have cost. The faster you pay it off, the less you give to the bank and the more you keep for yourself.`,
       `If you are in the military, use your VA loan benefit — zero down payment, no private mortgage insurance, and competitive interest rates. It is one of the best mortgage products available to anyone. Use it wisely.`,
     ],
-    callout: 'Buy smart. Pay it off fast. Sell after 2 years. Keep up to $250K tax free.',
+    callout: 'Buy smart. Pay it off fast. Sell after 5 years. Keep up to $250K tax free.',
   },
 ]
 
