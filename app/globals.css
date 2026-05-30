@@ -568,20 +568,72 @@ button { cursor: pointer; font-family: inherit; border: none; }
 .post-card time { font-size: 11px; color: var(--muted); margin-top: auto; }
 
 /* Single post */
-.post-page { padding: 40px 0 72px; }
+.post-page { padding: 36px 0 72px; }
 .post-back {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 13px; color: var(--muted); margin-bottom: 28px; transition: color 0.15s;
 }
 .post-back:hover { color: var(--army-light); }
-.post-header { margin-bottom: 32px; }
+
+.post-header { margin-bottom: 28px; }
 .post-header h1 {
   font-family: 'DM Serif Display', serif;
-  font-size: clamp(26px, 5vw, 38px); color: var(--text);
-  line-height: 1.2; margin-bottom: 12px;
+  font-size: clamp(24px, 5vw, 40px); color: var(--text);
+  line-height: 1.18; margin-bottom: 20px; letter-spacing: -0.3px;
 }
-.post-meta { font-size: 13px; color: var(--muted); display: flex; gap: 12px; align-items: center; }
-.post-cover { border-radius: 12px; overflow: hidden; margin-bottom: 36px; }
+
+/* Author row */
+.post-author-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.post-author-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #E8F0DF; display: flex; align-items: center;
+  justify-content: center; font-size: 18px; flex-shrink: 0;
+}
+.post-author-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.post-author-meta { font-size: 12px; color: var(--muted); margin-top: 2px; display: flex; align-items: center; gap: 6px; }
+.post-dot { color: var(--border); }
+
+/* Cover */
+.post-cover { border-radius: 12px; overflow: hidden; margin: 24px 0 32px; }
+.post-cover img { display: block; }
+
+/* Excerpt pull */
+.post-excerpt {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: clamp(16px, 3vw, 19px); color: var(--text-light);
+  line-height: 1.65; margin-bottom: 32px;
+  padding: 20px; background: var(--bg-2); border-radius: 10px;
+  border-left: 3px solid var(--gold);
+}
+
+/* Post CTA block */
+.post-cta {
+  background: var(--army); border-radius: 14px;
+  padding: 32px 24px; text-align: center;
+  margin: 48px 0 32px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.post-cta-icon { font-size: 36px; }
+.post-cta h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px; color: #fff; line-height: 1.25;
+}
+.post-cta p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; max-width: 380px; }
+.post-cta .btn { margin-top: 6px; }
+.post-cta-note { font-size: 11px; color: rgba(255,255,255,0.3); }
+
+/* Tags footer */
+.post-tags-footer {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  font-size: 12px; color: var(--muted); padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* Prose — tighter on mobile */
+.prose { font-size: clamp(15px, 2.5vw, 17px); }
 
 /* ══════════════════════════════════════
    EMPTY STATE
