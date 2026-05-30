@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import CalEmbed from '@/components/CalEmbed'
 
 export const metadata: Metadata = {
   title: 'Book a Free Session — Soldier to Millionaire',
@@ -42,29 +43,17 @@ export default function BookPage() {
             ))}
           </div>
 
-          {/* Booking embed placeholder */}
-          <div style={{
-            background: 'var(--bg-2)', border: '1px solid var(--border)',
-            borderRadius: 14, padding: '32px 24px', textAlign: 'center', marginBottom: 24,
-          }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>🗓️</div>
-            <h2 style={{ fontFamily: 'DM Serif Display, serif', fontSize: 22, marginBottom: 10 }}>
+          {/* Cal.com live booking embed */}
+          <div style={{ marginBottom: 24 }}>
+            <h2 style={{ fontFamily: 'DM Serif Display, serif', fontSize: 22, marginBottom: 8 }}>
               Pick a Time That Works
             </h2>
-            <p style={{ fontSize: 14, color: 'var(--text-light)', marginBottom: 24, lineHeight: 1.6 }}>
-              Sessions are available evenings and weekends. All time zones welcome.
+            <p style={{ fontSize: 14, color: 'var(--text-light)', marginBottom: 20, lineHeight: 1.6 }}>
+              Sessions are available evenings and weekends. All time zones welcome —
               I work around your duty schedule.
             </p>
-            {/* Cal.com embed — replace YOUR_USERNAME with your Cal.com username */}
-            <a
-              href="https://cal.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-gold btn-full btn-lg"
-            >
-              Choose a Time →
-            </a>
-            <p style={{ fontSize: 11, color: 'var(--muted)', marginTop: 10 }}>
+            <CalEmbed />
+            <p style={{ fontSize: 11, color: 'var(--muted)', marginTop: 10, textAlign: 'center' }}>
               Powered by Cal.com · Free, no account required to book
             </p>
           </div>
