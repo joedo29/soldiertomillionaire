@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const journey = [
   {
     icon: '✈️',
-    year: '2008 · Age 21',
+    year: '2008 · Age 20',
     title: 'Arrived in America',
     desc: 'Came from Vietnam with nothing. Worked 3 jobs. Lived paycheck to paycheck for nearly a decade.',
     amount: null,
@@ -22,7 +22,7 @@ const journey = [
   },
   {
     icon: '📖',
-    year: '2018 · Age 31',
+    year: '2018 · Age 30',
     title: 'The Wake-Up Call',
     desc: 'Hawaii trip with $20 in my pocket. Read The Intelligent Investor. Opened my first tax-advantaged account. Started investing in the S&P 500.',
     amount: null,
@@ -40,7 +40,7 @@ const journey = [
     icon: '🏆',
     year: '2025 · Age 38',
     title: 'Financial Freedom',
-    desc: 'Now serving in the US Army and teaching other soldiers to do the same.',
+    desc: 'Reached $750K through seven years of disciplined saving and investing. Enlisted in the US Army in January 2026 and began teaching fellow soldiers to build the same wealth.',
     amount: '$750,000',
     highlight: true,
   },
@@ -48,7 +48,7 @@ const journey = [
 
 const pillars = [
   { num: '01', name: 'Create Wealth',  desc: 'Numbers don\'t lie. Track, invest, grow.' },
-  { num: '02', name: 'Family First',   desc: 'Truc & Summer\'s smiles are the mission.' },
+  { num: '02', name: 'Family First',   desc: 'My wife and daughter\'s smiles are the mission.' },
   { num: '03', name: 'True Freedom',   desc: 'Movies on a Tuesday. No permission needed.' },
   { num: '04', name: 'Pay It Forward', desc: 'Help others achieve the same. This site.' },
 ]
@@ -96,7 +96,7 @@ export default async function HomePage() {
             <div className="stat-label">To Freedom</div>
           </div>
           <div className="stat" role="listitem">
-            <div className="stat-num">20+</div>
+            <div className="stat-num">25+</div>
             <div className="stat-label">Soldiers Helped</div>
           </div>
         </div>
