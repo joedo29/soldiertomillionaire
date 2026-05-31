@@ -645,6 +645,7 @@ button { cursor: pointer; font-family: inherit; border: none; }
 /* ══════════════════════════════════════
    RESPONSIVE — Desktop
 ══════════════════════════════════════ */
+/* ── Tablet 768px ── */
 @media (min-width: 768px) {
   .nav-hamburger { display: none; }
   .nav-drawer    { display: none !important; }
@@ -660,9 +661,8 @@ button { cursor: pointer; font-family: inherit; border: none; }
   .blog-preview-section { padding-left: 40px; }
   .blog-scroll { padding-right: 40px; }
 
-  .pillar-grid { grid-template-columns: repeat(4,1fr); }
-
-  .posts-grid { grid-template-columns: repeat(3,1fr); }
+  .pillar-grid { grid-template-columns: repeat(4, 1fr); }
+  .posts-grid  { grid-template-columns: repeat(3, 1fr); }
 
   .page-hero { padding: 72px 40px 56px; }
   .page-hero h1 { font-size: 80px; }
@@ -670,11 +670,58 @@ button { cursor: pointer; font-family: inherit; border: none; }
   .footer { padding: 40px; }
 }
 
-@media (min-width: 1100px) {
-  .hero, .story-strip, .journey-section, .pillars-section,
-  .benefits-section, .booking-section, .blog-preview-section { max-width: var(--max-w); margin-left: auto; margin-right: auto; }
+/* ── Laptop 960px — two-column upgrades ── */
+@media (min-width: 960px) {
+  /* Journey: 2-column grid so cards don't stretch full width */
+  .journey { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-  .hero { padding-left: 0; padding-right: 0; max-width: 780px; }
+  /* Benefits: 2-column so list doesn't look like a wide ladder */
+  .benefit-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Blog preview: switch from horizontal scroll to 3-column grid */
+  .blog-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow-x: visible;
+    padding-right: 40px;
+  }
+  .blog-card { min-width: unset; }
+
+  /* Booking CTA: limit text width so it doesn't feel empty */
+  .booking-section { padding-top: 64px; padding-bottom: 64px; }
+  .booking-title { font-size: 32px; }
+}
+
+/* ── Wide desktop 1100px+ — constrain content without clipping backgrounds ── */
+@media (min-width: 1100px) {
+  /* Non-colored sections: constrain the whole element */
+  .hero            { max-width: 820px; margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
+  .journey-section { max-width: 1100px; margin-left: auto; margin-right: auto; }
+
+  /* Full-bleed colored sections: keep 100% width, use padding to centre content.
+     max(40px, calc((100% - 900px) / 2)) means:
+     — screen 1440px → 270px padding each side → 900px content ✅
+     — screen 1100px → 100px padding each side → 900px content ✅
+     — screen 900px  → 40px padding (floor)   ✅                       */
+  .story-strip,
+  .pillars-section,
+  .benefits-section,
+  .booking-section {
+    padding-left:  max(40px, calc((100% - 900px) / 2));
+    padding-right: max(40px, calc((100% - 900px) / 2));
+  }
+
+  /* Blog preview: match journey width */
+  .blog-preview-section {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+  }
+  .blog-scroll { padding-left: 0; }
+
+  /* Footer content centred */
+  .footer { max-width: 1100px; margin-left: auto; margin-right: auto; }
 }
 
 /* Utility */
