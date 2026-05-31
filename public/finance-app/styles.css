@@ -78,6 +78,28 @@ body {
 
 .logo-two { color: var(--accent); }
 
+/* Back to website button — sits above the app nav */
+.nav-item-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.2);
+  margin-bottom: 10px;
+  transition: all 0.15s;
+}
+.nav-item-back:hover {
+  background: rgba(201,168,76,0.18);
+  border-color: rgba(201,168,76,0.4);
+}
+
 .sidebar-nav {
   display: flex;
   flex-direction: column;
@@ -617,6 +639,10 @@ select option { background: var(--bg-2); }
   }
 
   .mobile-nav-add span { display: none; }
+
+  .mobile-nav-back {
+    color: var(--accent) !important;
+  }
 
   /* Page header */
   .page-header {

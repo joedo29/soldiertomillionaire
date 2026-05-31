@@ -71,13 +71,18 @@ function showPage(id) {
 }
 
 document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', e => { e.preventDefault(); showPage(item.dataset.page); });
+  item.addEventListener('click', e => {
+    if (!item.dataset.page) return; // let real href links (Back to Website) navigate normally
+    e.preventDefault();
+    showPage(item.dataset.page);
+  });
 });
 
 document.querySelectorAll('.mobile-nav-item').forEach(item => {
   item.addEventListener('click', e => {
+    if (item.dataset.action === 'add') { e.preventDefault(); openModal(); return; }
+    if (!item.dataset.page) return; // let real href links navigate normally
     e.preventDefault();
-    if (item.dataset.action === 'add') { openModal(); return; }
     showPage(item.dataset.page);
   });
 });
