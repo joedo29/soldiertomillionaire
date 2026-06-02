@@ -651,7 +651,7 @@ button { cursor: pointer; font-family: inherit; border: none; }
   .nav-drawer    { display: none !important; }
   .nav-desktop   { display: flex; }
 
-  .hero { padding: 56px 40px 64px; max-width: 700px; margin: 0 auto; }
+  .hero { padding: 56px 40px 64px; max-width: none; margin: 0; }
   .hero-headline { font-size: 110px; }
 
   .story-strip, .journey-section, .pillars-section,

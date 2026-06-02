@@ -1,5 +1,7 @@
 .next/
 node_modules/
+.sanity/
+dist/
 .env.local
 *.tsbuildinfo
 next-env.d.ts
