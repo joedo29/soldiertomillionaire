@@ -38,19 +38,16 @@ function readingTime(body: any[]): number {
 const portableComponents = {
   types: {
     image: ({ value }: { value: { asset: { _ref: string }; alt?: string } }) => (
-      <figure style={{ margin: '32px 0' }}>
+      <figure className="post-inline-figure">
         <Image
-          src={urlFor(value).width(800).url()}
+          src={urlFor(value).width(1100).url()}
           alt={value.alt ?? ''}
-          width={800}
-          height={450}
-          style={{ width: '100%', height: 'auto', borderRadius: 10 }}
+          width={1100}
+          height={620}
+          className="post-inline-image"
         />
         {value.alt && (
-          <figcaption style={{
-            textAlign: 'center', fontSize: 13,
-            color: 'var(--muted)', marginTop: 8, fontStyle: 'italic',
-          }}>
+          <figcaption className="post-caption">
             {value.alt}
           </figcaption>
         )}
@@ -58,44 +55,17 @@ const portableComponents = {
     ),
   },
   block: {
-    h2: ({ children }: any) => (
-      <h2 style={{
-        fontFamily: 'DM Serif Display, serif',
-        fontSize: 'clamp(20px, 4vw, 26px)',
-        color: 'var(--text)', margin: '40px 0 14px', lineHeight: 1.25,
-      }}>{children}</h2>
-    ),
-    h3: ({ children }: any) => (
-      <h3 style={{
-        fontSize: 18, fontWeight: 700,
-        color: 'var(--text)', margin: '28px 0 10px',
-      }}>{children}</h3>
-    ),
-    blockquote: ({ children }: any) => (
-      <blockquote style={{
-        borderLeft: '3px solid var(--gold)',
-        padding: '4px 0 4px 18px', margin: '28px 0',
-        fontFamily: 'DM Serif Display, serif', fontStyle: 'italic',
-        fontSize: 'clamp(16px, 3vw, 19px)', color: 'var(--text-light)',
-        lineHeight: 1.65,
-      }}>{children}</blockquote>
-    ),
+    h2: ({ children }: any) => <h2>{children}</h2>,
+    h3: ({ children }: any) => <h3>{children}</h3>,
+    blockquote: ({ children }: any) => <blockquote>{children}</blockquote>,
   },
   list: {
-    bullet: ({ children }: any) => (
-      <ul style={{ paddingLeft: 22, margin: '0 0 20px' }}>{children}</ul>
-    ),
-    number: ({ children }: any) => (
-      <ol style={{ paddingLeft: 22, margin: '0 0 20px' }}>{children}</ol>
-    ),
+    bullet: ({ children }: any) => <ul>{children}</ul>,
+    number: ({ children }: any) => <ol>{children}</ol>,
   },
   listItem: {
-    bullet: ({ children }: any) => (
-      <li style={{ marginBottom: 8, color: 'var(--text)', lineHeight: 1.65 }}>{children}</li>
-    ),
-    number: ({ children }: any) => (
-      <li style={{ marginBottom: 8, color: 'var(--text)', lineHeight: 1.65 }}>{children}</li>
-    ),
+    bullet: ({ children }: any) => <li>{children}</li>,
+    number: ({ children }: any) => <li>{children}</li>,
   },
 }
 
@@ -116,12 +86,10 @@ export default async function PostPage(
 
   return (
     <main className="post-page">
-      <div className="container-narrow">
+      <section className="post-hero">
+        <div className="post-container">
+          <Link href="/blog" className="post-back">← Back to Blog</Link>
 
-        {/* Back link */}
-        <Link href="/blog" className="post-back">← Back to Blog</Link>
-
-        {/* Header */}
         <header className="post-header">
           {post.tags && post.tags.length > 0 && (
             <div className="post-tags">
@@ -143,51 +111,49 @@ export default async function PostPage(
             </div>
           </div>
         </header>
-
-        {/* Cover image */}
-        {post.mainImage && (
-          <div className="post-cover">
-            <Image
-              src={urlFor(post.mainImage).width(1200).height(525).url()}
-              alt={post.mainImage.alt ?? post.title}
-              width={1200}
-              height={525}
-              style={{ width: '100%', height: 'auto' }}
-              priority
-            />
-          </div>
-        )}
-
-        {/* Excerpt pull-quote */}
-        {post.excerpt && (
-          <p className="post-excerpt">{post.excerpt}</p>
-        )}
-
-        {/* Body */}
-        {post.body && (
-          <div className="prose">
-            <PortableText value={post.body} components={portableComponents} />
-          </div>
-        )}
-
-        {/* Bottom CTA */}
-        <div className="post-cta">
-          <div className="post-cta-icon">🗓️</div>
-          <h3>Found this helpful?</h3>
-          <p>Book a free 30-minute session with Joe and get a personalized financial plan built around your military situation.</p>
-          <Link href="/book" className="btn btn-gold btn-lg">Book a Free Session</Link>
-          <span className="post-cta-note">No cost. No pitch. Just a plan.</span>
         </div>
+      </section>
 
-        {/* Tags footer */}
-        {post.tags && post.tags.length > 0 && (
-          <div className="post-tags-footer">
-            <span>Filed under:</span>
-            {post.tags.map((t) => <span key={t} className="tag">{t}</span>)}
+      <article className="post-article">
+        <div className="post-container">
+          {post.mainImage && (
+            <div className="post-cover">
+              <Image
+                src={urlFor(post.mainImage).width(1400).height(760).url()}
+                alt={post.mainImage.alt ?? post.title}
+                width={1400}
+                height={760}
+                priority
+              />
+            </div>
+          )}
+
+          {post.excerpt && (
+            <p className="post-excerpt">{post.excerpt}</p>
+          )}
+
+          {post.body && (
+            <div className="prose post-prose">
+              <PortableText value={post.body} components={portableComponents} />
+            </div>
+          )}
+
+          <div className="post-cta">
+            <div className="post-cta-icon">🗓️</div>
+            <h3>Found this helpful?</h3>
+            <p>Book a free 30-minute session with Joe and get a personalized financial plan built around your military situation.</p>
+            <Link href="/book" className="btn btn-gold btn-lg">Book a Free Session</Link>
+            <span className="post-cta-note">No cost. No pitch. Just a plan.</span>
           </div>
-        )}
 
-      </div>
+          {post.tags && post.tags.length > 0 && (
+            <div className="post-tags-footer">
+              <span>Filed under:</span>
+              {post.tags.map((t) => <span key={t} className="tag">{t}</span>)}
+            </div>
+          )}
+        </div>
+      </article>
     </main>
   )
 }
