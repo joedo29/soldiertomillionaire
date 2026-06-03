@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { client, recentPostsQuery } from '@/lib/sanity'
+import Image from 'next/image'
+import { client, recentPostsQuery, urlFor } from '@/lib/sanity'
 import type { Post } from '@/lib/types'
 
 export const revalidate = 3600
@@ -181,7 +182,17 @@ export default async function HomePage() {
                   href={`/blog/${post.slug.current}`}
                   className="blog-card"
                 >
-                  <div className="blog-img g1">📰</div>
+                  <div className={`blog-img${post.mainImage ? '' : ' g1'}`}>
+                    {post.mainImage ? (
+                      <Image
+                        src={urlFor(post.mainImage).width(440).height(220).url()}
+                        alt={post.title}
+                        width={440}
+                        height={220}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : '📰'}
+                  </div>
                   <div className="blog-body">
                     <div className="blog-cat">{post.tags?.[0] ?? 'Finance'}</div>
                     <div className="blog-title">{post.title}</div>
