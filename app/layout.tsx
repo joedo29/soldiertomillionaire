@@ -23,8 +23,19 @@ export const metadata: Metadata = {
     siteName: 'Soldier to Millionaire',
     title: 'Soldier to Millionaire — Financial Freedom for Those Who Serve',
     description: 'From $0 to $750K on an Army salary. I\'ll show you exactly how.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Joe Do — US Army soldier and founder of Soldier to Millionaire',
+      },
+    ],
   },
-  twitter: { card: 'summary_large_image' },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og-image.png'],
+  },
   robots: { index: true, follow: true },
 }
 
