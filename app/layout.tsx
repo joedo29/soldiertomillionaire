@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: 'From $0 to $750K on an Army salary. I\'ll show you exactly how.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Joe Do — US Army soldier and founder of Soldier to Millionaire',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/og-image.png'],
+    images: ['/og-image.jpg'],
   },
   robots: { index: true, follow: true },
 }
