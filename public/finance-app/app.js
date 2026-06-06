@@ -639,9 +639,44 @@ document.getElementById('import-file-input').addEventListener('change', e => {
   e.target.value = ''; // reset so the same file can be re-imported
 });
 
+// ── Disclaimer / Help Modal ───────────────────────────────────────────────────
+
+const helpModal      = document.getElementById('help-modal');
+const openHelpBtn    = document.getElementById('open-help-modal');
+const closeHelpBtn   = document.getElementById('close-help-modal');
+const dismissHelpBtn = document.getElementById('dismiss-help-modal');
+
+function openHelpModal() {
+  helpModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeHelpModal() {
+  helpModal.classList.remove('open');
+  document.body.style.overflow = '';
+  localStorage.setItem('ft_help_seen', '1');
+}
+
+openHelpBtn.addEventListener('click', openHelpModal);
+closeHelpBtn.addEventListener('click', closeHelpModal);
+dismissHelpBtn.addEventListener('click', closeHelpModal);
+
+helpModal.addEventListener('click', (e) => {
+  if (e.target === helpModal) closeHelpModal();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && helpModal.classList.contains('open')) closeHelpModal();
+});
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 seedDemoData();
 data = loadData();
 renderDashboard();
 populateYearSelects();
+
+// Show welcome modal on first visit
+if (!localStorage.getItem('ft_help_seen')) {
+  setTimeout(openHelpModal, 400);
+}

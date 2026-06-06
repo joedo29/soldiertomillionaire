@@ -44,8 +44,113 @@
           <span class="nw-label">Net Worth</span>
           <span class="nw-value" id="sidebar-net-worth">$0</span>
         </div>
+        <button class="help-btn" id="open-help-modal" title="Help & Info">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Help &amp; Info
+        </button>
       </div>
     </aside>
+
+  <!-- ── Disclaimer / Welcome Modal ── -->
+  <div class="modal-backdrop" id="help-modal" role="dialog" aria-modal="true" aria-label="Welcome to FinTrack">
+    <div class="disclaimer-modal">
+
+      <div class="dm-header">
+        <div class="dm-icon">📊</div>
+        <h2 class="dm-title">Welcome to FinTrack</h2>
+        <p class="dm-subtitle">Your personal finance tracker — private, offline, and free.</p>
+        <button class="dm-close" id="close-help-modal" aria-label="Close">✕</button>
+      </div>
+
+      <div class="dm-body">
+
+        <div class="dm-two-col">
+          <div class="dm-card">
+            <div class="dm-card-head">
+              <div class="dm-card-icon dci-green">✅</div>
+              <span class="dm-card-title">What you can do</span>
+            </div>
+            <ul class="dm-list dm-list-green">
+              <li>Track income &amp; expenses</li>
+              <li>Manage assets &amp; net worth</li>
+              <li>View spending charts</li>
+              <li>Filter by year or category</li>
+              <li>Export a backup file</li>
+              <li>Import a backup file</li>
+            </ul>
+          </div>
+          <div class="dm-card">
+            <div class="dm-card-head">
+              <div class="dm-card-icon dci-red">🚫</div>
+              <span class="dm-card-title">What this app won't do</span>
+            </div>
+            <ul class="dm-list dm-list-red">
+              <li>Connect to your bank</li>
+              <li>Give financial advice</li>
+              <li>Store data on any server</li>
+              <li>Sync across devices</li>
+              <li>Share your data with anyone</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="dm-card">
+          <div class="dm-card-head">
+            <div class="dm-card-icon dci-blue">🔒</div>
+            <span class="dm-card-title">Your data stays on your device</span>
+          </div>
+          <div class="dm-flow">
+            <div class="dm-flow-step">
+              <div class="dm-flow-icon">⌨️</div>
+              <div class="dm-flow-label">You enter data</div>
+              <div class="dm-flow-desc">Income, expenses, assets</div>
+            </div>
+            <div class="dm-flow-arrow">→</div>
+            <div class="dm-flow-step">
+              <div class="dm-flow-icon">💾</div>
+              <div class="dm-flow-label">Saved locally</div>
+              <div class="dm-flow-desc">Browser localStorage only</div>
+            </div>
+            <div class="dm-flow-arrow">→</div>
+            <div class="dm-flow-step">
+              <div class="dm-flow-icon">🚫</div>
+              <div class="dm-flow-label">Never uploaded</div>
+              <div class="dm-flow-desc">No server. No cloud.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dm-two-col">
+          <div class="dm-card">
+            <div class="dm-card-head">
+              <div class="dm-card-icon dci-purple">📤</div>
+              <span class="dm-card-title">Export</span>
+            </div>
+            <p class="dm-text">Downloads a <strong>.json</strong> backup file to your device. Use this before clearing your browser or switching devices to avoid losing your data.</p>
+          </div>
+          <div class="dm-card">
+            <div class="dm-card-head">
+              <div class="dm-card-icon dci-blue">📥</div>
+              <span class="dm-card-title">Import</span>
+            </div>
+            <p class="dm-text">Restores data from a previously exported <strong>.json</strong> file. <strong class="warn">This replaces all current data</strong> — export first if you want to keep it.</p>
+          </div>
+        </div>
+
+        <div class="dm-disclaimer">
+          <span class="dm-disclaimer-icon">⚠️</span>
+          <p><strong>Not financial advice.</strong> This app is a personal tracking tool only. Nothing here constitutes financial, tax, or investment advice. Always consult a qualified professional for financial decisions.</p>
+        </div>
+
+      </div>
+
+      <div class="dm-footer">
+        <button class="btn btn-primary dm-start-btn" id="dismiss-help-modal">Get Started →</button>
+        <p class="dm-footer-note">You can reopen this anytime via the <strong>Help &amp; Info</strong> button in the sidebar.</p>
+      </div>
+
+    </div>
+  </div>
 
     <!-- Main Content -->
     <main class="main">
