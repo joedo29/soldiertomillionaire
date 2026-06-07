@@ -53,7 +53,7 @@ const timeline = [
     icon: '🎖️',
     year: 'January 2026',
     title: 'Enlisted in the U.S. Army',
-    body: 'Reached financial freedom and chose to serve. Since Basic Combat Training, I have shared my financial system with 25+ soldiers. This website is how I reach thousands more.',
+    body: 'Reached financial freedom and chose to serve. Since Basic Combat Training, I have shared my financial system with 27+ soldiers. This website is how I reach thousands more.',
     highlight: true,
   },
 ]
@@ -153,7 +153,7 @@ export default function AboutPage() {
           {[
             { num: '$750K',  label: 'Net Worth Built' },
             { num: '2Y 9M', label: 'House Paid Off' },
-            { num: '25+',   label: 'Soldiers Helped' },
+            { num: '27+',   label: 'Soldiers Helped' },
             { num: 'Active',label: 'U.S. Army, Enlisted 2026' },
           ].map(s => (
             <div key={s.num} className="trust-card">
