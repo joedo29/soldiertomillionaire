@@ -12,6 +12,37 @@ export const metadata: Metadata = {
     'A Vietnamese immigrant and US Army soldier who went from 3 jobs & zero savings to $750K net worth. Free military finance tracker, benefits guide, and 1-on-1 coaching.',
 }
 
+// ── Blog card fallback graphic (used when a post has no cover image) ──────────
+const tagMeta: Record<string, { icon: string; accent: string }> = {
+  'TSP':              { icon: '📈', accent: '#C9A84C' },
+  'Investing':        { icon: '📊', accent: '#C9A84C' },
+  'Retirement':       { icon: '🏦', accent: '#4CAF7C' },
+  'Budgeting':        { icon: '💰', accent: '#C9A84C' },
+  'Military Benefits':{ icon: '🎖️', accent: '#A8C8E8' },
+  'Personal Finance': { icon: '🧭', accent: '#C9A84C' },
+  'Strategy':         { icon: '♟️', accent: '#C9A84C' },
+  'VA Loan':          { icon: '🏠', accent: '#4CAF7C' },
+  'Real Estate':      { icon: '🏠', accent: '#4CAF7C' },
+  'Home Buying':      { icon: '🔑', accent: '#4CAF7C' },
+  'Personal Story':   { icon: '🎯', accent: '#E8A84C' },
+  'Roth IRA':         { icon: '📈', accent: '#C9A84C' },
+}
+const defaultMeta = { icon: '📋', accent: '#C9A84C' }
+
+function BlogImgFallback({ tag, title }: { tag?: string; title: string }) {
+  const meta = (tag && tagMeta[tag]) ?? defaultMeta
+  return (
+    <div className="blog-img-fallback">
+      <div className="bif-bg" />
+      <div className="bif-icon">{meta.icon}</div>
+      <div className="bif-label" style={{ color: meta.accent }}>
+        {tag ?? 'Finance'}
+      </div>
+      <div className="bif-wordmark">S2M</div>
+    </div>
+  )
+}
+
 const journey = [
   {
     icon: '✈️',
@@ -63,9 +94,9 @@ const benefits = [
 ]
 
 const placeholderPosts = [
-  { emoji: '🐷', gradient: 'g1', cat: 'Investing',  title: 'Why Every Soldier Should Open a Roth IRA Today',        meta: '5 min · Joe Do' },
-  { emoji: '🧮', gradient: 'g2', cat: 'Budgeting',  title: 'The 50/30/20 Rule — Military Edition',                   meta: '4 min · Joe Do' },
-  { emoji: '🛡️', gradient: 'g3', cat: 'Benefits',   title: 'The TSP Match Is Free Money — Are You Getting It?',     meta: '3 min · Joe Do' },
+  { tag: 'Investing', title: 'Why Every Soldier Should Open a Roth IRA Today',    meta: '5 min · Joe Do' },
+  { tag: 'Budgeting', title: 'The 50/30/20 Rule — Military Edition',              meta: '4 min · Joe Do' },
+  { tag: 'TSP',       title: 'The TSP Match Is Free Money — Are You Getting It?', meta: '3 min · Joe Do' },
 ]
 
 export default async function HomePage() {
@@ -182,7 +213,7 @@ export default async function HomePage() {
                   href={`/blog/${post.slug.current}`}
                   className="blog-card"
                 >
-                  <div className={`blog-img${post.mainImage ? '' : ' g1'}`}>
+                  <div className="blog-img">
                     {post.mainImage ? (
                       <Image
                         src={urlFor(post.mainImage).width(440).height(220).url()}
@@ -191,7 +222,9 @@ export default async function HomePage() {
                         height={220}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
-                    ) : '📰'}
+                    ) : (
+                      <BlogImgFallback tag={post.tags?.[0]} title={post.title} />
+                    )}
                   </div>
                   <div className="blog-body">
                     <div className="blog-cat">{post.tags?.[0] ?? 'Finance'}</div>
@@ -202,9 +235,11 @@ export default async function HomePage() {
               ))
             : placeholderPosts.map(p => (
                 <Link key={p.title} href="/blog" className="blog-card">
-                  <div className={`blog-img ${p.gradient}`}>{p.emoji}</div>
+                  <div className="blog-img">
+                    <BlogImgFallback tag={p.tag} title={p.title} />
+                  </div>
                   <div className="blog-body">
-                    <div className="blog-cat">{p.cat}</div>
+                    <div className="blog-cat">{p.tag}</div>
                     <div className="blog-title">{p.title}</div>
                     <div className="blog-meta">{p.meta}</div>
                   </div>
