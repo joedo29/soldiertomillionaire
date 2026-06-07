@@ -398,6 +398,22 @@ button { cursor: pointer; font-family: inherit; border: none; }
 .footer-links a:hover { color: var(--gold); }
 .footer-copy { font-size: 10px; color: rgba(255,255,255,0.18); margin-top: 16px; }
 
+/* Footer social */
+.footer-social { margin: 12px 0 0; }
+.footer-social-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 16px; border-radius: 40px;
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.45); background: transparent;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.4px;
+  text-decoration: none; transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.footer-social-btn:hover {
+  border-color: #0A66C2;
+  background: rgba(10,102,194,0.12);
+  color: #fff;
+}
+
 /* ══════════════════════════════════════
    INTERIOR PAGE SHELL
 ══════════════════════════════════════ */
@@ -611,6 +627,23 @@ button { cursor: pointer; font-family: inherit; border: none; }
 .intro-body p { font-size: 15px; color: var(--text-light); line-height: 1.75; margin-bottom: 16px; }
 .intro-body p:last-child { margin-bottom: 0; }
 .intro-body strong { color: var(--text); font-weight: 600; }
+
+/* LinkedIn connect link in intro */
+.linkedin-connect {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 24px; padding: 9px 18px; border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  color: var(--text-light); font-size: 13px; font-weight: 500;
+  text-decoration: none; transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.linkedin-connect svg { flex-shrink: 0; }
+.linkedin-connect:hover {
+  border-color: #0A66C2;
+  background: rgba(10,102,194,0.06);
+  color: var(--text);
+}
+.linkedin-connect-label { font-size: 10px; letter-spacing: 0.4px; color: var(--muted); margin-left: 2px; }
 
 /* 4. Timeline */
 .about-timeline-section { background: var(--bg-2); padding: 56px 0; }
