@@ -132,7 +132,7 @@ export default function AboutPage() {
 
           <div className="about-hero-photo">
             <Image
-              src="/hero-image.png"
+              src="/hero-image.jpg"
               alt="Joe Do — US Army soldier, arms crossed in front of American flag at sunset"
               width={520}
               height={680}
