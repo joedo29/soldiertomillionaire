@@ -149,7 +149,7 @@ export default function AboutPage() {
           2. TRUST SNAPSHOT
       ══════════════════════════════════════ */}
       <section className="trust-section">
-        <div className="trust-grid container">
+        <div className="trust-grid">
           {[
             { num: '$750K',  label: 'Net Worth Built' },
             { num: '2Y 9M', label: 'House Paid Off' },

@@ -577,12 +577,13 @@ button { cursor: pointer; font-family: inherit; border: none; }
 .trust-section { background: var(--army); padding: 0; }
 .trust-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 1px; background: rgba(255,255,255,0.08);
 }
 .trust-card {
   background: var(--army); padding: 28px 20px; text-align: center;
   transition: background 0.2s;
+  border-right: 1px solid rgba(255,255,255,0.08);
 }
+.trust-card:last-child { border-right: none; }
 .trust-card:hover { background: var(--army-light); }
 .trust-num {
   font-family: 'Bebas Neue', sans-serif;
