@@ -30,7 +30,7 @@ const tagMeta: Record<string, { icon: string; accent: string }> = {
 const defaultMeta = { icon: '📋', accent: '#C9A84C' }
 
 function BlogImgFallback({ tag, title }: { tag?: string; title: string }) {
-  const meta = (tag && tagMeta[tag]) ?? defaultMeta
+  const meta = (tag ? tagMeta[tag] : null) ?? defaultMeta
   return (
     <div className="blog-img-fallback">
       <div className="bif-bg" />
