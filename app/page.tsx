@@ -279,28 +279,36 @@ export default async function HomePage() {
                 <div className="section-tag">Soldier Stories</div>
                 <h2 className="section-title">Real Soldiers.<br />Real Results.</h2>
               </div>
-              <Link href="/soldiers" className="btn btn-outline">
+              <Link href="/soldiers" className="btn btn-outline-dark">
                 Read All Stories →
               </Link>
             </div>
-            <div className="ht-scroll">
-              {testimonials.slice(0, 3).map(t => (
-                <div key={t._id} className="ht-card">
-                  <div className="ht-quote">&ldquo;{t.advice}&rdquo;</div>
-                  <div className="ht-actions">
-                    {extractActions(t.breakthrough).map(a => (
-                      <span key={a} className="ht-action-chip">{a}</span>
-                    ))}
-                  </div>
-                  <div className="ht-soldier">
-                    <div className="ht-avatar">{t.name.charAt(0)}</div>
-                    <div>
-                      <div className="ht-soldier-name">{t.name}</div>
-                      <div className="ht-soldier-branch">{t.branch}</div>
+            <div className="ht-scroll-wrap">
+              <div className="ht-scroll">
+                {testimonials.slice(0, 3).map(t => (
+                  <div key={t._id} className="ht-card">
+                    <div className="ht-quote">&ldquo;{t.advice}&rdquo;</div>
+                    <div className="ht-actions">
+                      {extractActions(t.breakthrough).map(a => (
+                        <span key={a} className="ht-action-chip">{a}</span>
+                      ))}
+                    </div>
+                    <div className="ht-soldier">
+                      <div className="ht-avatar">{t.name.charAt(0)}</div>
+                      <div>
+                        <div className="ht-soldier-name">{t.name}</div>
+                        <div className="ht-soldier-branch">{t.branch}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              {/* Swipe hint — visible on mobile only */}
+              <div className="ht-swipe-hint" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                Swipe to see more
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
             </div>
           </div>
         </section>

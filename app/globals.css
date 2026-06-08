@@ -136,6 +136,9 @@ button { cursor: pointer; font-family: inherit; border: none; }
 .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
 .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.25); color: #fff; }
 .btn-outline:hover { border-color: rgba(255,255,255,0.5); transform: translateY(-1px); }
+/* For use on light/cream backgrounds */
+.btn-outline-dark { background: transparent; border: 1px solid var(--army); color: var(--army); }
+.btn-outline-dark:hover { background: var(--army); color: #fff; transform: translateY(-1px); }
 .btn-army { background: var(--army); color: #fff; }
 .btn-army:hover { background: var(--army-light); }
 .btn-full { width: 100%; justify-content: center; }
@@ -403,14 +406,41 @@ button { cursor: pointer; font-family: inherit; border: none; }
 .ht-header .section-title { margin-bottom: 0; }
 
 /* Horizontal scroll row */
+.ht-scroll-wrap {
+  position: relative;
+}
+/* Right-edge fade gradient — hints there's more to scroll */
+.ht-scroll-wrap::after {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 80px; height: calc(100% - 12px);
+  background: linear-gradient(to right, transparent, var(--bg-2));
+  pointer-events: none; border-radius: 0 14px 14px 0;
+}
 .ht-scroll {
   display: flex; gap: 20px; overflow-x: auto;
   padding-bottom: 12px; scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* hide scrollbar on Firefox */
 }
-.ht-scroll::-webkit-scrollbar { height: 4px; }
-.ht-scroll::-webkit-scrollbar-track { background: var(--border); border-radius: 4px; }
-.ht-scroll::-webkit-scrollbar-thumb { background: var(--army-light); border-radius: 4px; }
+.ht-scroll::-webkit-scrollbar { display: none; } /* hide on Chrome/Safari */
+
+/* Swipe hint shown on mobile only */
+.ht-swipe-hint {
+  display: none;
+  align-items: center; justify-content: center; gap: 8px;
+  margin-top: 14px;
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted);
+}
+.ht-swipe-hint svg { opacity: 0.5; }
+@media (max-width: 768px) {
+  .ht-swipe-hint { display: flex; }
+  /* Show a peek of the next card on mobile */
+  .ht-card { min-width: 80vw; }
+  /* Remove the fade on last card */
+  .ht-scroll-wrap::after { width: 40px; }
+}
 
 .ht-card {
   min-width: 320px; max-width: 380px; flex-shrink: 0;
