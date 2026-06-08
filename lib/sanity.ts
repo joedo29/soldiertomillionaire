@@ -30,3 +30,9 @@ export const recentPostsQuery = `
     _id, title, slug, publishedAt, excerpt, mainImage, tags
   }
 `
+
+export const allTestimonialsQuery = `
+  *[_type == "testimonial"] | order(order asc, publishedAt desc) {
+    _id, name, branch, challenge, breakthrough, advice, publishedAt, order
+  }
+`

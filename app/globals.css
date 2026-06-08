@@ -391,6 +391,144 @@ button { cursor: pointer; font-family: inherit; border: none; }
 .blog-meta { font-size: 11px; color: var(--muted); margin-top: 10px; }
 
 /* ══════════════════════════════════════
+   HOMEPAGE TESTIMONIALS
+══════════════════════════════════════ */
+.home-testimonials {
+  background: var(--bg-2); padding: 64px 0;
+}
+.ht-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 36px; gap: 16px; flex-wrap: wrap;
+}
+.ht-header .section-title { margin-bottom: 0; }
+
+/* Horizontal scroll row */
+.ht-scroll {
+  display: flex; gap: 20px; overflow-x: auto;
+  padding-bottom: 12px; scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.ht-scroll::-webkit-scrollbar { height: 4px; }
+.ht-scroll::-webkit-scrollbar-track { background: var(--border); border-radius: 4px; }
+.ht-scroll::-webkit-scrollbar-thumb { background: var(--army-light); border-radius: 4px; }
+
+.ht-card {
+  min-width: 320px; max-width: 380px; flex-shrink: 0;
+  scroll-snap-align: start;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px;
+  display: flex; flex-direction: column; gap: 16px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.ht-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+
+.ht-quote {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 15px; line-height: 1.65; color: var(--text);
+  flex: 1;
+}
+.ht-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.ht-action-chip {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.3px;
+  padding: 4px 10px; border-radius: 20px;
+  background: rgba(201,168,76,0.12); color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.25);
+}
+.ht-soldier {
+  display: flex; align-items: center; gap: 10px;
+  padding-top: 12px; border-top: 1px solid var(--border);
+}
+.ht-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--army); color: var(--gold);
+  font-weight: 700; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ht-soldier-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.ht-soldier-branch { font-size: 11px; color: var(--muted); letter-spacing: 0.3px; }
+
+/* ══════════════════════════════════════
+   /SOLDIERS PAGE
+══════════════════════════════════════ */
+.soldiers-hero {
+  background: var(--dark); padding: 72px 20px 56px; text-align: center;
+}
+.soldiers-hero-headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 8vw, 88px);
+  line-height: 0.95; color: #fff; margin: 16px 0 20px;
+  letter-spacing: 1px;
+}
+.soldiers-hero-headline em {
+  font-style: normal; color: var(--gold);
+}
+.soldiers-hero-sub {
+  font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.7;
+  max-width: 520px; margin: 0 auto 32px;
+}
+.soldiers-hero-ctas {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+}
+
+.soldiers-grid-section { padding: 64px 0 80px; background: var(--bg); }
+.soldiers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 28px;
+}
+
+/* Testimonial card */
+.st-card {
+  border: 1px solid var(--border); border-radius: 16px;
+  background: var(--bg); overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.st-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 4px 24px rgba(201,168,76,0.08);
+}
+.st-card-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 20px 24px; background: var(--army);
+}
+.st-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(201,168,76,0.15); border: 2px solid var(--gold);
+  color: var(--gold); font-weight: 700; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.st-name { font-size: 15px; font-weight: 700; color: #fff; }
+.st-branch { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 0.5px; margin-top: 2px; }
+.st-num {
+  margin-left: auto; font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; color: rgba(255,255,255,0.12); letter-spacing: 1px;
+}
+
+.st-section { padding: 20px 24px; }
+.st-section-label {
+  font-size: 9px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.st-section-label.challenge   { color: var(--muted); }
+.st-section-label.breakthrough { color: var(--gold); }
+.st-section-label.advice       { color: #6db57e; }
+.st-section-body {
+  font-size: 14px; line-height: 1.75; color: var(--text-light);
+  font-style: italic;
+}
+.st-divider { height: 1px; background: var(--border); margin: 0 24px; }
+.advice-section { background: rgba(109,181,126,0.04); }
+
+@media (max-width: 640px) {
+  .ht-card { min-width: 280px; }
+  .soldiers-grid { grid-template-columns: 1fr; }
+  .ht-header { flex-direction: column; align-items: flex-start; }
+  .soldiers-hero-headline { font-size: 52px; }
+}
+
+/* ══════════════════════════════════════
    BOOKING CTA
 ══════════════════════════════════════ */
 .booking-section {

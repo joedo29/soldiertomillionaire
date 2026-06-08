@@ -8,6 +8,7 @@ const links = [
   { href: '/strategy',          label: 'Strategy' },
   { href: '/military-benefits', label: 'Benefits' },
   { href: '/blog',              label: 'Blog' },
+  { href: '/soldiers',          label: 'Soldiers' },
   { href: '/tracker',           label: 'Tracker' },
   { href: '/book',              label: 'Book a Session', cta: true },
 ]

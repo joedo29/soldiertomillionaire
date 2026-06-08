@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { client, recentPostsQuery, urlFor } from '@/lib/sanity'
-import type { Post } from '@/lib/types'
+import { client, recentPostsQuery, allTestimonialsQuery, urlFor } from '@/lib/sanity'
+import type { Post, Testimonial } from '@/lib/types'
 
 export const revalidate = 3600
 
@@ -10,6 +10,27 @@ export const metadata: Metadata = {
   title: 'Soldier to Millionaire — Financial Freedom for Those Who Serve',
   description:
     'A Vietnamese immigrant and US Army soldier who went from 3 jobs & zero savings to $750K net worth. Free military finance tracker, benefits guide, and 1-on-1 coaching.',
+}
+
+// ── Extract action chips from breakthrough text ───────────────────────────
+const ACTION_PATTERNS = [
+  { pattern: /roth ira/i,        label: '✅ Roth IRA Opened' },
+  { pattern: /tsp/i,             label: '✅ TSP Increased' },
+  { pattern: /bank.*bonus|bonus.*bank/i, label: '✅ Bank Bonuses' },
+  { pattern: /index fund/i,      label: '✅ Index Funds' },
+  { pattern: /emergency fund/i,  label: '✅ Emergency Fund' },
+  { pattern: /budget/i,          label: '✅ Budget Built' },
+  { pattern: /debt/i,            label: '✅ Debt Tackled' },
+  { pattern: /invest/i,          label: '✅ Investing' },
+  { pattern: /sav/i,             label: '✅ Saving More' },
+]
+function extractActions(text: string): string[] {
+  const found: string[] = []
+  for (const { pattern, label } of ACTION_PATTERNS) {
+    if (pattern.test(text) && !found.includes(label)) found.push(label)
+    if (found.length >= 3) break
+  }
+  return found
 }
 
 // ── Blog card fallback graphic (used when a post has no cover image) ──────────
@@ -101,6 +122,7 @@ const placeholderPosts = [
 
 export default async function HomePage() {
   const posts: Post[] = await client.fetch(recentPostsQuery).catch(() => [])
+  const testimonials: Testimonial[] = await client.fetch(allTestimonialsQuery).catch(() => [])
 
   return (
     <main>
@@ -247,6 +269,42 @@ export default async function HomePage() {
               ))}
         </div>
       </section>
+
+      {/* ── Soldier Stories ── */}
+      {testimonials.length > 0 && (
+        <section className="home-testimonials">
+          <div className="container">
+            <div className="ht-header">
+              <div>
+                <div className="section-tag">Soldier Stories</div>
+                <h2 className="section-title">Real Soldiers.<br />Real Results.</h2>
+              </div>
+              <Link href="/soldiers" className="btn btn-outline">
+                Read All Stories →
+              </Link>
+            </div>
+            <div className="ht-scroll">
+              {testimonials.slice(0, 3).map(t => (
+                <div key={t._id} className="ht-card">
+                  <div className="ht-quote">&ldquo;{t.advice}&rdquo;</div>
+                  <div className="ht-actions">
+                    {extractActions(t.breakthrough).map(a => (
+                      <span key={a} className="ht-action-chip">{a}</span>
+                    ))}
+                  </div>
+                  <div className="ht-soldier">
+                    <div className="ht-avatar">{t.name.charAt(0)}</div>
+                    <div>
+                      <div className="ht-soldier-name">{t.name}</div>
+                      <div className="ht-soldier-branch">{t.branch}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Booking CTA ── */}
       <section className="booking-section" aria-label="Book a session">
