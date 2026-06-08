@@ -1,4 +1,8 @@
 import type { Metadata } from 'next'
+import { client, allTestimonialsQuery } from '@/lib/sanity'
+import type { Testimonial } from '@/lib/types'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Book a Free Session — Soldier to Millionaire',
@@ -16,7 +20,13 @@ const features = [
   { icon: '❤️', title: '100% free. No pitch.', desc: 'I\'m not selling anything. This is how I give back.' },
 ]
 
-export default function BookPage() {
+export default async function BookPage() {
+  const testimonials: Testimonial[] = await client.fetch(allTestimonialsQuery).catch(() => [])
+  // Rotate through testimonials by day so it feels fresh without being random on every load
+  const featured = testimonials.length > 0
+    ? testimonials[Math.floor(Date.now() / 86400000) % testimonials.length]
+    : null
+
   return (
     <main>
       <div className="page-hero">
@@ -68,32 +78,36 @@ export default function BookPage() {
             </p>
           </div>
 
-          {/* Social proof */}
-          <div style={{ background: 'var(--army)', borderRadius: 14, padding: '24px 20px' }}>
-            <div className="section-tag gold" style={{ marginBottom: 16 }}>What Soldiers Say</div>
+          {/* Social proof — pulled from Sanity */}
+          {featured && (
+            <div style={{ background: 'var(--army)', borderRadius: 14, padding: '24px 20px' }}>
+              <div className="section-tag gold" style={{ marginBottom: 16 }}>What Soldiers Say</div>
 
-            {/* Before */}
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 6 }}>Before</p>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.75)', lineHeight: 1.65 }}>
-                &ldquo;I had no idea where my money was going. I knew nothing about TSP, the S&amp;P 500, or how to budget properly. I had no spending awareness and no plan for the future.&rdquo;
+              {/* Before */}
+              <div style={{ marginBottom: 16 }}>
+                <p style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 6 }}>Before</p>
+                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.75)', lineHeight: 1.65 }}>
+                  &ldquo;{featured.challenge}&rdquo;
+                </p>
+              </div>
+
+              {/* After */}
+              <div style={{ marginBottom: 16 }}>
+                <p style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 6 }}>After</p>
+                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.75)', lineHeight: 1.65 }}>
+                  &ldquo;{featured.breakthrough}&rdquo;
+                </p>
+              </div>
+
+              {/* Standout quote — advice */}
+              <blockquote style={{ fontFamily: 'DM Serif Display, serif', fontStyle: 'italic', fontSize: 18, color: '#fff', lineHeight: 1.6, borderLeft: '3px solid var(--gold)', paddingLeft: 16, marginBottom: 14 }}>
+                &ldquo;{featured.advice}&rdquo;
+              </blockquote>
+              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
+                — {featured.name}, {featured.branch}
               </p>
             </div>
-
-            {/* After */}
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 6 }}>After</p>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.75)', lineHeight: 1.65 }}>
-                &ldquo;The first thing I did was raise my TSP contribution from 5% to 60%. I paid off all my credit card debt. I built a monthly budget in Excel and started tracking every dollar. I&apos;m still working on cutting expenses for my wife and me — but for the first time in my life, I have a real plan.&rdquo;
-              </p>
-            </div>
-
-            {/* Standout quote */}
-            <blockquote style={{ fontFamily: 'DM Serif Display, serif', fontStyle: 'italic', fontSize: 18, color: '#fff', lineHeight: 1.6, borderLeft: '3px solid var(--gold)', paddingLeft: 16, marginBottom: 14 }}>
-              &ldquo;It&apos;s never too late to start. Just save as much as you can, keep an open mind, and listen to what Joe is sharing. Doing all of this will definitely put you in a better place.&rdquo;
-            </blockquote>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>— PFC Seydi, US Army</p>
-          </div>
+          )}
 
           <p style={{ fontSize: 12, color: 'var(--muted)', textAlign: 'center', marginTop: 24, lineHeight: 1.6 }}>
             I am not a licensed financial advisor. Sessions are educational and based on my personal
