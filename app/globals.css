@@ -323,7 +323,12 @@ button { cursor: pointer; font-family: inherit; border: none; }
    BLOG PREVIEW
 ══════════════════════════════════════ */
 .blog-preview-section { padding: 40px 0 40px 20px; }
-.blog-preview-header { margin-bottom: 20px; padding-right: 20px; }
+.blog-preview-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+  margin-bottom: 20px; padding-right: 20px;
+}
+.blog-preview-header .section-title { margin-bottom: 0; }
 
 .blog-scroll {
   display: flex; gap: 12px;

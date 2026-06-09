@@ -224,8 +224,13 @@ export default async function HomePage() {
       {/* ── Blog preview ── */}
       <section className="blog-preview-section" aria-label="Latest posts">
         <div className="blog-preview-header">
-          <div className="section-tag">Latest Intel</div>
-          <h2 className="section-title">From the Field</h2>
+          <div>
+            <div className="section-tag">Latest Intel</div>
+            <h2 className="section-title">From the Field</h2>
+          </div>
+          <Link href="/blog" className="btn btn-outline-dark">
+            Read All Posts →
+          </Link>
         </div>
         <div className="blog-scroll">
           {posts.length > 0
