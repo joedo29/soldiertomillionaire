@@ -119,6 +119,7 @@ export async function POST(req: NextRequest) {
   const apiKey     = process.env.RESEND_API_KEY
   const audienceId = process.env.RESEND_AUDIENCE_ID
   const fromEmail  = process.env.RESEND_FROM_EMAIL ?? 'Joe Do <onboarding@resend.dev>'
+  const replyTo    = process.env.RESEND_REPLY_TO ?? 'joedo0209@gmail.com'
 
   if (!apiKey) {
     console.error('Missing RESEND_API_KEY')
@@ -138,6 +139,7 @@ export async function POST(req: NextRequest) {
   const { error } = await resend.emails.send({
     from: fromEmail,
     to: email,
+    reply_to: replyTo,
     subject: 'Your Free 5-Step Military Financial Freedom Plan',
     html: WELCOME_HTML,
   })
