@@ -139,7 +139,7 @@ export async function POST(req: NextRequest) {
   const { error } = await resend.emails.send({
     from: fromEmail,
     to: email,
-    reply_to: replyTo,
+    replyTo: replyTo,
     subject: 'Your Free 5-Step Military Financial Freedom Plan',
     html: WELCOME_HTML,
   })
