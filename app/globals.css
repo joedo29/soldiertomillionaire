@@ -328,7 +328,19 @@ button { cursor: pointer; font-family: inherit; border: none; }
   flex-wrap: wrap; gap: 16px;
   margin-bottom: 20px; padding-right: 20px;
 }
-.blog-preview-header .section-title { margin-bottom: 0; }
+.blog-preview-header .section-title { margin-bottom: 4px; }
+.blog-editor-byline {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 10px;
+  font-size: 13px; color: var(--text-light);
+}
+.blog-editor-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  flex-shrink: 0;
+}
 
 .blog-scroll {
   display: flex; gap: 12px;

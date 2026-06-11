@@ -228,6 +228,17 @@ export default async function HomePage() {
           <div>
             <div className="section-tag">Latest Intel</div>
             <h2 className="section-title">From the Field</h2>
+            <div className="blog-editor-byline">
+              <Image
+                src="/hero-image.jpg"
+                alt="Joe Do"
+                width={36}
+                height={36}
+                className="blog-editor-avatar"
+                style={{ objectFit: 'cover', objectPosition: 'center 15%' }}
+              />
+              <span>Dispatches from <strong>Joe Do</strong> · US Army</span>
+            </div>
           </div>
           <Link href="/blog" className="btn btn-outline-dark">
             Read All Posts →

@@ -4,6 +4,15 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
   },
+  async redirects() {
+    return [
+      {
+        source: '/blog/how-i-hit-100k-army-salary',
+        destination: '/blog/how-i-hit-100k-before-the-army',
+        permanent: true,
+      },
+    ]
+  },
   async rewrites() {
     return [
       // Finance tracker at /finance (legacy URL)
