@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import EmailCapture from '@/components/EmailCapture'
 
 export const metadata: Metadata = {
   title: 'The Strategy — How I Built $750K on an Army Salary',
@@ -124,6 +125,9 @@ export default function StrategyPage() {
           ))}
         </div>
       </section>
+
+      {/* ── Email Capture ── */}
+      <EmailCapture />
 
       {/* FAQ */}
       <section style={{ background: 'var(--bg-2)', padding: '40px 20px' }}>

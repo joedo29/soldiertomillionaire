@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { client, recentPostsQuery, allTestimonialsQuery, urlFor } from '@/lib/sanity'
 import type { Post, Testimonial } from '@/lib/types'
+import EmailCapture from '@/components/EmailCapture'
 
 export const revalidate = 3600
 
@@ -318,6 +319,9 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ── Email Capture ── */}
+      <EmailCapture />
 
       {/* ── Booking CTA ── */}
       <section className="booking-section" aria-label="Book a session">
