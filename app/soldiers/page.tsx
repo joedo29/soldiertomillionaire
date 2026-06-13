@@ -56,7 +56,7 @@ export default async function SoldiersPage() {
         <div className="container-prose">
           <div className="section-tag gold">Real Results</div>
           <h1 className="soldiers-hero-headline">
-            27+ Soldiers.<br />One System.<br /><em>Real Lives Changed.</em>
+            29+ Soldiers.<br />One System.<br /><em>Real Lives Changed.</em>
           </h1>
           <p className="soldiers-hero-sub">
             These are not polished marketing quotes. These are unedited responses
@@ -74,7 +74,7 @@ export default async function SoldiersPage() {
       <section className="trust-section">
         <div className="trust-grid">
           {[
-            { num: '27+',  label: 'Soldiers Helped' },
+            { num: '29+',  label: 'Soldiers Helped' },
             { num: '100%', label: 'Free Sessions' },
             { num: '0',    label: 'Upsells or Products' },
             { num: '1',    label: 'Goal: Your Financial Freedom' },

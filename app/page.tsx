@@ -151,7 +151,7 @@ export default async function HomePage() {
             <div className="stat-label">To Freedom</div>
           </div>
           <div className="stat" role="listitem">
-            <div className="stat-num">27+</div>
+            <div className="stat-num">29+</div>
             <div className="stat-label">Soldiers Helped</div>
           </div>
         </div>
