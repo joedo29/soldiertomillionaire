@@ -1321,10 +1321,10 @@ button { cursor: pointer; font-family: inherit; border: none; }
   line-height: 1.5;
 }
 .post-comments-widget {
-  overflow: hidden;
   border-radius: 8px;
+  overflow-x: hidden; /* clip horizontal only — let height grow freely */
 }
-/* Force Cusdis iframe to fill container width */
+/* Force Cusdis iframe to fill container width; height is set by Cusdis JS */
 #cusdis_thread,
 #cusdis_thread iframe {
   width: 100% !important;
