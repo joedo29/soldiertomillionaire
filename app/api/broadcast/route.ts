@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHmac, timingSafeEqual } from 'crypto'
-import { Resend } from 'resend'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
 
 // ── Verify Sanity webhook signature ──────────────────────────────────────────
 function verifySignature(body: string, header: string, secret: string): boolean {
   try {
     const parts = Object.fromEntries(header.split(',').map(p => p.split('=')))
-    const ts  = parts['t']
-    const v1  = parts['v1']
+    const ts = parts['t']
+    const v1 = parts['v1']
     if (!ts || !v1) return false
     const expected = createHmac('sha256', secret)
       .update(`${ts}.${body}`)
@@ -20,9 +17,19 @@ function verifySignature(body: string, header: string, secret: string): boolean 
   }
 }
 
+// ── Check if broadcast already sent for this slug ────────────────────────────
+async function broadcastAlreadySent(slug: string, apiKey: string): Promise<boolean> {
+  const res = await fetch('https://api.resend.com/broadcasts', {
+    headers: { 'Authorization': `Bearer ${apiKey}` },
+  })
+  if (!res.ok) return false
+  const { data } = await res.json() as { data: { name: string; status: string }[] }
+  return data.some(b => b.name === `Blog: ${slug}` && b.status === 'sent')
+}
+
 // ── Email template ────────────────────────────────────────────────────────────
 function buildEmailHtml(title: string, excerpt: string, slug: string) {
-  const url = `https://soldiertomillionaire.com/blog/${slug}`
+  const url = `https://www.soldiertomillionaire.com/blog/${slug}`
   return `
 <!DOCTYPE html>
 <html>
@@ -39,7 +46,7 @@ function buildEmailHtml(title: string, excerpt: string, slug: string) {
   </table>
   <div style="height:3px;background:#C9A84C;"></div>
 
-  <!-- Label -->
+  <!-- Body -->
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#F9F5EE;">
     <tr><td style="padding:32px 32px 0;">
       <p style="margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:2px;color:#C9A84C;text-transform:uppercase;">
@@ -64,12 +71,8 @@ function buildEmailHtml(title: string, excerpt: string, slug: string) {
         <tr><td style="border-top:1px solid #E0DDD4;"></td></tr>
       </table>
 
-      <p style="margin:0 0 4px;font-size:14px;color:#4A4A3A;line-height:1.7;">
-        — Joe Do
-      </p>
-      <p style="margin:0 0 32px;font-size:12px;color:#7A7A6A;">
-        US Army · Founder, Soldier to Millionaire
-      </p>
+      <p style="margin:0 0 4px;font-size:14px;color:#4A4A3A;line-height:1.7;">— Joe Do</p>
+      <p style="margin:0 0 32px;font-size:12px;color:#7A7A6A;">US Army · Founder, Soldier to Millionaire</p>
     </td></tr>
   </table>
 
@@ -78,7 +81,7 @@ function buildEmailHtml(title: string, excerpt: string, slug: string) {
     <tr><td style="padding:20px 32px;text-align:center;">
       <p style="margin:0;font-size:12px;color:#9A9A8A;line-height:1.6;">
         You're on this list because you downloaded the Free 5-Step Financial Freedom Plan at
-        <a href="https://soldiertomillionaire.com" style="color:#2D4A1E;">soldiertomillionaire.com</a>.<br/>
+        <a href="https://www.soldiertomillionaire.com" style="color:#2D4A1E;">soldiertomillionaire.com</a>.<br/>
         <a href="{{{RESEND_UNSUBSCRIBE_URL}}}" style="color:#9A9A8A;">Unsubscribe</a>
       </p>
     </td></tr>
@@ -92,39 +95,47 @@ function buildEmailHtml(title: string, excerpt: string, slug: string) {
 export async function POST(req: NextRequest) {
   const webhookSecret = process.env.SANITY_WEBHOOK_SECRET
   const audienceId    = process.env.RESEND_AUDIENCE_ID
+  const apiKey        = process.env.RESEND_API_KEY
   const fromEmail     = process.env.RESEND_FROM_EMAIL ?? 'Joe Do <joe@soldiertomillionaire.com>'
   const replyTo       = process.env.RESEND_REPLY_TO   ?? 'joedo0209@gmail.com'
 
-  if (!webhookSecret || !audienceId) {
+  if (!webhookSecret || !audienceId || !apiKey) {
     return NextResponse.json({ error: 'Server misconfigured.' }, { status: 500 })
   }
 
-  // Verify Sanity signature
-  const rawBody = await req.text()
+  // 1. Verify Sanity signature
+  const rawBody   = await req.text()
   const sigHeader = req.headers.get('sanity-webhook-signature') ?? ''
 
   if (!verifySignature(rawBody, sigHeader, webhookSecret)) {
     return NextResponse.json({ error: 'Invalid signature.' }, { status: 401 })
   }
 
-  const payload = JSON.parse(rawBody)
+  const payload   = JSON.parse(rawBody)
+  const title     = payload?.title     as string | undefined
+  const slug      = payload?.slug?.current as string | undefined
+  const excerpt   = payload?.excerpt   as string | undefined
+  const publishedAt = payload?.publishedAt as string | undefined
 
-  // Only act on first publication (publishedAt newly set)
-  const title   = payload?.title   as string | undefined
-  const slug    = payload?.slug?.current as string | undefined
-  const excerpt = payload?.excerpt as string | undefined
+  // Must be a published post with all required fields
+  if (!title || !slug || !publishedAt) {
+    return NextResponse.json({ skipped: 'Not a published post or missing fields.' })
+  }
 
-  if (!title || !slug) {
-    return NextResponse.json({ skipped: 'Missing title or slug.' })
+  // 2. Deduplicate — skip if we already sent a broadcast for this slug
+  const alreadySent = await broadcastAlreadySent(slug, apiKey)
+  if (alreadySent) {
+    console.log(`Broadcast already sent for: ${slug} — skipping.`)
+    return NextResponse.json({ skipped: 'Already sent for this post.' })
   }
 
   const html = buildEmailHtml(title, excerpt ?? '', slug)
 
-  // 1. Create broadcast
+  // 3. Create broadcast
   const createRes = await fetch('https://api.resend.com/broadcasts', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+      'Authorization': `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -133,7 +144,7 @@ export async function POST(req: NextRequest) {
       reply_to: replyTo,
       subject: title,
       html,
-      name: `Blog: ${title}`,
+      name: `Blog: ${slug}`,
     }),
   })
 
@@ -145,10 +156,10 @@ export async function POST(req: NextRequest) {
 
   const { id: broadcastId } = await createRes.json()
 
-  // 2. Send broadcast
+  // 4. Send broadcast
   const sendRes = await fetch(`https://api.resend.com/broadcasts/${broadcastId}/send`, {
     method: 'POST',
-    headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY}` },
+    headers: { 'Authorization': `Bearer ${apiKey}` },
   })
 
   if (!sendRes.ok) {
@@ -157,6 +168,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to send broadcast.' }, { status: 502 })
   }
 
-  console.log(`Broadcast sent for post: ${title} (${broadcastId})`)
-  return NextResponse.json({ ok: true, broadcastId })
+  console.log(`Broadcast sent for: ${slug} (${broadcastId})`)
+  return NextResponse.json({ ok: true, broadcastId, slug })
 }
