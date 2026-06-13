@@ -156,16 +156,24 @@ export default async function PostPage(
 
           {/* ── Comments ── */}
           <div className="post-comments">
-            <h3 className="post-comments-title">Leave a Comment</h3>
-            <div
-              id="cusdis_thread"
-              data-host="https://cusdis.com"
-              data-app-id="a5a811cf-b05b-4228-b02c-8774fbafbc46"
-              data-page-id={post.slug.current}
-              data-page-url={`https://www.soldiertomillionaire.com/blog/${post.slug.current}`}
-              data-page-title={post.title}
-              data-theme="dark"
-            />
+            <div className="post-comments-header">
+              <div className="post-comments-icon">💬</div>
+              <div>
+                <h3 className="post-comments-title">Join the Conversation</h3>
+                <p className="post-comments-sub">Have a question or want to share your story? Drop a comment below — I read every one.</p>
+              </div>
+            </div>
+            <div className="post-comments-widget">
+              <div
+                id="cusdis_thread"
+                data-host="https://cusdis.com"
+                data-app-id="a5a811cf-b05b-4228-b02c-8774fbafbc46"
+                data-page-id={post.slug.current}
+                data-page-url={`https://www.soldiertomillionaire.com/blog/${post.slug.current}`}
+                data-page-title={post.title}
+                data-theme="dark"
+              />
+            </div>
             <Script
               src="https://cusdis.com/js/cusdis.es.js"
               strategy="lazyOnload"
