@@ -1286,6 +1286,21 @@ button { cursor: pointer; font-family: inherit; border: none; }
   border-top: 1px solid var(--border);
 }
 
+.post-comments {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.post-comments-title {
+  font-size: 18px; font-weight: 700; color: var(--text);
+  margin-bottom: 24px;
+}
+/* Cusdis iframe overrides for mobile */
+#cusdis_thread iframe {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
 @media (max-width: 640px) {
   .post-container {
     width: min(100% - 28px, 820px);

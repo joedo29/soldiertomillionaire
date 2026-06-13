@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import Script from 'next/script'
 import { notFound } from 'next/navigation'
 import { PortableText } from '@portabletext/react'
 import { client, postBySlugQuery, allPostsQuery, urlFor } from '@/lib/sanity'
@@ -152,6 +153,24 @@ export default async function PostPage(
               {post.tags.map((t) => <span key={t} className="tag">{t}</span>)}
             </div>
           )}
+
+          {/* ── Comments ── */}
+          <div className="post-comments">
+            <h3 className="post-comments-title">Leave a Comment</h3>
+            <div
+              id="cusdis_thread"
+              data-host="https://cusdis.com"
+              data-app-id="a5a811cf-b05b-4228-b02c-8774fbafbc46"
+              data-page-id={post.slug.current}
+              data-page-url={`https://www.soldiertomillionaire.com/blog/${post.slug.current}`}
+              data-page-title={post.title}
+              data-theme="dark"
+            />
+            <Script
+              src="https://cusdis.com/js/cusdis.es.js"
+              strategy="lazyOnload"
+            />
+          </div>
         </div>
       </article>
     </main>
