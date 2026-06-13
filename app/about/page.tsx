@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import CountUp from '@/components/CountUp'
 
 export const metadata: Metadata = {
   title: 'About Joe Do — Soldier, Investor, Battle Buddy',
@@ -151,13 +152,17 @@ export default function AboutPage() {
       <section className="trust-section">
         <div className="trust-grid">
           {[
-            { num: '$750K',  label: 'Net Worth Built' },
+            { num: '$750K',  label: 'Net Worth Built',   prefix: '$', suffix: 'K', countFrom: 100, countTo: 750 },
             { num: '2Y 9M', label: 'House Paid Off' },
-            { num: '29+',   label: 'Soldiers Helped' },
+            { num: '29+',   label: 'Soldiers Helped',                suffix: '+', countFrom: 1,   countTo: 29  },
             { num: 'Active',label: 'U.S. Army, Enlisted 2026' },
           ].map(s => (
-            <div key={s.num} className="trust-card">
-              <div className="trust-num">{s.num}</div>
+            <div key={s.label} className="trust-card">
+              <div className="trust-num">
+                {s.countTo != null
+                  ? <CountUp from={s.countFrom!} to={s.countTo} prefix={s.prefix} suffix={s.suffix} />
+                  : s.num}
+              </div>
               <div className="trust-label">{s.label}</div>
             </div>
           ))}

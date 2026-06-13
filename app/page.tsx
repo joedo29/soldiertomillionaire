@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { client, recentPostsQuery, allTestimonialsQuery, urlFor } from '@/lib/sanity'
 import type { Post, Testimonial } from '@/lib/types'
 import EmailCapture from '@/components/EmailCapture'
+import CountUp from '@/components/CountUp'
 
 export const revalidate = 3600
 
@@ -143,7 +144,7 @@ export default async function HomePage() {
         </div>
         <div className="hero-stats" role="list">
           <div className="stat" role="listitem">
-            <div className="stat-num">$750K</div>
+            <div className="stat-num"><CountUp from={100} to={750} prefix="$" suffix="K" /></div>
             <div className="stat-label">Net Worth</div>
           </div>
           <div className="stat" role="listitem">
@@ -151,7 +152,7 @@ export default async function HomePage() {
             <div className="stat-label">To Freedom</div>
           </div>
           <div className="stat" role="listitem">
-            <div className="stat-num">29+</div>
+            <div className="stat-num"><CountUp from={1} to={29} suffix="+" /></div>
             <div className="stat-label">Soldiers Helped</div>
           </div>
         </div>

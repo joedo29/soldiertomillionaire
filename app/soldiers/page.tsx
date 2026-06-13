@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import CountUp from '@/components/CountUp'
 import { client, allTestimonialsQuery } from '@/lib/sanity'
 import type { Testimonial } from '@/lib/types'
 
@@ -56,7 +57,7 @@ export default async function SoldiersPage() {
         <div className="container-prose">
           <div className="section-tag gold">Real Results</div>
           <h1 className="soldiers-hero-headline">
-            29+ Soldiers.<br />One System.<br /><em>Real Lives Changed.</em>
+            <CountUp from={1} to={29} suffix="+" /> Soldiers.<br />One System.<br /><em>Real Lives Changed.</em>
           </h1>
           <p className="soldiers-hero-sub">
             These are not polished marketing quotes. These are unedited responses
@@ -74,13 +75,17 @@ export default async function SoldiersPage() {
       <section className="trust-section">
         <div className="trust-grid">
           {[
-            { num: '29+',  label: 'Soldiers Helped' },
+            { num: '29+',  label: 'Soldiers Helped',           countFrom: 1,   countTo: 29,  suffix: '+' },
             { num: '100%', label: 'Free Sessions' },
             { num: '0',    label: 'Upsells or Products' },
             { num: '1',    label: 'Goal: Your Financial Freedom' },
           ].map(s => (
-            <div key={s.num} className="trust-card">
-              <div className="trust-num">{s.num}</div>
+            <div key={s.label} className="trust-card">
+              <div className="trust-num">
+                {s.countTo != null
+                  ? <CountUp from={s.countFrom!} to={s.countTo} suffix={s.suffix} />
+                  : s.num}
+              </div>
               <div className="trust-label">{s.label}</div>
             </div>
           ))}
