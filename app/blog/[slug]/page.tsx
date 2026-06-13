@@ -171,7 +171,7 @@ export default async function PostPage(
                 data-page-id={post.slug.current}
                 data-page-url={`https://www.soldiertomillionaire.com/blog/${post.slug.current}`}
                 data-page-title={post.title}
-                data-theme="dark"
+                data-theme="light"
               />
             </div>
             <Script
