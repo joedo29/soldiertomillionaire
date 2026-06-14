@@ -152,7 +152,7 @@ export default function AboutPage() {
       <section className="trust-section">
         <div className="trust-grid">
           {[
-            { num: '$750K',  label: 'Net Worth Built',   prefix: '$', suffix: 'K', countFrom: 100, countTo: 750 },
+            { num: '$781K',  label: 'Net Worth Built',   prefix: '$', suffix: 'K', countFrom: 100, countTo: 781 },
             { num: '2Y 9M', label: 'House Paid Off' },
             { num: '29+',   label: 'Soldiers Helped',                suffix: '+', countFrom: 1,   countTo: 29  },
             { num: 'Active',label: 'U.S. Army, Enlisted 2026' },

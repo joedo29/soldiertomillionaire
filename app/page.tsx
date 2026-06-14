@@ -144,7 +144,7 @@ export default async function HomePage() {
         </div>
         <div className="hero-stats" role="list">
           <div className="stat" role="listitem">
-            <div className="stat-num"><CountUp from={100} to={750} prefix="$" suffix="K" /></div>
+            <div className="stat-num"><CountUp from={100} to={781} prefix="$" suffix="K" /></div>
             <div className="stat-label">Net Worth</div>
           </div>
           <div className="stat" role="listitem">
