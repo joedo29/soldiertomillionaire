@@ -174,7 +174,7 @@ export default function StrategyContent() {
                 onClick={() => stepRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
               >
                 <span className="strategy-sidebar-dot" />
-                <span className="strategy-sidebar-label">{s.num} · {s.sidebarLabel}</span>
+                <span className="strategy-sidebar-label">{i + 1} · {s.sidebarLabel}</span>
               </button>
             ))}
           </div>
