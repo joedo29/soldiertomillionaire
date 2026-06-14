@@ -2097,3 +2097,41 @@ button { cursor: pointer; font-family: inherit; border: none; }
 
   .ec-bullets li { text-align: left; }
 }
+
+/* ── WhatsApp floating button ─────────────────────────────────────────────── */
+.wa-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: #fff;
+  border-radius: 50px;
+  padding: 13px 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, padding 0.2s ease;
+  overflow: hidden;
+  max-width: 54px;
+}
+.wa-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+  max-width: 200px;
+  padding: 13px 20px;
+}
+.wa-label {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease 0.05s;
+}
+.wa-btn:hover .wa-label { opacity: 1; }
+
+@media (max-width: 600px) {
+  .wa-btn { bottom: 20px; right: 20px; }
+}
