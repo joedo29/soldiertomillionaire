@@ -188,7 +188,8 @@ export default function StrategyContent() {
                 className="strategy-card step-hidden"
                 style={{
                   transitionDelay: `${i === 0 ? 0 : 80}ms`,
-                  borderLeft: activeStep === i ? '3px solid var(--gold)' : '3px solid transparent',
+                  borderLeftColor: activeStep === i ? 'var(--gold)' : undefined,
+                  borderLeftWidth: activeStep === i ? '3px' : undefined,
                 }}
               >
                 <div className="strategy-num">{s.num}</div>
