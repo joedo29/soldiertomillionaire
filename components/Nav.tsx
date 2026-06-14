@@ -9,6 +9,7 @@ const links = [
   { href: '/military-benefits', label: 'Benefits' },
   { href: '/blog',              label: 'Blog' },
   { href: '/soldiers',          label: 'Soldiers' },
+  { href: '/books',             label: 'Books' },
   { href: '/tracker',           label: 'Tracker' },
   { href: '/book',              label: 'Book a Session', cta: true },
 ]

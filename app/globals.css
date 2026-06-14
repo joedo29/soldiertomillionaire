@@ -2135,3 +2135,103 @@ button { cursor: pointer; font-family: inherit; border: none; }
 @media (max-width: 600px) {
   .wa-btn { bottom: 20px; right: 20px; }
 }
+
+/* ══════════════════════════════════════
+   BOOKS PAGE
+══════════════════════════════════════ */
+.books-intro {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+.books-section { padding: 40px 20px; }
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+@media (min-width: 640px) {
+  .books-grid-3 { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .books-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+}
+@media (min-width: 900px) {
+  .books-grid-4 { grid-template-columns: repeat(4, 1fr); gap: 24px; }
+}
+
+.book-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.book-card:hover {
+  border-color: var(--army-light);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.book-cover {
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: var(--army);
+}
+.book-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.book-body {
+  padding: 14px 16px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.book-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: 3px;
+}
+.book-author {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--army-light);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.book-note {
+  font-size: 12px;
+  color: var(--text-light);
+  line-height: 1.65;
+  flex: 1;
+  margin-bottom: 14px;
+}
+.book-btn {
+  display: block;
+  text-align: center;
+  padding: 9px 12px;
+  border-radius: 6px;
+  background: var(--army);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: background 0.15s;
+  text-decoration: none;
+}
+.book-btn:hover { background: var(--army-light); }
+
+.books-disclosure {
+  text-align: center;
+  padding: 12px 20px 4px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
