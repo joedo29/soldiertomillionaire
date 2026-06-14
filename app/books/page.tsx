@@ -46,7 +46,7 @@ const mindsetBooks = [
     author: 'Thich Nhat Hanh',
     note: 'Thich Nhat Hanh\'s definition of power has nothing to do with money or rank. Money, wealth, power, and fame alone will not bring you peace and happiness. I came back from this book with a clearer sense of why I\'m building wealth in the first place.',
     image: '/books/the-art-of-power.jpg',
-    link: 'https://amzn.to/3SpG1P4',
+    link: 'https://amzn.to/4xstElx',
   },
   {
     title: 'Man\'s Search for Meaning',
