@@ -30,6 +30,13 @@ const moneyBooks = [
     image: '/books/Naked-Statistics.jpg',
     link: 'https://amzn.to/4ebScru',
   },
+  {
+    title: 'The 7 Habits of Highly Effective People',
+    author: 'Stephen R. Covey',
+    note: 'Covey taught me that effectiveness starts with character, priorities, and personal responsibility. Money is only one part of life — if your habits, family, purpose, and discipline are broken, wealth will not fix you. This book helped me think about the kind of person I needed to become while building financial freedom.',
+    image: '/books/the-7-habbit-of-highly-effective-people.jpg',
+    link: 'https://amzn.to/4eIBiRh',
+  },
 ]
 
 const mindsetBooks = [
