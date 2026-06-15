@@ -140,7 +140,7 @@ export default async function HomePage() {
         </p>
         <div className="hero-cta">
           <Link href="/book"     className="btn btn-gold">Start Your Plan</Link>
-          <Link href="/my-story" className="btn btn-outline">My Story</Link>
+          <Link href="/about" className="btn btn-outline">About Joe</Link>
         </div>
         <div className="hero-stats" role="list">
           <div className="stat" role="listitem">

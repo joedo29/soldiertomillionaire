@@ -5,11 +5,12 @@ import { usePathname } from 'next/navigation'
 
 const links = [
   { href: '/about',             label: 'About' },
-  { href: '/strategy',          label: 'Strategy' },
-  { href: '/military-benefits', label: 'Benefits' },
-  { href: '/blog',              label: 'Blog' },
-  { href: '/soldiers',          label: 'Soldiers' },
-  { href: '/books',             label: 'Books' },
+  { href: '/strategy',          label: 'Start Here' },
+  {
+    href: '/resources',
+    label: 'Resources',
+    activePaths: ['/resources', '/blog', '/books', '/military-benefits', '/soldiers'],
+  },
   { href: '/tracker',           label: 'Tracker' },
   { href: '/book',              label: 'Book a Session', cta: true },
 ]
@@ -40,7 +41,7 @@ export default function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className={`nav-link${l.cta ? ' nav-cta' : ''}${path === l.href ? ' active' : ''}`}
+              className={`nav-link${l.cta ? ' nav-cta' : ''}${(l.activePaths ?? [l.href]).some(p => path === p || path.startsWith(`${p}/`)) ? ' active' : ''}`}
             >
               {l.label}
             </Link>
@@ -65,7 +66,7 @@ export default function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className={`drawer-link${l.cta ? ' cta' : ''}${path === l.href ? ' active' : ''}`}
+              className={`drawer-link${l.cta ? ' cta' : ''}${(l.activePaths ?? [l.href]).some(p => path === p || path.startsWith(`${p}/`)) ? ' active' : ''}`}
               onClick={() => setOpen(false)}
             >
               {l.label}
