@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
@@ -74,12 +73,11 @@ function BookCard({ title, author, note, image, link }: {
   return (
     <div className="book-card">
       <div className="book-cover">
-        <Image
+        <img
           src={image}
           alt={`${title} book cover`}
-          width={240}
-          height={360}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          className="book-cover-img"
+          loading="lazy"
         />
       </div>
       <div className="book-body">
