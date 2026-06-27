@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createHmac, timingSafeEqual } from 'crypto'
+import { isValidSignature, SIGNATURE_HEADER_NAME } from '@sanity/webhook'
 import { Resend } from 'resend'
 
 type BroadcastStage =
@@ -20,46 +20,6 @@ function logBroadcast(stage: BroadcastStage, data: Record<string, unknown>) {
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error)
-}
-
-// ── Verify Sanity webhook signature ──────────────────────────────────────────
-function safeCompare(a: string, b: string): boolean {
-  const aBuffer = Buffer.from(a)
-  const bBuffer = Buffer.from(b)
-  return aBuffer.length === bBuffer.length && timingSafeEqual(aBuffer, bBuffer)
-}
-
-function verifySignature(body: string, header: string, secret: string): boolean {
-  try {
-    const trimmedHeader = header.trim()
-    const expectedHex = createHmac('sha256', secret).update(body).digest('hex')
-    const expectedBase64 = createHmac('sha256', secret).update(body).digest('base64')
-
-    // Sanity sends the HMAC in `sanity-webhook-signature`. Depending on webhook
-    // tooling/version it may be the raw digest or prefixed as `sha256=...`.
-    const directSignature = trimmedHeader.replace(/^sha256=/, '')
-    if (safeCompare(directSignature, expectedHex) || safeCompare(directSignature, expectedBase64)) {
-      return true
-    }
-
-    // Keep support for Standard Webhooks/Svix-style signatures in case the
-    // endpoint is tested through a relay that signs as `t=...,v1=...`.
-    const parts = Object.fromEntries(
-      trimmedHeader.split(',').map((p) => {
-        const [key, ...value] = p.split('=')
-        return [key.trim(), value.join('=').trim()]
-      }),
-    )
-    const ts = parts['t']
-    const v1 = parts['v1']
-    if (!ts || !v1) return false
-    const expected = createHmac('sha256', secret)
-      .update(`${ts}.${body}`)
-      .digest('hex')
-    return safeCompare(v1, expected)
-  } catch {
-    return false
-  }
 }
 
 // ── Check if broadcast already sent for this slug ────────────────────────────
@@ -176,9 +136,9 @@ export async function POST(req: NextRequest) {
 
   // 1. Verify Sanity signature
   const rawBody   = await req.text()
-  const sigHeader = req.headers.get('sanity-webhook-signature') ?? ''
+  const sigHeader = req.headers.get(SIGNATURE_HEADER_NAME) ?? ''
 
-  if (!verifySignature(rawBody, sigHeader, webhookSecret)) {
+  if (!(await isValidSignature(rawBody, sigHeader, webhookSecret))) {
     logBroadcast('signature', {
       ok: false,
       hasSignatureHeader: Boolean(sigHeader),
