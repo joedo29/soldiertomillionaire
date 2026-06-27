@@ -2,6 +2,26 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createHmac, timingSafeEqual } from 'crypto'
 import { Resend } from 'resend'
 
+type BroadcastStage =
+  | 'config'
+  | 'signature'
+  | 'payload'
+  | 'dedupe'
+  | 'resend'
+  | 'sent'
+
+function logBroadcast(stage: BroadcastStage, data: Record<string, unknown>) {
+  console.log(JSON.stringify({
+    source: 'blog-broadcast',
+    stage,
+    ...data,
+  }))
+}
+
+function errorMessage(error: unknown) {
+  return error instanceof Error ? error.message : String(error)
+}
+
 // ── Verify Sanity webhook signature ──────────────────────────────────────────
 function safeCompare(a: string, b: string): boolean {
   const aBuffer = Buffer.from(a)
@@ -50,6 +70,20 @@ async function broadcastAlreadySent(slug: string, resend: Resend): Promise<boole
   }
 
   return data.data.some((b) => b.name === `Blog: ${slug}` && b.status === 'sent')
+}
+
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    route: '/api/broadcast',
+    checks: {
+      sanityWebhookSecret: Boolean(process.env.SANITY_WEBHOOK_SECRET),
+      resendAudienceId: Boolean(process.env.RESEND_AUDIENCE_ID),
+      resendApiKey: Boolean(process.env.RESEND_API_KEY),
+      resendFromEmail: Boolean(process.env.RESEND_FROM_EMAIL),
+      resendReplyTo: Boolean(process.env.RESEND_REPLY_TO),
+    },
+  })
 }
 
 // ── Email template ────────────────────────────────────────────────────────────
@@ -125,7 +159,19 @@ export async function POST(req: NextRequest) {
   const replyTo       = process.env.RESEND_REPLY_TO   ?? 'joedo0209@gmail.com'
 
   if (!webhookSecret || !audienceId || !apiKey) {
-    return NextResponse.json({ error: 'Server misconfigured.' }, { status: 500 })
+    const missing = [
+      !webhookSecret && 'SANITY_WEBHOOK_SECRET',
+      !audienceId && 'RESEND_AUDIENCE_ID',
+      !apiKey && 'RESEND_API_KEY',
+    ].filter(Boolean)
+
+    logBroadcast('config', { ok: false, missing })
+    return NextResponse.json({
+      ok: false,
+      stage: 'config',
+      error: 'Server misconfigured.',
+      missing,
+    }, { status: 500 })
   }
 
   // 1. Verify Sanity signature
@@ -133,10 +179,33 @@ export async function POST(req: NextRequest) {
   const sigHeader = req.headers.get('sanity-webhook-signature') ?? ''
 
   if (!verifySignature(rawBody, sigHeader, webhookSecret)) {
-    return NextResponse.json({ error: 'Invalid signature.' }, { status: 401 })
+    logBroadcast('signature', {
+      ok: false,
+      hasSignatureHeader: Boolean(sigHeader),
+      bodyBytes: Buffer.byteLength(rawBody),
+    })
+    return NextResponse.json({
+      ok: false,
+      stage: 'signature',
+      error: 'Invalid signature.',
+      hasSignatureHeader: Boolean(sigHeader),
+    }, { status: 401 })
   }
 
-  const payload   = JSON.parse(rawBody)
+  logBroadcast('signature', { ok: true, bodyBytes: Buffer.byteLength(rawBody) })
+
+  let payload: Record<string, any>
+  try {
+    payload = JSON.parse(rawBody)
+  } catch (err) {
+    logBroadcast('payload', { ok: false, error: errorMessage(err) })
+    return NextResponse.json({
+      ok: false,
+      stage: 'payload',
+      error: 'Invalid JSON payload.',
+    }, { status: 400 })
+  }
+
   const document = payload?.document ?? payload?.result ?? payload
   const type = document?._type as string | undefined
   const title = document?.title as string | undefined
@@ -147,17 +216,60 @@ export async function POST(req: NextRequest) {
 
   // Must be a published post with all required fields
   if ((type && type !== 'post') || !title || !slug || !publishedAt) {
-    return NextResponse.json({ skipped: 'Not a published post or missing fields.' })
+    const missing = [
+      !title && 'title',
+      !slug && 'slug',
+      !publishedAt && 'publishedAt',
+    ].filter(Boolean)
+
+    logBroadcast('payload', {
+      ok: true,
+      skipped: true,
+      type,
+      slug,
+      missing,
+    })
+
+    return NextResponse.json({
+      ok: true,
+      stage: 'payload',
+      skipped: 'Not a published post or missing fields.',
+      type,
+      slug,
+      missing,
+    })
   }
+
+  logBroadcast('payload', { ok: true, type: type ?? 'unknown', slug, title })
 
   const resend = new Resend(apiKey)
 
   // 2. Deduplicate — skip if we already sent a broadcast for this slug
-  const alreadySent = await broadcastAlreadySent(slug, resend)
-  if (alreadySent) {
-    console.log(`Broadcast already sent for: ${slug} — skipping.`)
-    return NextResponse.json({ skipped: 'Already sent for this post.' })
+  let alreadySent = false
+  try {
+    alreadySent = await broadcastAlreadySent(slug, resend)
+  } catch (err) {
+    logBroadcast('dedupe', { ok: false, slug, error: errorMessage(err) })
+    return NextResponse.json({
+      ok: false,
+      stage: 'dedupe',
+      slug,
+      error: 'Failed to check existing broadcasts.',
+      detail: errorMessage(err),
+    }, { status: 502 })
   }
+
+  if (alreadySent) {
+    logBroadcast('dedupe', { ok: true, skipped: true, slug })
+    return NextResponse.json({
+      ok: true,
+      stage: 'dedupe',
+      slug,
+      skipped: 'Already sent for this post.',
+    })
+  }
+
+  logBroadcast('dedupe', { ok: true, alreadySent: false, slug })
 
   const html = buildEmailHtml(title, excerpt ?? '', slug)
 
@@ -173,11 +285,25 @@ export async function POST(req: NextRequest) {
   })
 
   if (error) {
-    console.error('Broadcast failed:', error)
-    return NextResponse.json({ error: 'Failed to send broadcast.' }, { status: 502 })
+    logBroadcast('resend', {
+      ok: false,
+      slug,
+      error: error.message,
+      statusCode: error.statusCode,
+      name: error.name,
+    })
+    return NextResponse.json({
+      ok: false,
+      stage: 'resend',
+      slug,
+      error: 'Failed to send broadcast.',
+      detail: error.message,
+      resendStatusCode: error.statusCode,
+      resendErrorName: error.name,
+    }, { status: 502 })
   }
 
   const broadcastId = data.id
-  console.log(`Broadcast sent for: ${slug} (${broadcastId})`)
-  return NextResponse.json({ ok: true, broadcastId, slug })
+  logBroadcast('sent', { ok: true, slug, broadcastId })
+  return NextResponse.json({ ok: true, stage: 'sent', broadcastId, slug })
 }
