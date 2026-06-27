@@ -68,6 +68,17 @@ const portableComponents = {
     bullet: ({ children }: any) => <li>{children}</li>,
     number: ({ children }: any) => <li>{children}</li>,
   },
+  marks: {
+    link: ({ children, value }: any) => {
+      const href = value?.href ?? '#'
+      const isExternal = /^https?:\/\//.test(href)
+      return isExternal ? (
+        <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>
+      ) : (
+        <Link href={href}>{children}</Link>
+      )
+    },
+  },
 }
 
 export default async function PostPage(
