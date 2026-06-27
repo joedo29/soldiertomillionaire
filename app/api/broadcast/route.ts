@@ -1,30 +1,55 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHmac, timingSafeEqual } from 'crypto'
+import { Resend } from 'resend'
 
 // ── Verify Sanity webhook signature ──────────────────────────────────────────
+function safeCompare(a: string, b: string): boolean {
+  const aBuffer = Buffer.from(a)
+  const bBuffer = Buffer.from(b)
+  return aBuffer.length === bBuffer.length && timingSafeEqual(aBuffer, bBuffer)
+}
+
 function verifySignature(body: string, header: string, secret: string): boolean {
   try {
-    const parts = Object.fromEntries(header.split(',').map(p => p.split('=')))
+    const trimmedHeader = header.trim()
+    const expectedHex = createHmac('sha256', secret).update(body).digest('hex')
+    const expectedBase64 = createHmac('sha256', secret).update(body).digest('base64')
+
+    // Sanity sends the HMAC in `sanity-webhook-signature`. Depending on webhook
+    // tooling/version it may be the raw digest or prefixed as `sha256=...`.
+    const directSignature = trimmedHeader.replace(/^sha256=/, '')
+    if (safeCompare(directSignature, expectedHex) || safeCompare(directSignature, expectedBase64)) {
+      return true
+    }
+
+    // Keep support for Standard Webhooks/Svix-style signatures in case the
+    // endpoint is tested through a relay that signs as `t=...,v1=...`.
+    const parts = Object.fromEntries(
+      trimmedHeader.split(',').map((p) => {
+        const [key, ...value] = p.split('=')
+        return [key.trim(), value.join('=').trim()]
+      }),
+    )
     const ts = parts['t']
     const v1 = parts['v1']
     if (!ts || !v1) return false
     const expected = createHmac('sha256', secret)
       .update(`${ts}.${body}`)
       .digest('hex')
-    return timingSafeEqual(Buffer.from(v1, 'hex'), Buffer.from(expected, 'hex'))
+    return safeCompare(v1, expected)
   } catch {
     return false
   }
 }
 
 // ── Check if broadcast already sent for this slug ────────────────────────────
-async function broadcastAlreadySent(slug: string, apiKey: string): Promise<boolean> {
-  const res = await fetch('https://api.resend.com/broadcasts', {
-    headers: { 'Authorization': `Bearer ${apiKey}` },
-  })
-  if (!res.ok) return false
-  const { data } = await res.json() as { data: { name: string; status: string }[] }
-  return data.some(b => b.name === `Blog: ${slug}` && b.status === 'sent')
+async function broadcastAlreadySent(slug: string, resend: Resend): Promise<boolean> {
+  const { data, error } = await resend.broadcasts.list({ limit: 100 })
+  if (error) {
+    throw new Error(`Unable to check existing broadcasts: ${error.message}`)
+  }
+
+  return data.data.some((b) => b.name === `Blog: ${slug}` && b.status === 'sent')
 }
 
 // ── Email template ────────────────────────────────────────────────────────────
@@ -112,18 +137,23 @@ export async function POST(req: NextRequest) {
   }
 
   const payload   = JSON.parse(rawBody)
-  const title     = payload?.title     as string | undefined
-  const slug      = payload?.slug?.current as string | undefined
-  const excerpt   = payload?.excerpt   as string | undefined
-  const publishedAt = payload?.publishedAt as string | undefined
+  const document = payload?.document ?? payload?.result ?? payload
+  const type = document?._type as string | undefined
+  const title = document?.title as string | undefined
+  const slugValue = document?.slug
+  const slug = typeof slugValue === 'string' ? slugValue : slugValue?.current as string | undefined
+  const excerpt = document?.excerpt as string | undefined
+  const publishedAt = document?.publishedAt as string | undefined
 
   // Must be a published post with all required fields
-  if (!title || !slug || !publishedAt) {
+  if ((type && type !== 'post') || !title || !slug || !publishedAt) {
     return NextResponse.json({ skipped: 'Not a published post or missing fields.' })
   }
 
+  const resend = new Resend(apiKey)
+
   // 2. Deduplicate — skip if we already sent a broadcast for this slug
-  const alreadySent = await broadcastAlreadySent(slug, apiKey)
+  const alreadySent = await broadcastAlreadySent(slug, resend)
   if (alreadySent) {
     console.log(`Broadcast already sent for: ${slug} — skipping.`)
     return NextResponse.json({ skipped: 'Already sent for this post.' })
@@ -131,43 +161,23 @@ export async function POST(req: NextRequest) {
 
   const html = buildEmailHtml(title, excerpt ?? '', slug)
 
-  // 3. Create broadcast
-  const createRes = await fetch('https://api.resend.com/broadcasts', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      audience_id: audienceId,
-      from: fromEmail,
-      reply_to: replyTo,
-      subject: title,
-      html,
-      name: `Blog: ${slug}`,
-    }),
+  // 3. Create and immediately send the broadcast
+  const { data, error } = await resend.broadcasts.create({
+    audienceId,
+    from: fromEmail,
+    replyTo,
+    subject: title,
+    html,
+    name: `Blog: ${slug}`,
+    send: true,
   })
 
-  if (!createRes.ok) {
-    const err = await createRes.text()
-    console.error('Broadcast create failed:', err)
-    return NextResponse.json({ error: 'Failed to create broadcast.' }, { status: 502 })
-  }
-
-  const { id: broadcastId } = await createRes.json()
-
-  // 4. Send broadcast
-  const sendRes = await fetch(`https://api.resend.com/broadcasts/${broadcastId}/send`, {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${apiKey}` },
-  })
-
-  if (!sendRes.ok) {
-    const err = await sendRes.text()
-    console.error('Broadcast send failed:', err)
+  if (error) {
+    console.error('Broadcast failed:', error)
     return NextResponse.json({ error: 'Failed to send broadcast.' }, { status: 502 })
   }
 
+  const broadcastId = data.id
   console.log(`Broadcast sent for: ${slug} (${broadcastId})`)
   return NextResponse.json({ ok: true, broadcastId, slug })
 }

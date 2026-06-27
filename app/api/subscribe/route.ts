@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 const WELCOME_HTML = `
 <!DOCTYPE html>
 <html>
@@ -109,8 +107,40 @@ const WELCOME_HTML = `
 </html>
 `
 
+async function addContactToAudience(resend: Resend, audienceId: string, email: string) {
+  const createResult = await resend.contacts.create({
+    email,
+    audienceId,
+    unsubscribed: false,
+  })
+
+  if (!createResult.error) return
+
+  const message = createResult.error.message.toLowerCase()
+  const isExistingContact =
+    createResult.error.statusCode === 409 ||
+    message.includes('already') ||
+    message.includes('exist') ||
+    message.includes('duplicate')
+
+  if (!isExistingContact) {
+    throw new Error(createResult.error.message)
+  }
+
+  const updateResult = await resend.contacts.update({
+    email,
+    audienceId,
+    unsubscribed: false,
+  })
+
+  if (updateResult.error) {
+    throw new Error(updateResult.error.message)
+  }
+}
+
 export async function POST(req: NextRequest) {
-  const { email } = await req.json()
+  const body = await req.json()
+  const email = String(body?.email ?? '').trim().toLowerCase()
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: 'Valid email required.' }, { status: 400 })
@@ -121,18 +151,19 @@ export async function POST(req: NextRequest) {
   const fromEmail  = process.env.RESEND_FROM_EMAIL ?? 'Joe Do <onboarding@resend.dev>'
   const replyTo    = process.env.RESEND_REPLY_TO ?? 'joedo0209@gmail.com'
 
-  if (!apiKey) {
-    console.error('Missing RESEND_API_KEY')
+  if (!apiKey || !audienceId) {
+    console.error('Missing RESEND_API_KEY or RESEND_AUDIENCE_ID')
     return NextResponse.json({ error: 'Server configuration error.' }, { status: 500 })
   }
 
-  // 1. Add to Resend Audience (if configured)
-  if (audienceId) {
-    await resend.contacts.create({
-      email,
-      audienceId,
-      unsubscribed: false,
-    }).catch(err => console.error('Audience add failed:', err))
+  const resend = new Resend(apiKey)
+
+  // 1. Add to Resend Audience. Do not report success unless this actually works.
+  try {
+    await addContactToAudience(resend, audienceId, email)
+  } catch (err) {
+    console.error('Audience add failed:', err)
+    return NextResponse.json({ error: 'Failed to subscribe. Please try again.' }, { status: 502 })
   }
 
   // 2. Send welcome email
