@@ -4,6 +4,7 @@ const footerLinks = [
   { href: '/about',             label: 'About' },
   { href: '/strategy',          label: 'Start Here' },
   { href: '/resources',         label: 'Resources' },
+  { href: '/military-wealth-path', label: 'Wealth Path' },
   { href: '/military-benefits', label: 'Benefits' },
   { href: '/blog',              label: 'Blog' },
   { href: '/soldiers',          label: 'Results' },

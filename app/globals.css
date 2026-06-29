@@ -804,6 +804,346 @@ button { cursor: pointer; font-family: inherit; border: none; }
 }
 
 /* ══════════════════════════════════════
+   MILITARY WEALTH PATH
+══════════════════════════════════════ */
+.mwp-hero {
+  background: var(--dark);
+  padding: 52px 14px 44px;
+}
+
+.mwp-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: end;
+}
+
+.mwp-hero .container,
+.mwp-tool .container,
+.mwp-recs .container,
+.mwp-report .container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.mwp-hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(70px, 18vw, 128px);
+  line-height: 0.9;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 18px;
+}
+
+.mwp-hero p {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  color: rgba(255,255,255,0.62);
+  font-size: 18px;
+  line-height: 1.55;
+  max-width: 620px;
+}
+
+.mwp-hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.mwp-hero-actions .btn {
+  justify-content: center;
+}
+
+.mwp-proof {
+  border: 1px solid rgba(201,168,76,0.28);
+  border-radius: 12px;
+  background: rgba(201,168,76,0.1);
+  padding: 22px;
+}
+
+.mwp-proof span,
+.mwp-proof small {
+  display: block;
+  color: rgba(255,255,255,0.52);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.mwp-proof strong {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--gold-light);
+  font-size: 54px;
+  line-height: 1;
+  letter-spacing: 1px;
+  margin: 14px 0 8px;
+}
+
+.mwp-tool {
+  background: var(--cream);
+  padding: 40px 14px;
+}
+
+.mwp-tool-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.mwp-panel,
+.mwp-results {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  padding: 20px;
+}
+
+.mwp-panel h2,
+.mwp-recs h2,
+.mwp-report h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(30px, 8vw, 48px);
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.mwp-field {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.mwp-field span {
+  display: block;
+  color: var(--text-light);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.mwp-field input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--cream);
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 700;
+  padding: 14px 15px;
+  outline: none;
+}
+
+.mwp-field input:focus {
+  border-color: var(--army-light);
+  box-shadow: 0 0 0 3px rgba(45,74,30,0.12);
+}
+
+.mwp-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+  margin-top: 12px;
+}
+
+.mwp-score-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--dark);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.mwp-score-card span,
+.mwp-score-card small {
+  display: block;
+  color: rgba(255,255,255,0.52);
+  font-size: 12px;
+}
+
+.mwp-score-card strong {
+  display: block;
+  color: #fff;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px;
+  line-height: 1;
+  letter-spacing: 1px;
+  margin: 8px 0 3px;
+}
+
+.mwp-score-ring {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background:
+    radial-gradient(circle at center, var(--dark) 58%, transparent 59%),
+    conic-gradient(var(--gold) var(--score), rgba(255,255,255,0.12) 0);
+  color: var(--gold-light);
+  font-weight: 800;
+}
+
+.mwp-milestones {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.mwp-milestone {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  background: var(--cream);
+}
+
+.mwp-milestone span,
+.mwp-milestone small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mwp-milestone strong {
+  display: block;
+  color: var(--army);
+  font-size: 22px;
+  line-height: 1.1;
+  margin: 5px 0;
+}
+
+.mwp-chart {
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  padding: 14px;
+}
+
+.mwp-chart svg {
+  width: 100%;
+  height: 150px;
+  overflow: visible;
+}
+
+.mwp-chart-base {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.mwp-chart-line {
+  fill: none;
+  stroke: var(--army);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.mwp-chart-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.mwp-recs {
+  padding: 42px 14px 54px;
+  background: #fff;
+}
+
+.mwp-section-head {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.mwp-share-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.mwp-rec-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.mwp-rec-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--cream);
+  padding: 18px;
+}
+
+.mwp-rec-card span {
+  display: block;
+  color: var(--gold);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 34px;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.mwp-rec-card p {
+  color: var(--text-light);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.mwp-report {
+  background: var(--dark);
+  padding: 48px 14px 64px;
+}
+
+.mwp-report-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.mwp-report h2 {
+  color: #fff;
+}
+
+.mwp-report p {
+  color: rgba(255,255,255,0.62);
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 620px;
+  margin-bottom: 24px;
+}
+
+.mwp-report-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.mwp-report-list div {
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.82);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 13px 14px;
+}
+
+.mwp-share-canvas {
+  display: none;
+}
+
+/* ══════════════════════════════════════
    STRATEGY PAGE
 ══════════════════════════════════════ */
 .strategy-card {
@@ -1483,7 +1823,8 @@ button { cursor: pointer; font-family: inherit; border: none; }
   .story-strip, .journey-section, .pillars-section,
   .benefits-section, .booking-section, .book-page,
   .blog-page, .prose-section, .benefits-page-section,
-  .resources-section, .resources-cta { padding-left: 40px; padding-right: 40px; }
+  .resources-section, .resources-cta,
+  .mwp-hero, .mwp-tool, .mwp-recs, .mwp-report { padding-left: 40px; padding-right: 40px; }
 
   .blog-preview-section { padding-left: 40px; }
   .blog-scroll { padding-right: 40px; }
@@ -1491,6 +1832,11 @@ button { cursor: pointer; font-family: inherit; border: none; }
   .pillar-grid { grid-template-columns: repeat(4, 1fr); }
   .posts-grid  { grid-template-columns: repeat(3, 1fr); }
   .resources-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .mwp-hero-actions { flex-direction: row; }
+  .mwp-milestones { grid-template-columns: repeat(3, 1fr); }
+  .mwp-section-head { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+  .mwp-share-actions { grid-template-columns: auto auto; }
+  .mwp-rec-grid { grid-template-columns: repeat(3, 1fr); }
 
   .page-hero { padding: 72px 40px 56px; }
   .page-hero h1 { font-size: 80px; }
@@ -1518,6 +1864,19 @@ button { cursor: pointer; font-family: inherit; border: none; }
   /* Booking CTA: limit text width so it doesn't feel empty */
   .booking-section { padding-top: 64px; padding-bottom: 64px; }
   .booking-title { font-size: 32px; }
+
+  .mwp-hero { padding-top: 76px; padding-bottom: 72px; }
+  .mwp-tool { padding-top: 64px; padding-bottom: 64px; }
+  .mwp-recs { padding-top: 64px; padding-bottom: 72px; }
+  .mwp-report { padding-top: 72px; padding-bottom: 78px; }
+  .mwp-hero-grid,
+  .mwp-tool-grid,
+  .mwp-report-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  }
+  .mwp-panel,
+  .mwp-results { padding: 26px; }
+  .mwp-report-list { grid-template-columns: 1fr 1fr; align-content: start; }
 }
 
 /* ── Wide desktop 1100px+ ──────────────────────────────────────────────────
@@ -1532,6 +1891,10 @@ button { cursor: pointer; font-family: inherit; border: none; }
         1440px screen → 290px padding each side → 860px content column  ✅
         1100px screen → 120px padding each side → 860px content column  ✅  */
   .hero,
+  .mwp-hero,
+  .mwp-tool,
+  .mwp-recs,
+  .mwp-report,
   .story-strip,
   .pillars-section,
   .benefits-section,

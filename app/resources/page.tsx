@@ -10,6 +10,13 @@ export const metadata: Metadata = {
 
 const resources = [
   {
+    href: '/military-wealth-path',
+    eyebrow: 'Free Tool',
+    title: 'Military Wealth Path',
+    body: 'See when you could reach $100K, $500K and $1M, then get a personalized plan for moving faster.',
+    action: 'Run projection',
+  },
+  {
     href: '/blog',
     eyebrow: 'Latest Intel',
     title: 'Blog',
