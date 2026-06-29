@@ -264,7 +264,7 @@ Built with Soldier to Millionaire`
               >
                 Pay $19 with Square
               </a>
-              <Link href="/military-wealth-path/report" className="btn btn-outline">
+              <Link href="/military-wealth-path/report" className="btn btn-outline" onClick={saveReportInputs}>
                 I Paid - Download Report
               </Link>
             </div>
