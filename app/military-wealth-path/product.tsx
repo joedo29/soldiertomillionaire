@@ -114,12 +114,22 @@ function buildChartPoints(current: number, monthlyInvestment: number) {
   })
 }
 
+function parseMoneyInput(value: string) {
+  if (value.trim() === '') return 0
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : 0
+}
+
 export default function MilitaryWealthPath() {
-  const [currentNetWorth, setCurrentNetWorth] = useState(25000)
-  const [monthlyInvestment, setMonthlyInvestment] = useState(1000)
-  const [monthlyIncome, setMonthlyIncome] = useState(4000)
+  const [currentNetWorthInput, setCurrentNetWorthInput] = useState('25000')
+  const [monthlyInvestmentInput, setMonthlyInvestmentInput] = useState('1000')
+  const [monthlyIncomeInput, setMonthlyIncomeInput] = useState('4000')
   const [copied, setCopied] = useState(false)
   const shareCanvasRef = useRef<HTMLCanvasElement>(null)
+
+  const currentNetWorth = parseMoneyInput(currentNetWorthInput)
+  const monthlyInvestment = Math.max(0, parseMoneyInput(monthlyInvestmentInput))
+  const monthlyIncome = Math.max(0, parseMoneyInput(monthlyIncomeInput))
 
   const result = useMemo(() => {
     const milestoneRows = milestones.map((target) => {
@@ -242,8 +252,8 @@ Built with Soldier to Millionaire`
               <span>Current net worth</span>
               <input
                 type="number"
-                value={currentNetWorth}
-                onChange={(event) => setCurrentNetWorth(Number(event.target.value))}
+                value={currentNetWorthInput}
+                onChange={(event) => setCurrentNetWorthInput(event.target.value)}
                 inputMode="numeric"
               />
             </label>
@@ -252,9 +262,10 @@ Built with Soldier to Millionaire`
               <span>Monthly investing</span>
               <input
                 type="number"
-                value={monthlyInvestment}
-                onChange={(event) => setMonthlyInvestment(Math.max(0, Number(event.target.value)))}
+                value={monthlyInvestmentInput}
+                onChange={(event) => setMonthlyInvestmentInput(event.target.value)}
                 inputMode="numeric"
+                min="0"
               />
             </label>
 
@@ -262,9 +273,10 @@ Built with Soldier to Millionaire`
               <span>Monthly take-home income</span>
               <input
                 type="number"
-                value={monthlyIncome}
-                onChange={(event) => setMonthlyIncome(Math.max(0, Number(event.target.value)))}
+                value={monthlyIncomeInput}
+                onChange={(event) => setMonthlyIncomeInput(event.target.value)}
                 inputMode="numeric"
+                min="0"
               />
             </label>
 
