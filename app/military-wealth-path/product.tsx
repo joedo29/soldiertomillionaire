@@ -4,8 +4,7 @@ import { useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 
 const milestones = [100000, 500000, 1000000]
-const annualReturn = 0.08
-const monthlyReturn = annualReturn / 12
+const annualReturn = 0.12
 const paymentUrl = process.env.NEXT_PUBLIC_MILITARY_WEALTH_PATH_PAYMENT_URL
 
 function currency(value: number) {
@@ -46,7 +45,10 @@ function monthsToTarget(current: number, monthlyInvestment: number, target: numb
 
   let balance = current
   for (let month = 1; month <= 12 * 80; month += 1) {
-    balance = balance * (1 + monthlyReturn) + monthlyInvestment
+    balance += monthlyInvestment
+    if (month % 12 === 0) {
+      balance *= 1 + annualReturn
+    }
     if (balance >= target) return month
   }
 
@@ -56,7 +58,10 @@ function monthsToTarget(current: number, monthlyInvestment: number, target: numb
 function futureValue(current: number, monthlyInvestment: number, months: number) {
   let balance = current
   for (let month = 0; month < months; month += 1) {
-    balance = balance * (1 + monthlyReturn) + monthlyInvestment
+    balance += monthlyInvestment
+    if ((month + 1) % 12 === 0) {
+      balance *= 1 + annualReturn
+    }
   }
   return balance
 }
@@ -281,7 +286,7 @@ Built with Soldier to Millionaire`
             </label>
 
             <p className="mwp-note">
-              Projection assumes an 8% annual return, compounded monthly. This is educational, not financial advice.
+              Projection assumes a 12% annual return, compounded yearly. This is educational, not financial advice.
             </p>
           </div>
 
