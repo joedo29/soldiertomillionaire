@@ -1139,6 +1139,101 @@ button { cursor: pointer; font-family: inherit; border: none; }
   padding: 13px 14px;
 }
 
+.mwp-payment-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.mwp-payment-actions .btn {
+  justify-content: center;
+}
+
+.mwp-payment-note {
+  font-size: 12px !important;
+  color: rgba(255,255,255,0.46) !important;
+  margin: 12px 0 0 !important;
+}
+
+.mwp-report-page {
+  background: var(--cream);
+  padding: 48px 14px 72px;
+}
+
+.mwp-report-download {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.mwp-report-download h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(34px, 9vw, 60px);
+  line-height: 1.03;
+  margin-bottom: 14px;
+}
+
+.mwp-report-download p {
+  color: var(--text-light);
+  line-height: 1.7;
+  max-width: 680px;
+  margin-bottom: 22px;
+}
+
+.mwp-report-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.mwp-report-preview {
+  border-top: 1px solid var(--border);
+  padding-top: 22px;
+}
+
+.mwp-report-preview h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  margin: 18px 0 12px;
+}
+
+.mwp-report-preview-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.mwp-report-preview-grid div,
+.mwp-report-row {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.mwp-report-preview-grid span,
+.mwp-report-row span,
+.mwp-report-row small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mwp-report-preview-grid strong,
+.mwp-report-row strong {
+  display: block;
+  color: var(--army);
+  font-size: 22px;
+  margin-top: 4px;
+}
+
+.mwp-report-row {
+  margin-bottom: 10px;
+}
+
 .mwp-share-canvas {
   display: none;
 }
@@ -1877,6 +1972,19 @@ button { cursor: pointer; font-family: inherit; border: none; }
   .mwp-panel,
   .mwp-results { padding: 26px; }
   .mwp-report-list { grid-template-columns: 1fr 1fr; align-content: start; }
+  .mwp-payment-actions,
+  .mwp-report-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+  .mwp-report-page { padding: 72px 40px 90px; }
+  .mwp-report-download {
+    padding: 34px;
+    max-width: 900px;
+  }
+  .mwp-report-preview-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 /* ── Wide desktop 1100px+ ──────────────────────────────────────────────────
