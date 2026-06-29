@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo, useRef, useState } from 'react'
-import Link from 'next/link'
 import {
   calculateWealthPath,
   compactCurrency,
@@ -264,13 +263,10 @@ Built with Soldier to Millionaire`
               >
                 Pay $19 with Square
               </a>
-              <Link href="/military-wealth-path/report" className="btn btn-outline" onClick={saveReportInputs}>
-                I Paid - Download Report
-              </Link>
             </div>
             <p className="mwp-payment-note">
-              Your current inputs are saved on this device before checkout. After Square payment,
-              return here and download the report.
+              Your current inputs are saved on this device before checkout. After payment,
+              Square redirects you to the PDF report download page.
             </p>
           </div>
 
