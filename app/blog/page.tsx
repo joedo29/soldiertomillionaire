@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import PostCard from '@/components/PostCard'
+import BlogExplorer from '@/components/BlogExplorer'
 import { client, allPostsQuery } from '@/lib/sanity'
 import type { Post } from '@/lib/types'
 
@@ -30,11 +30,7 @@ export default async function BlogPage() {
             <p>First posts coming soon — subscribe or check back shortly.</p>
           </div>
         ) : (
-          <div className="posts-grid">
-            {posts.map(post => (
-              <PostCard key={post._id} post={post} />
-            ))}
-          </div>
+          <BlogExplorer posts={posts} />
         )}
       </section>
     </main>

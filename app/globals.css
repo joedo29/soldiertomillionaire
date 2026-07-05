@@ -1563,6 +1563,94 @@ button { cursor: pointer; font-family: inherit; border: none; }
 }
 .blog-page-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
 
+/* ── Blog search + tag filter ── */
+.blog-controls { margin-bottom: 26px; }
+
+.blog-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 460px;
+  margin-bottom: 16px;
+}
+.blog-search svg {
+  position: absolute;
+  left: 15px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.blog-search input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  padding: 13px 40px 13px 42px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.blog-search input::placeholder { color: var(--muted); }
+.blog-search input:focus {
+  border-color: var(--army-light);
+  box-shadow: 0 0 0 3px rgba(45,74,30,0.1);
+}
+.blog-search input::-webkit-search-cancel-button { display: none; }
+.blog-search-clear {
+  position: absolute;
+  right: 8px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.blog-search-clear:hover { color: var(--text); background: var(--bg-2); }
+
+.blog-tagbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.blog-tagpill {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text-light);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  padding: 7px 13px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.blog-tagpill span {
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 11px;
+  margin-left: 3px;
+}
+.blog-tagpill:hover { border-color: var(--army-light); color: var(--text); }
+.blog-tagpill.active {
+  background: var(--army);
+  border-color: var(--army);
+  color: #fff;
+}
+.blog-tagpill.active span { color: var(--gold-light); }
+
+.blog-tagpill-more {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.blog-result-count {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
