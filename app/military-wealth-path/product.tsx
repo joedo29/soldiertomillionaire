@@ -272,13 +272,14 @@ Built with Soldier to Millionaire`
 
           <div className="mwp-report-list">
             {[
-              'Complete financial roadmap',
+              'Your situation decoded in plain English',
+              'Military wealth accelerators: BAH gap, combat-zone Roth, SCRA cap',
+              '5 mistakes that kill military wealth',
+              'The Priority Ladder — exactly what to do, in order',
               'TSP and Roth IRA allocation worksheet',
-              'Emergency-fund target',
-              'Monthly spending targets',
+              'Emergency-fund and monthly spending targets',
               'Five-year milestone table',
-              'Printable action plan',
-              'Annual review checklist',
+              'Your personal mission brief from Joe',
             ].map((item) => (
               <div key={item}>{item}</div>
             ))}
