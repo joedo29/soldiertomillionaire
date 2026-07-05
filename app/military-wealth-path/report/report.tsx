@@ -4,8 +4,10 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import {
   calculateWealthPath,
+  compactCurrency,
   currency,
   monthsToTarget,
+  targetDate,
   wealthPathAnnualReturn,
 } from '@/lib/wealthPath'
 import type { WealthPathInputs } from '@/lib/wealthPath'
@@ -27,7 +29,7 @@ function readStoredInputs(): WealthPathInputs | null {
   }
 }
 
-async function downloadPdf(inputs: WealthPathInputs, result: ReturnType<typeof calculateWealthPath>) {
+export async function buildReportPdf(inputs: WealthPathInputs, result: ReturnType<typeof calculateWealthPath>) {
   const { jsPDF } = await import('jspdf')
   const doc = new jsPDF({ unit: 'pt', format: 'letter' })
   const pageWidth = doc.internal.pageSize.getWidth()
@@ -106,6 +108,172 @@ async function downloadPdf(inputs: WealthPathInputs, result: ReturnType<typeof c
     y += 8
   }
 
+  function smallLabel(value: string, x: number, baseline: number, options: { bold?: boolean; color?: [number, number, number]; align?: 'left' | 'center' | 'right' } = {}) {
+    doc.setFont('helvetica', options.bold ? 'bold' : 'normal')
+    doc.setFontSize(8)
+    doc.setTextColor(...(options.color ?? [107, 117, 101]))
+    let tx = x
+    if (options.align === 'center') tx = x - doc.getTextWidth(value) / 2
+    if (options.align === 'right') tx = x - doc.getTextWidth(value)
+    tx = Math.min(Math.max(tx, margin), pageWidth - margin - doc.getTextWidth(value))
+    doc.text(value, tx, baseline)
+  }
+
+  // Filled area chart of the 10-year projection
+  function drawGrowthChart() {
+    const chartH = 150
+    ensureSpace(chartH + 46)
+    const chartTop = y
+    const points = result.chartPoints
+    const px = (p: { x: number }) => margin + (p.x / 100) * contentWidth
+    const py = (p: { y: number }) => chartTop + (p.y / 100) * chartH
+
+    doc.setFillColor(245, 241, 232)
+    doc.rect(margin, chartTop, contentWidth, chartH, 'F')
+    doc.setDrawColor(221, 214, 198)
+    doc.setLineWidth(0.5)
+    ;[0.25, 0.5, 0.75].forEach((f) => {
+      doc.line(margin, chartTop + chartH * f, margin + contentWidth, chartTop + chartH * f)
+    })
+
+    const deltas: number[][] = []
+    for (let i = 1; i < points.length; i += 1) {
+      deltas.push([px(points[i]) - px(points[i - 1]), py(points[i]) - py(points[i - 1])])
+    }
+    const last = points[points.length - 1]
+    const area = [
+      ...deltas,
+      [0, chartTop + chartH - py(last)],
+      [px(points[0]) - px(last), 0],
+    ]
+    doc.setFillColor(233, 221, 189)
+    doc.lines(area, px(points[0]), py(points[0]), [1, 1], 'F', true)
+
+    doc.setDrawColor(45, 74, 30)
+    doc.setLineWidth(1.6)
+    doc.lines(deltas, px(points[0]), py(points[0]), [1, 1], 'S', false)
+
+    doc.setFillColor(201, 168, 76)
+    doc.circle(px(last), py(last), 3, 'F')
+
+    const labelY = chartTop + chartH + 14
+    smallLabel('Today', margin, labelY)
+    smallLabel('Year 5', margin + contentWidth / 2, labelY, { align: 'center' })
+    smallLabel(`Year 10: ${currency(last.value)}`, margin + contentWidth, labelY, { align: 'right', bold: true, color: [45, 74, 30] })
+    y = labelY + 24
+  }
+
+  // Horizontal timeline with milestone markers positioned by month reached
+  function drawMilestoneTimeline() {
+    const reachable = result.milestoneRows.filter((row) => row.months !== null && row.months > 0)
+    if (reachable.length === 0) return
+    ensureSpace(78)
+    const trackY = y + 26
+    const maxMonths = Math.max(...reachable.map((row) => row.months as number))
+
+    doc.setDrawColor(221, 214, 198)
+    doc.setLineWidth(3)
+    doc.line(margin, trackY, margin + contentWidth, trackY)
+
+    doc.setFillColor(201, 168, 76)
+    doc.circle(margin + 2, trackY, 4, 'F')
+    smallLabel('Today', margin, trackY + 16)
+
+    reachable.forEach((row) => {
+      const mx = margin + 8 + ((row.months as number) / maxMonths) * (contentWidth - 16)
+      doc.setFillColor(45, 74, 30)
+      doc.circle(mx, trackY, 4, 'F')
+      smallLabel(compactCurrency(row.target), mx, trackY - 10, { align: 'center', bold: true, color: [26, 31, 20] })
+      smallLabel(row.date, mx, trackY + 16, { align: 'center' })
+    })
+    y = trackY + 34
+  }
+
+  // Savings-rate bar with Building / Elite tick marks
+  function drawSavingsRateBar() {
+    if (result.savingsRate === null) return
+    ensureSpace(70)
+    const barY = y + 16
+    const barH = 12
+    const scaleMax = 60 // 60%+ savings rate fills the bar
+
+    doc.setFillColor(245, 241, 232)
+    doc.rect(margin, barY, contentWidth, barH, 'F')
+
+    const rate = Math.min(result.savingsRate, scaleMax)
+    const fill: [number, number, number] = result.savingsRate >= 50
+      ? [45, 74, 30]
+      : result.savingsRate >= 20 ? [201, 168, 76] : [178, 58, 44]
+    doc.setFillColor(...fill)
+    doc.rect(margin, barY, (rate / scaleMax) * contentWidth, barH, 'F')
+
+    ;[
+      { pct: 20, label: '20% Building' },
+      { pct: 50, label: '50% Elite' },
+    ].forEach((tick) => {
+      const tx = margin + (tick.pct / scaleMax) * contentWidth
+      doc.setDrawColor(107, 117, 101)
+      doc.setLineWidth(0.8)
+      doc.line(tx, barY - 3, tx, barY + barH + 3)
+      smallLabel(tick.label, tx, barY + barH + 14, { align: 'center' })
+    })
+
+    smallLabel(`Your rate: ${result.savingsRate.toFixed(1)}%`, margin, barY - 6, { bold: true, color: [26, 31, 20] })
+    y = barY + barH + 28
+  }
+
+  // Two bars: current plan vs +$200/month, race to $1M
+  function drawScenarioBars() {
+    if (baseMillionMonths === null || boostedMillionMonths === null || baseMillionMonths <= 0) return
+    ensureSpace(84)
+    const scenarios: Array<{ label: string; months: number; color: [number, number, number]; date: string }> = [
+      { label: `Current plan: ${currency(inputs.monthlyInvestment)}/mo`, months: baseMillionMonths, color: [122, 122, 106], date: result.milestoneRows[2].date },
+      { label: `With $200 more: ${currency(inputs.monthlyInvestment + 200)}/mo`, months: boostedMillionMonths, color: [45, 74, 30], date: targetDate(boostedMillionMonths) },
+    ]
+    scenarios.forEach((s) => {
+      smallLabel(s.label, margin, y + 4, { bold: true, color: [26, 31, 20] })
+      const barW = Math.max(30, (s.months / baseMillionMonths) * (contentWidth - 90))
+      doc.setFillColor(...s.color)
+      doc.rect(margin, y + 9, barW, 11, 'F')
+      smallLabel(`$1M ${s.date}`, margin + barW + 8, y + 18, { bold: true, color: s.color })
+      y += 34
+    })
+    y += 8
+  }
+
+  // Stacked bar showing the monthly allocation split
+  function drawAllocationBar() {
+    const total = tspTarget + rothTarget + extraTarget
+    if (total <= 0) return
+    ensureSpace(64)
+    const barY = y + 6
+    const barH = 16
+    const segments: Array<{ label: string; value: number; color: [number, number, number] }> = [
+      { label: 'TSP', value: tspTarget, color: [45, 74, 30] },
+      { label: 'Roth IRA', value: rothTarget, color: [201, 168, 76] },
+      { label: 'HSA / taxable', value: extraTarget, color: [122, 122, 106] },
+    ].filter((segment) => segment.value > 0) as Array<{ label: string; value: number; color: [number, number, number] }>
+
+    let sx = margin
+    segments.forEach((segment) => {
+      const w = (segment.value / total) * contentWidth
+      doc.setFillColor(...segment.color)
+      doc.rect(sx, barY, w, barH, 'F')
+      sx += w
+    })
+
+    let lx = margin
+    const legendY = barY + barH + 16
+    segments.forEach((segment) => {
+      doc.setFillColor(...segment.color)
+      doc.rect(lx, legendY - 7, 7, 7, 'F')
+      const label = `${segment.label} ${currency(segment.value)}/mo`
+      smallLabel(label, lx + 11, legendY, { color: [79, 90, 73] })
+      lx += 11 + doc.getTextWidth(label) + 16
+    })
+    y = legendY + 24
+  }
+
   doc.setFillColor(26, 31, 20)
   doc.rect(0, 0, pageWidth, 210, 'F')
   doc.setTextColor(201, 168, 76)
@@ -156,6 +324,7 @@ async function downloadPdf(inputs: WealthPathInputs, result: ReturnType<typeof c
     ['Monthly take-home income', currency(inputs.monthlyIncome)],
     ['Savings rate', percent(result.savingsRate)],
   ])
+  drawSavingsRateBar()
   heading('Your Situation in Plain English')
   if (result.savingsRate === null) {
     text('You did not enter a monthly income, so I cannot score your savings rate yet. That number matters more than any other on this page: it is the single biggest predictor of when you reach financial freedom. Add it to your tracker this week.', {
@@ -183,6 +352,7 @@ async function downloadPdf(inputs: WealthPathInputs, result: ReturnType<typeof c
       size: 10,
       color: [79, 90, 73],
     })
+    drawScenarioBars()
   }
   text(`The rule that makes all of this work: protect the ${currency(inputs.monthlyInvestment)} monthly investment first, then build your lifestyle around what remains — never the other way around.`, {
     size: 10,
@@ -192,6 +362,15 @@ async function downloadPdf(inputs: WealthPathInputs, result: ReturnType<typeof c
 
   heading('Major Milestones')
   rows(result.milestoneRows.map((row) => [currency(row.target), `${row.date} (${row.label})`]))
+  drawMilestoneTimeline()
+
+  ensureSpace(310) // keep heading, intro and chart together on one page
+  heading('Your 10-Year Growth Curve')
+  text('This is your money working while you sleep. The curve steepens over time because compounding accelerates — the hardest part is staying on the line through the flat early years.', {
+    size: 10,
+    color: [79, 90, 73],
+  })
+  drawGrowthChart()
 
   heading('Five-Year Milestone Table')
   rows(result.fiveYearRows.map((row) => [`Year ${row.year}`, `${currency(row.value)} projected net worth | ${currency(row.value - inputs.currentNetWorth)} growth from today`]))
@@ -289,6 +468,7 @@ async function downloadPdf(inputs: WealthPathInputs, result: ReturnType<typeof c
     ['Roth IRA target', `${currency(rothTarget)} per month | personal tax-advantaged account if eligible`],
     ['HSA / taxable target', `${currency(extraTarget)} per month | use after basics are covered`],
   ])
+  drawAllocationBar()
 
   heading('Emergency Fund Target')
   rows([
@@ -357,6 +537,11 @@ async function downloadPdf(inputs: WealthPathInputs, result: ReturnType<typeof c
     color: [45, 74, 30],
   })
 
+  return doc
+}
+
+async function downloadPdf(inputs: WealthPathInputs, result: ReturnType<typeof calculateWealthPath>) {
+  const doc = await buildReportPdf(inputs, result)
   doc.save('military-wealth-path-report.pdf')
 }
 
