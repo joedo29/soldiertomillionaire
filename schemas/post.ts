@@ -91,6 +91,21 @@ export const postType = defineType({
       options: { source: 'title' },
       validation: (r) => r.required(),
     }),
+
+    // ── 8. Social copy (auto-filled by the blog automation) ──
+    defineField({
+      name: 'socialCopy',
+      title: 'Social Media Copy',
+      type: 'object',
+      description: 'Platform-ready copy, written by the automation and emailed to you on publish.',
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        defineField({ name: 'x', title: 'X / Twitter', type: 'text', rows: 4 }),
+        defineField({ name: 'facebook', title: 'Facebook', type: 'text', rows: 6 }),
+        defineField({ name: 'instagram', title: 'Instagram', type: 'text', rows: 6 }),
+        defineField({ name: 'linkedin', title: 'LinkedIn', type: 'text', rows: 8 }),
+      ],
+    }),
   ],
 
   preview: {
