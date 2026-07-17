@@ -913,6 +913,19 @@ button { cursor: pointer; font-family: inherit; border: none; }
   gap: 12px;
 }
 
+.links-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.links-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
 .links-head { text-align: center; margin-bottom: 14px; }
 .links-avatar {
   width: 72px; height: 72px;
@@ -1011,6 +1024,26 @@ button { cursor: pointer; font-family: inherit; border: none; }
   font-size: 12px;
   letter-spacing: 1px;
   color: rgba(255,255,255,0.35);
+}
+
+/* Desktop: featured post beside the link stack */
+@media (min-width: 960px) {
+  .links-page { padding: 64px 40px 80px; }
+  .links-col { max-width: 1000px; }
+  .links-head { margin-bottom: 28px; }
+  .links-head p { font-size: 16px; }
+  .links-body {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .links-latest { position: sticky; top: 88px; }
+  .links-latest-body strong { font-size: 24px; }
+  .links-card { text-align: left; padding: 20px 24px; }
+  .links-card strong { font-size: 16px; }
+  .links-card span { font-size: 13px; }
+  .links-foot { margin-top: 32px; }
 }
 
 /* ══════════════════════════════════════

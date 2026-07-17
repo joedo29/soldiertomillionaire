@@ -55,34 +55,38 @@ export default async function LinksPage() {
           <p>$0 → $781K on an Army salary. Battle buddy, not financial guru.</p>
         </div>
 
-        {latest && (
-          <Link href={`/blog/${latest.slug.current}`} className="links-latest">
-            {latest.mainImage && (
-              <Image
-                src={urlFor(latest.mainImage).width(800).height(420).url()}
-                alt={latest.mainImage.alt ?? latest.title}
-                width={800}
-                height={420}
-              />
-            )}
-            <div className="links-latest-body">
-              <span className="links-latest-tag">New Post</span>
-              <strong>{latest.title}</strong>
-              <em>Read it free →</em>
-            </div>
-          </Link>
-        )}
+        <div className="links-body">
+          {latest && (
+            <Link href={`/blog/${latest.slug.current}`} className="links-latest">
+              {latest.mainImage && (
+                <Image
+                  src={urlFor(latest.mainImage).width(800).height(420).url()}
+                  alt={latest.mainImage.alt ?? latest.title}
+                  width={800}
+                  height={420}
+                />
+              )}
+              <div className="links-latest-body">
+                <span className="links-latest-tag">New Post</span>
+                <strong>{latest.title}</strong>
+                <em>Read it free →</em>
+              </div>
+            </Link>
+          )}
 
-        {links.map(item => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`links-card${item.featured ? ' featured' : ''}`}
-          >
-            <strong>{item.title}</strong>
-            <span>{item.sub}</span>
-          </Link>
-        ))}
+          <div className="links-cards">
+            {links.map(item => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`links-card${item.featured ? ' featured' : ''}`}
+              >
+                <strong>{item.title}</strong>
+                <span>{item.sub}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
 
         <p className="links-foot">soldiertomillionaire.com</p>
       </div>
