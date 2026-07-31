@@ -152,6 +152,9 @@ export default function ResourcesPage() {
           <h2>Need a personal plan?</h2>
           <p>Book a free session and I will help you decide what to focus on first: debt, TSP, Roth IRA, benefits, budget, or your next big money move.</p>
           <Link href="/book" className="btn btn-gold btn-lg">Book a Free Session</Link>
+          <p className="booking-small">
+            Prefer to just ask? <Link href="/contact" style={{ color: 'inherit', textDecoration: 'underline' }}>Send me a message</Link>.
+          </p>
         </div>
       </section>
     </main>
