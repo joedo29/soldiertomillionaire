@@ -11,6 +11,7 @@ const footerLinks = [
   { href: '/books',             label: 'Books' },
   { href: '/tracker',           label: 'Tracker' },
   { href: '/book',              label: 'Book' },
+  { href: '/contact',           label: 'Contact' },
 ]
 
 function LinkedInIcon() {
