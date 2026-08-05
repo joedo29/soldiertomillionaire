@@ -136,7 +136,7 @@ export default async function HomePage() {
         </h1>
         <p className="hero-sub">
           A Vietnamese immigrant. A US soldier. A dad. I went from 3 jobs &amp; zero
-          savings to $750K — and I&apos;ll show you exactly how.
+          savings to $801K — and I&apos;ll show you exactly how.
         </p>
         <div className="hero-cta">
           <Link href="/book"     className="btn btn-gold">Start Your Plan</Link>
@@ -144,7 +144,7 @@ export default async function HomePage() {
         </div>
         <div className="hero-stats" role="list">
           <div className="stat" role="listitem">
-            <div className="stat-num"><CountUp from={100} to={781} prefix="$" suffix="K" /></div>
+            <div className="stat-num"><CountUp from={100} to={801} prefix="$" suffix="K" /></div>
             <div className="stat-label">Net Worth</div>
           </div>
           <div className="stat" role="listitem">
