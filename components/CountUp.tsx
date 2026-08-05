@@ -8,6 +8,8 @@ interface CountUpProps {
   prefix?: string
   suffix?: string
   duration?: number
+  /** When true, formats the number with thousands separators (e.g. 801,196). */
+  commas?: boolean
 }
 
 export default function CountUp({
@@ -16,6 +18,7 @@ export default function CountUp({
   prefix = '',
   suffix = '',
   duration = 1800,
+  commas = false,
 }: CountUpProps) {
   const [value, setValue] = useState(from)
   const ref = useRef<HTMLSpanElement>(null)
@@ -49,7 +52,7 @@ export default function CountUp({
 
   return (
     <span ref={ref}>
-      {prefix}{value}{suffix}
+      {prefix}{commas ? value.toLocaleString('en-US') : value}{suffix}
     </span>
   )
 }

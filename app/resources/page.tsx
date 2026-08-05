@@ -73,6 +73,12 @@ const learn = [
     title: 'Books',
     body: 'The 7 books that shaped the journey.',
   },
+  {
+    href: '/net-worth',
+    icon: icons.chart,
+    title: 'Our Real Net Worth',
+    body: 'Every account, every balance, with screenshots — updated monthly.',
+  },
 ]
 
 export default function ResourcesPage() {
@@ -118,7 +124,7 @@ export default function ResourcesPage() {
 
           {/* ── Learn the system ── */}
           <div className="res-label">Learn the System</div>
-          <div className="res-grid res-grid-3">
+          <div className="res-grid res-grid-4">
             {learn.map(item => (
               <Link key={item.href} href={item.href} className="res-card">
                 <Icon path={item.icon} />

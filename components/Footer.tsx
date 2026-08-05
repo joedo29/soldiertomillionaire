@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 const footerLinks = [
   { href: '/about',             label: 'About' },
+  { href: '/net-worth',         label: 'Net Worth' },
   { href: '/strategy',          label: 'Start Here' },
   { href: '/resources',         label: 'Resources' },
   { href: '/military-wealth-path', label: 'Wealth Path' },

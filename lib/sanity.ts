@@ -36,3 +36,10 @@ export const allTestimonialsQuery = `
     _id, name, branch, challenge, breakthrough, advice, publishedAt, order
   }
 `
+
+export const netWorthQuery = `
+  *[_type == "netWorth"][0] {
+    lastUpdated,
+    assets[] { name, institution, category, balance, note, screenshot }
+  }
+`

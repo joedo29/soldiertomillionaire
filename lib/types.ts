@@ -9,6 +9,20 @@ export interface Testimonial {
   order?: number
 }
 
+export interface NetWorthAsset {
+  name: string
+  institution?: string
+  category: 'real-estate' | 'retirement' | 'investment' | 'cash' | 'kids'
+  balance: number
+  note?: string
+  screenshot?: { asset: { _ref: string }; alt?: string }
+}
+
+export interface NetWorth {
+  lastUpdated: string
+  assets: NetWorthAsset[]
+}
+
 export interface Post {
   _id: string
   title: string
