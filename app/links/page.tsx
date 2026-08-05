@@ -52,7 +52,7 @@ export default async function LinksPage() {
         <div className="links-head">
           <div className="links-avatar">★</div>
           <h1>Soldier<span>2</span>Millionaire</h1>
-          <p>$0 → $781K on an Army salary. Battle buddy, not financial guru.</p>
+          <p>$0 → $801K on an Army salary. Battle buddy, not financial guru.</p>
         </div>
 
         <div className="links-body">
