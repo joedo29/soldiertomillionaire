@@ -11,7 +11,11 @@ const links = [
     label: 'Resources',
     activePaths: ['/resources', '/blog', '/books', '/military-benefits', '/soldiers'],
   },
-  { href: '/tracker',           label: 'Tracker' },
+  {
+    href: '/tools',
+    label: 'Free Tools',
+    activePaths: ['/tools', '/military-wealth-path', '/tracker'],
+  },
   { href: '/book',              label: 'Book a Session', cta: true },
 ]
 

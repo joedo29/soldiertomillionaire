@@ -39,6 +39,13 @@ const icons = {
 
 const freeTools = [
   {
+    href: '/tools',
+    icon: icons.target,
+    title: 'All Free Tools',
+    body: 'Contracting readiness, wealth projection, and net worth tracking — in one place.',
+    action: 'Browse the tools',
+  },
+  {
     href: '/tracker',
     icon: icons.chart,
     title: 'Net Worth Tracker',
@@ -111,7 +118,7 @@ export default function ResourcesPage() {
 
           {/* ── Free tools ── */}
           <div className="res-label">Free Tools</div>
-          <div className="res-grid res-grid-2">
+          <div className="res-grid res-grid-3">
             {freeTools.map(item => (
               <Link key={item.href} href={item.href} className="res-card">
                 <Icon path={item.icon} />
