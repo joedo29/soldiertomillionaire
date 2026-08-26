@@ -365,7 +365,7 @@ export default function AboutPage() {
           willing to show you the path. I have already walked it. Let me show you the way.
         </p>
         <Link href="/book" className="btn btn-gold btn-lg">Book a Free Session</Link>
-        <p className="about-cta-sub">No cost. No pitch. Just a plan built around your military situation.</p>
+        <p className="about-cta-sub">Free, and built around your rank, pay, and orders.</p>
       </section>
 
     </main>

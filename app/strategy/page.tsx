@@ -152,7 +152,7 @@ export default function StrategyPage() {
           I&apos;ll walk you through exactly what to do with your specific pay, benefits, and goals.
         </p>
         <Link href="/book" className="btn btn-gold btn-full btn-lg">Book a Free Session</Link>
-        <p className="booking-small">No cost. No pitch. Just a plan.</p>
+        <p className="booking-small">We pick which of the five steps you start with.</p>
       </section>
     </main>
   )

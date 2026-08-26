@@ -155,7 +155,7 @@ export default async function PostPage(
             <h3>Found this helpful?</h3>
             <p>Book a free 30-minute session with Joe and get a personalized financial plan built around your military situation.</p>
             <Link href="/book" className="btn btn-gold btn-lg">Book a Free Session</Link>
-            <span className="post-cta-note">No cost. No pitch. Just a plan.</span>
+            <span className="post-cta-note">Bring the question this post left you with.</span>
           </div>
 
           {post.tags && post.tags.length > 0 && (

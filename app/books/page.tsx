@@ -157,7 +157,7 @@ export default function BooksPage() {
       {/* ── CTA ── */}
       <section className="booking-section">
         <div className="booking-icon">🗓️</div>
-        <h2 className="booking-title">Want a Personalized Plan,<br />Not Just a Reading List?</h2>
+        <h2 className="booking-title">Want a Plan Built<br />Around Your Numbers?</h2>
         <p className="booking-sub">
           Books give you the knowledge. A session with me puts it into action.
           Book a free 30 minutes and we&apos;ll build your financial roadmap together.
@@ -165,7 +165,7 @@ export default function BooksPage() {
         <Link href="/book" className="btn btn-gold btn-full btn-lg">
           Book a Free Session
         </Link>
-        <p className="booking-small">No cost. No pitch. Just a plan.</p>
+        <p className="booking-small">Bring the book that stuck with you.</p>
       </section>
     </main>
   )

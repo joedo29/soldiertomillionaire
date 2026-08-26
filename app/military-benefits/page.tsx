@@ -175,7 +175,7 @@ export default function MilitaryBenefitsPage() {
         </p>
         <Link href="/book" className="btn btn-gold btn-full btn-lg">Book a Free Session</Link>
         <p className="booking-small">
-          No cost. No pitch. Just answers. Prefer to just ask?{' '}
+          Prefer to just ask?{' '}
           <Link href="/contact" style={{ color: 'inherit', textDecoration: 'underline' }}>Send me a message</Link>.
         </p>
       </section>

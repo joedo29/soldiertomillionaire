@@ -346,7 +346,7 @@ export default async function HomePage() {
         <Link href="/book" className="btn btn-gold btn-full btn-lg">
           Book a Free Session
         </Link>
-        <p className="booking-small">No cost. No pitch. Just a plan.</p>
+        <p className="booking-small">Free, and nothing is for sale.</p>
       </section>
     </main>
   )

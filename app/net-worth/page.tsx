@@ -27,7 +27,7 @@ export default async function NetWorthPage() {
       <div className="page-hero">
         <div className="section-tag gold">Real Numbers</div>
         <h1>Our Actual<br />Net Worth.</h1>
-        <p>Not a projection. Not a round number for a headline. The real accounts, updated every month.</p>
+        <p>Every account I hold, with the screenshots to back it up. Updated every month.</p>
       </div>
 
       <section className="nw-total-section">
@@ -70,7 +70,7 @@ export default async function NetWorthPage() {
           whatever your rank, pay, or starting point.
         </p>
         <Link href="/book" className="btn btn-gold btn-full btn-lg">Book a Free Session</Link>
-        <p className="booking-small">No cost. No pitch. Just a plan.</p>
+        <p className="booking-small">We start from your real numbers, not a template.</p>
       </section>
     </main>
   )
