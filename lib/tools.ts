@@ -16,6 +16,13 @@ export const tools: Tool[] = [
     action: 'Check your readiness',
   },
   {
+    href: '/tools/mortgage-payoff',
+    title: 'Mortgage Payoff Calculator',
+    tagline: 'See what one extra payment a month really buys you — an earlier payoff date and the interest you never pay. Exports to a live Excel workbook.',
+    audience: 'Homeowners',
+    action: 'Run your loan',
+  },
+  {
     href: '/military-wealth-path',
     title: 'Military Wealth Path',
     tagline: 'Enter three numbers, see your projected dates to $100K, $500K and $1M.',

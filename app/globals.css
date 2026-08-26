@@ -1454,6 +1454,317 @@ button { cursor: pointer; font-family: inherit; border: none; }
 }
 
 /* ══════════════════════════════════════
+   MORTGAGE PAYOFF CALCULATOR
+══════════════════════════════════════ */
+.mp-tool { padding: 40px 0 48px; }
+
+.mp-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 26px;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .mp-grid { grid-template-columns: 380px 1fr; gap: 34px; }
+}
+
+.mp-panel {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+.mp-panel h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.mp-field { display: block; margin-bottom: 14px; }
+.mp-field > span {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  color: var(--army);
+  margin-bottom: 6px;
+}
+.mp-field input,
+.mp-field select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background: #fff;
+}
+.mp-field input:focus,
+.mp-field select:focus {
+  outline: none;
+  border-color: var(--army);
+  box-shadow: 0 0 0 3px var(--army-dim);
+}
+.mp-field > small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.mp-field-highlight input {
+  border-color: var(--gold);
+  background: #FFFDF5;
+}
+
+.mp-error {
+  margin-top: 12px;
+  padding: 11px 13px;
+  border-radius: 8px;
+  background: rgba(180,70,47,0.08);
+  border: 1px solid rgba(180,70,47,0.25);
+  color: #B4462F;
+  font-size: 13px;
+  font-weight: 600;
+}
+.mp-note {
+  margin-top: 14px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.mp-results { display: grid; gap: 18px; }
+
+.mp-summary {
+  padding: 26px 22px;
+  border-radius: 14px;
+  background: var(--dark);
+}
+.mp-summary-label {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+.mp-summary-amount {
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(38px, 8vw, 52px);
+  line-height: 1.05;
+  color: #fff;
+  margin: 8px 0 18px;
+}
+
+.mp-breakdown { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.mp-breakdown td {
+  padding: 9px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.75);
+}
+.mp-breakdown td:last-child {
+  text-align: right;
+  font-weight: 700;
+  color: #fff;
+}
+.mp-breakdown tr:last-child td { border-bottom: none; }
+.mp-row-divider td { border-top: 2px solid rgba(255,255,255,0.22); padding-top: 12px; }
+.mp-row-divider td:first-child { font-weight: 700; color: #fff; }
+.mp-row-saved td:first-child { font-weight: 700; color: #fff; }
+.mp-negative { color: #E8927C !important; }
+.mp-positive { color: #9FD68B !important; }
+
+.mp-snapshot {
+  padding: 22px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+.mp-snapshot-label {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--army-light);
+  margin-bottom: 12px;
+}
+.mp-snapshot-table th {
+  text-align: right;
+  padding: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--army);
+  border-bottom: 2px solid var(--border);
+}
+.mp-snapshot-table th:first-child { text-align: left; }
+.mp-snapshot-table td {
+  color: var(--text-light);
+  border-bottom: 1px dashed var(--border);
+  text-align: right;
+  font-size: 13px;
+}
+.mp-snapshot-table td:first-child { text-align: left; color: var(--text); }
+.mp-snapshot-table td:last-child { color: var(--text); }
+.mp-snapshot-table .mp-row-divider td {
+  border-top: 2px solid var(--border);
+  color: var(--text);
+}
+.mp-snapshot-note {
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.mp-empty {
+  padding: 40px 20px;
+  border-radius: 14px;
+  border: 1px dashed var(--border);
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ── Projection ── */
+.mp-viz { padding: 8px 0 56px; }
+.mp-viz-head {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(22px, 4.5vw, 30px);
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.mp-chart {
+  width: 100%;
+  height: 320px;
+  padding: 14px 8px 8px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+@media (min-width: 700px) { .mp-chart { height: 380px; } }
+.mp-chart-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.mp-tooltip {
+  background: var(--dark);
+  border-radius: 9px;
+  padding: 10px 12px;
+  box-shadow: 0 10px 30px rgba(26,31,20,0.25);
+}
+.mp-tooltip-year {
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 7px;
+}
+.mp-tooltip-row { display: flex; align-items: center; gap: 7px; font-size: 12.5px; }
+.mp-tooltip-row + .mp-tooltip-row { margin-top: 4px; }
+.mp-tooltip-dot { width: 9px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+.mp-tooltip-label { color: rgba(255,255,255,0.7); }
+.mp-tooltip-value { margin-left: auto; font-weight: 700; color: #fff; }
+
+.mp-table-wrap {
+  margin-top: 22px;
+  max-height: 380px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.mp-amort { width: 100%; border-collapse: collapse; font-size: 13px; }
+.mp-amort th {
+  position: sticky;
+  top: 0;
+  background: var(--army);
+  color: #fff;
+  padding: 11px 10px;
+  text-align: right;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+.mp-amort th:first-child, .mp-amort td:first-child { text-align: center; }
+.mp-amort td {
+  padding: 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-light);
+}
+.mp-amort tr:nth-child(even) td { background: var(--bg-2); }
+.mp-amort tr:last-child td { border-bottom: none; }
+
+/* ── Excel download ── */
+.mp-excel {
+  margin-top: 26px;
+  padding: 26px 22px;
+  border-radius: 14px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+}
+.mp-excel-copy h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.mp-excel-copy p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-light);
+  margin-bottom: 18px;
+}
+.mp-excel-action .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.mp-excel-gate {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.mp-excel-row {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+@media (min-width: 560px) { .mp-excel-row { flex-direction: row; } }
+.mp-excel-row input {
+  flex: 1;
+  padding: 13px 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  background: #fff;
+  color: var(--text);
+}
+.mp-excel-row input:focus { outline: none; border-color: var(--army); }
+.mp-excel-row button {
+  padding: 13px 24px;
+  border-radius: 8px;
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.mp-excel-row button:hover:not(:disabled) { background: var(--gold-light); }
+.mp-excel-row button:disabled { opacity: 0.55; cursor: not-allowed; }
+.mp-excel-fine { margin-top: 10px; font-size: 12px; color: var(--muted); }
+
+/* ══════════════════════════════════════
    CONTACT
 ══════════════════════════════════════ */
 .contact-section {

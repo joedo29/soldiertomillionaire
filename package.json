@@ -15,11 +15,13 @@
     "@sanity/vision": "^3.72.1",
     "@sanity/webhook": "^4.0.4",
     "@vercel/analytics": "^2.0.1",
+    "exceljs": "^4.4.0",
     "jspdf": "^4.2.1",
     "next": "^15.3.2",
     "next-sanity": "^9.8.18",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "recharts": "^3.10.1",
     "resend": "^6.12.4",
     "sanity": "^3.72.1",
     "styled-components": "^6.4.2"
