@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
 import {
   calculateWealthPath,
   compactCurrency,
@@ -8,6 +9,12 @@ import {
   parseMoneyInput,
   targetDate,
 } from '@/lib/wealthPath'
+
+// Recharts measures its container on mount, so keep it out of the server render.
+const WealthChart = dynamic(() => import('./WealthChart'), {
+  ssr: false,
+  loading: () => <div className="mwp-chart mwp-chart-loading">Loading chart…</div>,
+})
 
 const squarePaymentUrl = process.env.NEXT_PUBLIC_MILITARY_WEALTH_PATH_PAYMENT_URL
   ?? 'https://square.link/u/WOzeV2Hk'
@@ -108,8 +115,6 @@ Built with Soldier to Millionaire`
     }
   }
 
-  const path = result.chartPoints.map((point, i) => `${i === 0 ? 'M' : 'L'} ${point.x} ${point.y}`).join(' ')
-
   return (
     <main>
       <section className="mwp-hero">
@@ -202,15 +207,12 @@ Built with Soldier to Millionaire`
               ))}
             </div>
 
-            <div className="mwp-chart" aria-label="10 year projection chart">
-              <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-                <path d="M 0 100 L 100 100" className="mwp-chart-base" />
-                <path d={path} className="mwp-chart-line" />
-              </svg>
-              <div className="mwp-chart-labels">
-                <span>Today</span>
-                <span>10 years: {currency(result.chartPoints.at(-1)?.value ?? 0)}</span>
-              </div>
+            <WealthChart data={result.chartPoints} />
+            <div className="mwp-chart-labels">
+              <span>Assumes 12% annual return</span>
+              <span>
+                10 years: <strong>{currency(result.chartPoints.at(-1)?.value ?? 0)}</strong>
+              </span>
             </div>
           </div>
         </div>
