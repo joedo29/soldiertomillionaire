@@ -16,6 +16,13 @@ export const tools: Tool[] = [
     action: 'Check your readiness',
   },
   {
+    href: '/tools/military-retirement',
+    title: 'Military Retirement Planner',
+    tagline: 'BRS vs Legacy High-3 with your real numbers — the 20-year cliff, TSP matching, VA disability with the concurrent-receipt rules most calculators get wrong, and state taxes.',
+    audience: 'Service Members & Veterans',
+    action: 'Run your retirement',
+  },
+  {
     href: '/tools/mortgage-payoff',
     title: 'Mortgage Payoff Calculator',
     tagline: 'See what one extra payment a month really buys you — an earlier payoff date and the interest you never pay. Exports to a live Excel workbook.',
