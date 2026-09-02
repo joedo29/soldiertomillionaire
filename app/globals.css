@@ -625,7 +625,13 @@ button { cursor: pointer; font-family: inherit; border: none; }
 .footer-copy { font-size: 10px; color: rgba(255,255,255,0.18); margin-top: 16px; }
 
 /* Footer social */
-.footer-social { margin: 12px 0 0; }
+.footer-social {
+  margin: 14px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
 .footer-social-btn {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 7px 16px; border-radius: 40px;
@@ -635,8 +641,8 @@ button { cursor: pointer; font-family: inherit; border: none; }
   text-decoration: none; transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
 .footer-social-btn:hover {
-  border-color: #0A66C2;
-  background: rgba(10,102,194,0.12);
+  border-color: var(--gold);
+  background: var(--gold-dim);
   color: #fff;
 }
 
