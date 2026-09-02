@@ -239,7 +239,7 @@ export default function Planner() {
               <input
                 type="range"
                 min={0}
-                max={60}
+                max={90}
                 step={1}
                 value={form.tspContributionPercent}
                 onChange={(e) => set('tspContributionPercent', e.target.value)}
