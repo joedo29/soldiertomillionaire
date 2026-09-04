@@ -16,6 +16,13 @@ export const tools: Tool[] = [
     action: 'Check your readiness',
   },
   {
+    href: '/tools/va-disability-rating',
+    title: 'VA Combined Rating Calculator',
+    tagline: 'Two 50% ratings do not make 100%. Runs the real Combined Ratings Table with the bilateral factor, shows every step, and gives your monthly compensation.',
+    audience: 'Veterans & Service Members',
+    action: 'Combine your ratings',
+  },
+  {
     href: '/tools/military-retirement',
     title: 'Military Retirement Planner',
     tagline: 'BRS vs Legacy High-3 with your real numbers — the 20-year cliff, TSP matching, VA disability with the concurrent-receipt rules most calculators get wrong, and state taxes.',

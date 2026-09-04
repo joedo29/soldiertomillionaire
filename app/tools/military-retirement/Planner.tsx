@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import InfoTip from './InfoTip'
+import InfoTip from '@/components/InfoTip'
 import {
   PAY_GRADES,
   calculateRetirement,
@@ -294,6 +294,14 @@ export default function Planner() {
                 {RATE_YEAR} rates, effective {RATE_EFFECTIVE_DATE}
               </span>
             </div>
+
+            <p className="mr-hint" style={{ marginBottom: 10 }}>
+              Not sure of your combined rating?{' '}
+              <Link href="/tools/va-disability-rating" style={{ color: 'var(--army-light)', fontWeight: 600, textDecoration: 'underline' }}>
+                Combine your ratings first
+              </Link>
+              .
+            </p>
 
             <label className="mr-field">
               <span>Disability Rating</span>
