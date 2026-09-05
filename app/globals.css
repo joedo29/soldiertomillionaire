@@ -1100,6 +1100,47 @@ button { cursor: pointer; font-family: inherit; border: none; }
   transform: translateY(-2px);
   box-shadow: 0 18px 42px rgba(26,31,20,0.08);
 }
+/* Icon tile. The icon inherits `color`, and its single gold accent is driven
+   by .ti-accent, so both respond to the card hover from one place. */
+.tool-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  color: var(--army);
+  margin-bottom: 14px;
+  /* Drives the hole colour of .ti-node so waypoints stay legible on hover. */
+  --ti-bg: var(--bg-2);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.tool-icon { display: block; }
+/* Stroked accents: curves and lines. */
+.ti-accent { stroke: var(--gold); }
+/* Solid accents: pennant, star, goal marker. A 1.7 stroke fills small shapes
+   into blobs, so these are drawn as true filled shapes instead. */
+.ti-accent-solid { fill: var(--gold); stroke: var(--gold); }
+/* Waypoint rings. The hole is filled with the tile background so the path
+   reads as passing behind the marker instead of merging into it. */
+.ti-node { fill: var(--ti-bg); stroke: currentColor; }
+
+.tool-card:hover .tool-card-icon {
+  background: var(--army);
+  border-color: var(--army);
+  color: #fff;
+  --ti-bg: var(--army);
+}
+.tool-card:hover .ti-accent { stroke: var(--gold-light); }
+.tool-card:hover .ti-accent-solid { fill: var(--gold-light); stroke: var(--gold-light); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-card, .tool-card-icon { transition: none; }
+}
+
 .tool-card-tag {
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
   font-size: 10px;

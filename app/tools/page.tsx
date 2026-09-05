@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { tools } from '@/lib/tools'
+import ToolIcon from '@/components/ToolIcons'
 
 export const metadata: Metadata = {
   title: 'Free Tools for Veterans & Military Entrepreneurs — Soldier to Millionaire',
@@ -33,6 +34,9 @@ export default function ToolsPage() {
           <div className="tools-grid">
             {tools.map((tool) => (
               <Link key={tool.href} href={tool.href} className="tool-card">
+                <span className="tool-card-icon">
+                  <ToolIcon name={tool.icon} />
+                </span>
                 <span className="tool-card-tag">{tool.audience}</span>
                 <h2>{tool.title}</h2>
                 <p>{tool.tagline}</p>
