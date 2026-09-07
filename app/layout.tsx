@@ -36,7 +36,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/og-image.jpg'],
+    // No `images` here on purpose. Hardcoding one overrides every route's
+    // generated opengraph-image on Twitter/X, so posts and tools would share
+    // the same generic card. Routes without a generated image still fall back
+    // to the openGraph image above.
   },
   robots: { index: true, follow: true },
 }
