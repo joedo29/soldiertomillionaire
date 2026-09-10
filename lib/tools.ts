@@ -23,6 +23,14 @@ export const tools: Tool[] = [
     icon: 'contracting',
   },
   {
+    href: '/tools/army-promotion-points',
+    title: 'Army Promotion Point Calculator',
+    tagline: 'SGT and SSG semi-centralized points, built from AR 600-8-19 (effective 6 April 2026) — real category caps, the current AFT table, and a printable S-1 review sheet.',
+    audience: 'Soldiers E-4 to E-6',
+    action: 'Total your points',
+    icon: 'chevron',
+  },
+  {
     href: '/tools/va-disability-rating',
     title: 'VA Combined Rating Calculator',
     tagline: 'Two 50% ratings do not make 100%. Runs the real Combined Ratings Table with the bilateral factor, shows every step, and gives your monthly compensation.',

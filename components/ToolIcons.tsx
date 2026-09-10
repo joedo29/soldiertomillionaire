@@ -45,6 +45,7 @@ export type ToolIconName =
   | 'mortgage'
   | 'wealthPath'
   | 'ledger'
+  | 'chevron'
 
 const ICONS: Record<ToolIconName, (t?: IconTone) => React.ReactNode> = {
   // Clipboard of completed checks with a qualification star — readiness review.
@@ -95,6 +96,15 @@ const ICONS: Record<ToolIconName, (t?: IconTone) => React.ReactNode> = {
       <circle {...node(t)} cx="9.9" cy="17.2" r="1.75" />
       <circle {...node(t)} cx="14.8" cy="12.7" r="1.9" />
       <circle {...accentSolid(t)} cx="18.8" cy="5.8" r="2.1" />
+    </g>
+  ),
+
+  // NCO chevron rising over a points bar — promotion points to the next rank.
+  chevron: (t) => (
+    <g>
+      <path d="m4.6 13.4 7.4-6.2 7.4 6.2" />
+      <path d="m4.6 18.1 7.4-6.2 7.4 6.2" />
+      <path {...accentSolid(t)} d="M12 2.6 15.1 5 12 7.4 8.9 5z" />
     </g>
   ),
 
