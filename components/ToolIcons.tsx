@@ -46,6 +46,7 @@ export type ToolIconName =
   | 'wealthPath'
   | 'ledger'
   | 'chevron'
+  | 'leaveSplit'
 
 const ICONS: Record<ToolIconName, (t?: IconTone) => React.ReactNode> = {
   // Clipboard of completed checks with a qualification star — readiness review.
@@ -105,6 +106,17 @@ const ICONS: Record<ToolIconName, (t?: IconTone) => React.ReactNode> = {
       <path d="m4.6 13.4 7.4-6.2 7.4 6.2" />
       <path d="m4.6 18.1 7.4-6.2 7.4 6.2" />
       <path {...accentSolid(t)} d="M12 2.6 15.1 5 12 7.4 8.9 5z" />
+    </g>
+  ),
+
+  // A calendar with a gold coin beside it — days taken versus days cashed out.
+  leaveSplit: (t) => (
+    <g>
+      <path d="M5.2 5.6h10.6a1.6 1.6 0 0 1 1.6 1.6v5.3M3.6 7.2a1.6 1.6 0 0 1 1.6-1.6M3.6 7.2v11.6a1.6 1.6 0 0 0 1.6 1.6h6.6" />
+      <path d="M3.6 10.2h13.8" />
+      <path d="M7.4 3.6v3.6M13.6 3.6v3.6" />
+      <circle {...accent(t)} cx="17.2" cy="17.2" r="3.6" />
+      <path {...accent(t)} d="M17.2 15.6v3.2" />
     </g>
   ),
 

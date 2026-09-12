@@ -23,6 +23,14 @@ export const tools: Tool[] = [
     icon: 'contracting',
   },
   {
+    href: '/tools/terminal-leave',
+    title: 'Terminal Leave vs. Sell-Back Calculator',
+    tagline: 'The honest comparison: your pay through separation is the same either way. See what selling actually adds versus working a civilian job on leave — with the 60-day career cap built in.',
+    audience: 'Separating Service Members',
+    action: 'Compare your options',
+    icon: 'leaveSplit',
+  },
+  {
     href: '/tools/army-promotion-points',
     title: 'Army Promotion Point Calculator',
     tagline: 'SGT and SSG semi-centralized points, built from AR 600-8-19 (effective 6 April 2026) — real category caps, the current AFT table, and a printable S-1 review sheet.',
