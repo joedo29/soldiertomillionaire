@@ -3,7 +3,7 @@ import Link from 'next/link'
 import EmailCapture from '@/components/EmailCapture'
 
 export const metadata: Metadata = {
-  title: 'Resources — Soldier to Millionaire',
+  title: 'Resources',
   description:
     'Practical Soldier to Millionaire resources for military personal finance, investing, military benefits, books, and real soldier results.',
   keywords: ['military finance resources', 'soldier financial freedom', 'TSP investing', 'military benefits', 'finance books for soldiers'],

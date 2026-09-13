@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'About Mockup — Soldier to Millionaire',
+  title: 'About Mockup',
   description:
     'Mockup proposal for the Soldier to Millionaire About page combining Joe Do’s story, credibility, mission, and call to action.',
   robots: { index: false, follow: false },

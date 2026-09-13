@@ -7,7 +7,7 @@ import type { Post } from '@/lib/types'
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'Links — Soldier to Millionaire',
+  title: 'Links',
   description: 'The latest post and everything Soldier to Millionaire in one tap.',
   robots: { index: false, follow: true },
 }

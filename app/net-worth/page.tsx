@@ -8,7 +8,7 @@ import NetWorthGrid from './NetWorthGrid'
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'Our Real Net Worth — Soldier to Millionaire',
+  title: 'Our Real Net Worth',
   description:
     'The real numbers behind Soldier to Millionaire, updated monthly with account screenshots — every dollar, verified, no projections.',
   keywords: ['military net worth', 'real net worth proof', 'financial transparency', 'soldier to millionaire net worth'],

@@ -4,7 +4,7 @@ import { tools } from '@/lib/tools'
 import ToolIcon from '@/components/ToolIcons'
 
 export const metadata: Metadata = {
-  title: 'Free Tools for Veterans & Military Entrepreneurs — Soldier to Millionaire',
+  title: 'Free Tools for Veterans & Military Entrepreneurs',
   description:
     'Free, no-signup tools for veterans and service members — federal contracting readiness, wealth projection, and net worth tracking. Built by an active-duty soldier.',
   keywords: [

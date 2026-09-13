@@ -3,7 +3,7 @@ import ContactForm from './ContactForm'
 import { socials } from '@/lib/socials'
 
 export const metadata: Metadata = {
-  title: 'Contact — Soldier to Millionaire',
+  title: 'Contact',
   description:
     'Get in touch with Joe Do — ask a question, share a blog post idea, or just say hello. A battle buddy who answers his own messages.',
   keywords: ['contact soldier to millionaire', 'military finance questions', 'ask Joe Do'],

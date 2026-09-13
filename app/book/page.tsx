@@ -5,7 +5,7 @@ import type { Testimonial } from '@/lib/types'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Book a Free Session — Soldier to Millionaire',
+  title: 'Book a Free Session',
   description:
     'Book a free 30-minute financial strategy session with Joe Do — a US Army soldier who built $750K net worth. Get a personalized military financial freedom plan.',
   keywords: ['military financial coaching', 'free financial planning soldiers', 'army financial advisor', 'military wealth coaching'],
