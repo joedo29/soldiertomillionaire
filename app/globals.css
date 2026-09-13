@@ -2570,6 +2570,8 @@ a.tip-source:hover { color: var(--gold-light); }
   margin-bottom: 5px;
 }
 .tool-crosslink-body { display: block; font-size: 12.5px; line-height: 1.6; color: rgba(255,255,255,0.65); }
+.vr-crosslink-more { margin-top: 0; font-size: 12.5px; line-height: 1.6; color: var(--text-light); }
+.vr-crosslink-more a { color: var(--army-light); font-weight: 600; text-decoration: underline; }
 
 /* ── Disclaimer ── */
 .vr-disclaimer-section { padding: 8px 0 48px; }
@@ -3012,6 +3014,7 @@ a.tip-source:hover { color: var(--gold-light); }
 .tl-rule h3 { font-size: 14.5px; color: var(--text); margin-bottom: 6px; line-height: 1.35; }
 .tl-rule p { font-size: 13px; line-height: 1.6; color: var(--text-light); margin-bottom: 8px; }
 .tl-rule a { font-size: 12px; font-weight: 700; color: var(--army-light); }
+.tl-rule-links { display: flex; flex-wrap: wrap; gap: 6px 16px; }
 .tl-rule a:hover { text-decoration: underline; }
 
 .tl-print-cta { margin-top: 26px; padding: 22px; border-radius: 12px; background: #fff; border: 1px solid var(--border); }

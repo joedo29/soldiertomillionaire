@@ -16,6 +16,7 @@
  *   37 U.S.C. § 501, "Payments for unused accrued leave".
  *   10 U.S.C. § 701, leave accrual and accumulation.
  *   5 U.S.C. § 5534a, dual employment and pay during terminal leave.
+ *   38 U.S.C. §§ 5304(c) and 5110(b)(1), when VA compensation can start.
  *   IRS Publication 15 (2026), supplemental wage withholding.
  *   DoD 5500.07-R, Joint Ethics Regulation, 15 May 2024.
  *
@@ -69,6 +70,16 @@ export const SOURCES: Record<string, Citation> = {
     label: 'Supplemental wage withholding rate',
     cite: 'IRS Publication 15 (2026)',
     url: 'https://www.irs.gov/publications/p15',
+  },
+  usc38_5304: {
+    label: 'No VA compensation while receiving active service pay',
+    cite: '38 U.S.C. § 5304(c)',
+    url: 'https://www.law.cornell.edu/uscode/text/38/5304',
+  },
+  usc38_5110: {
+    label: 'Effective date of VA disability compensation',
+    cite: '38 U.S.C. § 5110(b)(1)',
+    url: 'https://www.law.cornell.edu/uscode/text/38/5110',
   },
   jer: {
     label: 'Outside employment approval and post-government restrictions',
@@ -193,6 +204,8 @@ export interface RuleNote {
   title: string
   body: string
   source: keyof typeof SOURCES
+  /** Optional link to a related tool on this site. */
+  related?: { href: string; label: string }
 }
 
 export const RULE_NOTES: RuleNote[] = [
@@ -225,6 +238,13 @@ export const RULE_NOTES: RuleNote[] = [
     body:
       'You accrue 2.5 days per month of active service, and terminal leave is active service — roughly 5 extra days over a 60-day terminal leave. Plan your leave start date around it. It accrues under both options, so it changes how long terminal leave lasts rather than which option pays more.',
     source: 'usc10_701',
+  },
+  {
+    title: 'VA disability pay does not start during terminal leave',
+    body:
+      'Compensation "shall not be paid to such person for any period for which such person receives active service pay", and terminal leave is paid active duty. If the VA receives your claim within one year of discharge, the effective date is the day after your separation date (38 U.S.C. § 5110(b)(1)). Selling leave does not change that date, since you separate on the same day either way.',
+    source: 'usc38_5304',
+    related: { href: '/tools/va-disability-rating', label: 'Estimate your combined VA rating' },
   },
   {
     title: 'Use it or lose it',

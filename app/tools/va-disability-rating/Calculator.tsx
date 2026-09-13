@@ -506,6 +506,11 @@ export default function Calculator() {
                 your combined retirement cash flow. →
               </span>
             </Link>
+            <p className="vr-crosslink-more">
+              Separating soon? VA compensation cannot be paid for any period you receive active
+              duty pay, and that includes terminal leave.{' '}
+              <Link href="/tools/terminal-leave">Compare terminal leave with selling it back</Link>.
+            </p>
           </div>
         </div>
       </section>

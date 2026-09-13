@@ -602,9 +602,12 @@ export default function Calculator() {
               <div className="tl-rule" key={n.title}>
                 <h3>{n.title}</h3>
                 <p>{n.body}</p>
-                <a href={SOURCES[n.source].url} target="_blank" rel="noopener noreferrer">
-                  {SOURCES[n.source].cite} ↗
-                </a>
+                <div className="tl-rule-links">
+                  <a href={SOURCES[n.source].url} target="_blank" rel="noopener noreferrer">
+                    {SOURCES[n.source].cite} ↗
+                  </a>
+                  {n.related && <Link href={n.related.href}>{n.related.label} →</Link>}
+                </div>
               </div>
             ))}
           </div>
