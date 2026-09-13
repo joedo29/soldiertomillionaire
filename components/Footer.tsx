@@ -49,7 +49,8 @@ export default function Footer() {
       </div>
 
       <div className="footer-copy">
-        © {new Date().getFullYear()} Soldier2Millionaire · soldiertomillionaire.com
+        © {new Date().getFullYear()} Soldier2Millionaire · soldiertomillionaire.com ·{' '}
+        <Link href="/privacy">Privacy</Link>
       </div>
     </footer>
   )

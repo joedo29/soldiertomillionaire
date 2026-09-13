@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { listUnsubscribeHeaders, unsubscribePageUrl } from '@/lib/unsubscribe'
 
-const WELCOME_HTML = `
+const welcomeHtml = (unsubscribeUrl: string) => `
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,7 +98,8 @@ const WELCOME_HTML = `
         <p style="margin:0;font-size:12px;color:#9A9A8A;line-height:1.6;">
           You're receiving this because you signed up at
           <a href="https://soldiertomillionaire.com" style="color:#2D4A1E;">soldiertomillionaire.com</a>.<br/>
-          I am not a licensed financial advisor. This guide is educational, based on personal experience.
+          I am not a licensed financial advisor. This guide is educational, based on personal experience.<br/>
+          <a href="${unsubscribeUrl}" style="color:#9A9A8A;">Unsubscribe</a>
         </p>
       </td>
     </tr>
@@ -172,7 +174,8 @@ export async function POST(req: NextRequest) {
     to: email,
     replyTo: replyTo,
     subject: 'Your Free 5-Step Military Financial Freedom Plan',
-    html: WELCOME_HTML,
+    html: welcomeHtml(unsubscribePageUrl(email)),
+    headers: listUnsubscribeHeaders(email),
   })
 
   if (error) {

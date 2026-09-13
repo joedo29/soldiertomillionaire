@@ -20,6 +20,7 @@ const staticRoutes = [
   '/tracker',
   '/book',
   '/contact',
+  '/privacy',
 ]
 
 const sitemapPostsQuery = `*[_type == "post" && defined(slug.current)]{ "slug": slug.current, publishedAt }`
