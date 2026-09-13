@@ -795,6 +795,13 @@ export default function Calculator() {
                     High-3 in the Military Retirement Planner to see the difference. →
                   </span>
                 </Link>
+                <p className="pp-lede pp-crosslink-more">
+                  Getting out at the end of this enlistment instead?{' '}
+                  <Link href="/tools/terminal-leave">
+                    Compare terminal leave with selling your leave back
+                  </Link>
+                  .
+                </p>
               </div>
             )}
           </div>

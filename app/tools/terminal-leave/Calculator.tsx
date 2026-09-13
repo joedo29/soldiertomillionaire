@@ -207,7 +207,14 @@ export default function Calculator() {
                 placeholder="e.g. 4500"
                 onChange={(e) => set('monthlyBasePay', num(e.target.value))}
               />
-              <small>Daily rate: {money(r.dailyBasePay)}</small>
+              <small>
+                Daily rate: {money(r.dailyBasePay)}. Sold leave is paid at the basic pay rate on
+                your discharge date, so a promotion before then raises it.{' '}
+                <Link href="/tools/army-promotion-points" className="tl-inline-link">
+                  Estimate your promotion points
+                </Link>
+                .
+              </small>
             </label>
 
             <div className="tl-field-row">

@@ -2707,6 +2707,7 @@ a.tip-source:hover { color: var(--gold-light); }
 .pp-lede a { color: var(--army-light); font-weight: 600; text-decoration: underline; }
 .pp-divider { height: 1px; background: var(--border); margin: 22px 0; }
 .pp-crosslink { margin-top: 24px; }
+.pp-crosslink-more { margin: 12px 0 0; }
 
 /* Fields */
 .pp-field { display: block; margin-bottom: 14px; }
@@ -2911,6 +2912,7 @@ a.tip-source:hover { color: var(--gold-light); }
 .tl-field input:disabled { opacity: 0.5; }
 .tl-field input[type="range"] { width: 100%; accent-color: var(--army); }
 .tl-field > small, .tl-hint { display: block; margin-top: 5px; font-size: 11.5px; line-height: 1.5; color: var(--muted); }
+.tl-inline-link { color: var(--army-light); font-weight: 600; text-decoration: underline; }
 .tl-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 .tl-check {
