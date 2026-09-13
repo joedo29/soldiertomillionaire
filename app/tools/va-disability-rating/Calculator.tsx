@@ -498,10 +498,10 @@ export default function Calculator() {
             </div>
 
             {/* Cross-link */}
-            <Link href="/tools/military-retirement" className="vr-crosslink">
-              <span className="vr-crosslink-tag">Next step</span>
+            <Link href="/tools/military-retirement" className="tool-crosslink">
+              <span className="tool-crosslink-tag">Next step</span>
               <strong>See what this rating means for your retirement income</strong>
-              <span className="vr-crosslink-body">
+              <span className="tool-crosslink-body">
                 The Military Retirement Planner uses your rating to model CRDP, the VA waiver, and
                 your combined retirement cash flow. →
               </span>

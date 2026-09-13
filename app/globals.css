@@ -2544,15 +2544,15 @@ a.tip-source:hover { color: var(--gold-light); }
 .vr-excel-fine { margin-top: 9px; font-size: 11.5px; color: var(--muted); }
 
 /* ── Cross-link ── */
-.vr-crosslink {
+.tool-crosslink {
   display: block;
   padding: 18px 20px;
   border-radius: 12px;
   background: var(--dark);
   transition: transform 0.15s, box-shadow 0.15s;
 }
-.vr-crosslink:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(26,31,20,0.18); }
-.vr-crosslink-tag {
+.tool-crosslink:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(26,31,20,0.18); }
+.tool-crosslink-tag {
   display: block;
   font-size: 9.5px;
   letter-spacing: 2px;
@@ -2561,7 +2561,7 @@ a.tip-source:hover { color: var(--gold-light); }
   color: var(--gold-light);
   margin-bottom: 6px;
 }
-.vr-crosslink strong {
+.tool-crosslink strong {
   display: block;
   font-family: 'DM Serif Display', serif;
   font-size: 18px;
@@ -2569,7 +2569,7 @@ a.tip-source:hover { color: var(--gold-light); }
   color: #fff;
   margin-bottom: 5px;
 }
-.vr-crosslink-body { display: block; font-size: 12.5px; line-height: 1.6; color: rgba(255,255,255,0.65); }
+.tool-crosslink-body { display: block; font-size: 12.5px; line-height: 1.6; color: rgba(255,255,255,0.65); }
 
 /* ── Disclaimer ── */
 .vr-disclaimer-section { padding: 8px 0 48px; }

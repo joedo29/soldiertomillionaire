@@ -540,6 +540,15 @@ export default function Calculator() {
                 options, so it does not change which one pays more.
               </p>
             </div>
+
+            <Link href="/tools/military-retirement" className="tool-crosslink">
+              <span className="tool-crosslink-tag">Before you separate</span>
+              <strong>Compare it with staying in</strong>
+              <span className="tool-crosslink-body">
+                The Military Retirement Planner shows your pension, TSP and VA pay at 20 years or
+                more, and what you give up if you leave before you are vested. →
+              </span>
+            </Link>
           </div>
         </div>
       </section>

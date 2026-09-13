@@ -743,6 +743,16 @@ export default function Planner() {
                 <p>Fix the highlighted input to see your comparison.</p>
               </div>
             )}
+
+            <Link href="/tools/terminal-leave" className="tool-crosslink no-print">
+              <span className="tool-crosslink-tag">Getting close to your separation date</span>
+              <strong>Take terminal leave or sell it back?</strong>
+              <span className="tool-crosslink-body">
+                Retiring or separating, you decide what to do with your leave balance. The
+                Terminal Leave Calculator compares both options on the same days, after tax, and
+                applies the 60-day career limit on selling leave. →
+              </span>
+            </Link>
           </div>
         </div>
       </section>
