@@ -200,6 +200,14 @@ export default function Planner() {
               </select>
             </label>
 
+            <p className="mr-hint" style={{ marginBottom: 10 }}>
+              Up for SGT or SSG?{' '}
+              <Link href="/tools/army-promotion-points" style={{ color: 'var(--army-light)', fontWeight: 600, textDecoration: 'underline' }}>
+                Estimate your promotion points
+              </Link>
+              .
+            </p>
+
             <label className="mr-field">
               <span>
                 Years of Service: <strong>{inputs.yearsOfService}</strong>

@@ -785,6 +785,16 @@ export default function Calculator() {
                     Print my review sheet
                   </button>
                 )}
+
+                <Link href="/tools/military-retirement" className="tool-crosslink pp-crosslink">
+                  <span className="tool-crosslink-tag">The long view</span>
+                  <strong>What each promotion is worth at retirement</strong>
+                  <span className="tool-crosslink-body">
+                    Your pension is based on your highest 36 months of basic pay, so the rank you
+                    reach now shows up in every retirement check. Try a different pay grade and
+                    High-3 in the Military Retirement Planner to see the difference. →
+                  </span>
+                </Link>
               </div>
             )}
           </div>

@@ -2706,6 +2706,7 @@ a.tip-source:hover { color: var(--gold-light); }
 .pp-lede { font-size: 13.5px; line-height: 1.65; color: var(--text-light); margin-bottom: 14px; }
 .pp-lede a { color: var(--army-light); font-weight: 600; text-decoration: underline; }
 .pp-divider { height: 1px; background: var(--border); margin: 22px 0; }
+.pp-crosslink { margin-top: 24px; }
 
 /* Fields */
 .pp-field { display: block; margin-bottom: 14px; }
