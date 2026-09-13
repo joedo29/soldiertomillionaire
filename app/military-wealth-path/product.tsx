@@ -9,6 +9,9 @@ import {
   currency,
   parseMoneyInput,
   targetDate,
+  wealthPathAnnualReturn,
+  WEALTH_PATH_RETURN_MAX_PCT,
+  WEALTH_PATH_RETURN_MIN_PCT,
 } from '@/lib/wealthPath'
 
 // Recharts measures its container on mount, so keep it out of the server render.
@@ -25,16 +28,23 @@ export default function MilitaryWealthPath() {
   const [currentNetWorthInput, setCurrentNetWorthInput] = useState('25000')
   const [monthlyInvestmentInput, setMonthlyInvestmentInput] = useState('1000')
   const [monthlyIncomeInput, setMonthlyIncomeInput] = useState('4000')
+  const [returnInput, setReturnInput] = useState(String(wealthPathAnnualReturn * 100))
   const [copied, setCopied] = useState(false)
   const shareCanvasRef = useRef<HTMLCanvasElement>(null)
 
   const currentNetWorth = parseMoneyInput(currentNetWorthInput)
   const monthlyInvestment = Math.max(0, parseMoneyInput(monthlyInvestmentInput))
   const monthlyIncome = Math.max(0, parseMoneyInput(monthlyIncomeInput))
+  // An empty field falls back to the default rather than silently projecting 0%.
+  const annualReturnPercent = returnInput.trim() === ''
+    ? wealthPathAnnualReturn * 100
+    : Math.min(WEALTH_PATH_RETURN_MAX_PCT, Math.max(WEALTH_PATH_RETURN_MIN_PCT, parseMoneyInput(returnInput)))
+  const returnOutOfRange = returnInput.trim() !== '' && parseMoneyInput(returnInput) !== annualReturnPercent
+  const returnLabel = `${Number(annualReturnPercent.toFixed(2))}%`
 
   const result = useMemo(
-    () => calculateWealthPath({ currentNetWorth, monthlyInvestment, monthlyIncome }),
-    [currentNetWorth, monthlyInvestment, monthlyIncome],
+    () => calculateWealthPath({ currentNetWorth, monthlyInvestment, monthlyIncome, annualReturnPercent }),
+    [currentNetWorth, monthlyInvestment, monthlyIncome, annualReturnPercent],
   )
 
   function drawShareImage() {
@@ -59,6 +69,9 @@ export default function MilitaryWealthPath() {
     ctx.font = '700 34px Arial'
     ctx.fillText(`Current net worth: ${currency(currentNetWorth)}`, 72, 166)
     ctx.fillText(`Monthly investing: ${currency(monthlyInvestment)}`, 72, 214)
+    ctx.fillStyle = 'rgba(255,255,255,0.62)'
+    ctx.font = '26px Arial'
+    ctx.fillText(`Assumes ${returnLabel} annual return`, 72, 256)
 
     ctx.fillStyle = '#FFFFFF'
     ctx.font = '700 44px Arial'
@@ -91,6 +104,7 @@ export default function MilitaryWealthPath() {
     const text = `My Military Wealth Path:
 Current net worth: ${currency(currentNetWorth)}
 Monthly investing: ${currency(monthlyInvestment)}
+Assumed annual return: ${returnLabel}
 $100K: ${result.milestoneRows[0].date}
 $500K: ${result.milestoneRows[1].date}
 $1M: ${result.milestoneRows[2].date}
@@ -108,6 +122,7 @@ Built with Soldier to Millionaire`
         currentNetWorth,
         monthlyInvestment,
         monthlyIncome,
+        annualReturnPercent,
         createdAt: new Date().toISOString(),
       }
       window.localStorage.setItem(reportStorageKey, JSON.stringify(payload))
@@ -179,8 +194,27 @@ Built with Soldier to Millionaire`
               />
             </label>
 
+            <label className="mwp-field">
+              <span>Annual return (%)</span>
+              <input
+                type="number"
+                value={returnInput}
+                onChange={(event) => setReturnInput(event.target.value)}
+                inputMode="decimal"
+                min={WEALTH_PATH_RETURN_MIN_PCT}
+                max={WEALTH_PATH_RETURN_MAX_PCT}
+                step="0.5"
+              />
+            </label>
+            {returnOutOfRange && (
+              <p className="mwp-note mwp-note-warn">
+                Using {returnLabel}. Enter a rate from {WEALTH_PATH_RETURN_MIN_PCT}% to {WEALTH_PATH_RETURN_MAX_PCT}%.
+              </p>
+            )}
+
             <p className="mwp-note">
-              Projection assumes a 12% annual return, compounded yearly. This is educational, not financial advice.
+              Projection assumes a {returnLabel} annual return, compounded yearly, before inflation.
+              Returns are not guaranteed. This is educational, not financial advice.
             </p>
           </div>
 
@@ -210,7 +244,7 @@ Built with Soldier to Millionaire`
 
             <WealthChart data={result.chartPoints} />
             <div className="mwp-chart-labels">
-              <span>Assumes 12% annual return</span>
+              <span>Assumes {returnLabel} annual return</span>
               <span>
                 10 years: <strong>{currency(result.chartPoints.at(-1)?.value ?? 0)}</strong>
               </span>

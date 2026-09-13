@@ -1,10 +1,21 @@
 export const wealthPathMilestones = [100000, 500000, 1000000]
+/** Default annual return, as a decimal. Users can override it. */
 export const wealthPathAnnualReturn = 0.12
+export const WEALTH_PATH_RETURN_MIN_PCT = 0
+export const WEALTH_PATH_RETURN_MAX_PCT = 20
+
+/** Clamp a user-entered percent into the supported range and convert to a decimal. */
+export function returnRateFromPercent(percent: number | undefined) {
+  if (percent === undefined || !Number.isFinite(percent)) return wealthPathAnnualReturn
+  return Math.min(WEALTH_PATH_RETURN_MAX_PCT, Math.max(WEALTH_PATH_RETURN_MIN_PCT, percent)) / 100
+}
 
 export type WealthPathInputs = {
   currentNetWorth: number
   monthlyInvestment: number
   monthlyIncome: number
+  /** Annual return in percent. Omitted means the 12% default. */
+  annualReturnPercent?: number
 }
 
 export type WealthPathMilestone = {
@@ -46,7 +57,12 @@ export function targetDate(months: number | null) {
   return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
 }
 
-export function monthsToTarget(current: number, monthlyInvestment: number, target: number) {
+export function monthsToTarget(
+  current: number,
+  monthlyInvestment: number,
+  target: number,
+  annualReturn = wealthPathAnnualReturn,
+) {
   if (current >= target) return 0
   if (monthlyInvestment <= 0 && current <= 0) return null
 
@@ -54,7 +70,7 @@ export function monthsToTarget(current: number, monthlyInvestment: number, targe
   for (let month = 1; month <= 12 * 80; month += 1) {
     balance += monthlyInvestment
     if (month % 12 === 0) {
-      balance *= 1 + wealthPathAnnualReturn
+      balance *= 1 + annualReturn
     }
     if (balance >= target) return month
   }
@@ -62,12 +78,17 @@ export function monthsToTarget(current: number, monthlyInvestment: number, targe
   return null
 }
 
-export function futureValue(current: number, monthlyInvestment: number, months: number) {
+export function futureValue(
+  current: number,
+  monthlyInvestment: number,
+  months: number,
+  annualReturn = wealthPathAnnualReturn,
+) {
   let balance = current
   for (let month = 0; month < months; month += 1) {
     balance += monthlyInvestment
     if ((month + 1) % 12 === 0) {
-      balance *= 1 + wealthPathAnnualReturn
+      balance *= 1 + annualReturn
     }
   }
   return balance
@@ -117,8 +138,9 @@ export function recommendations(input: {
 }
 
 export function calculateWealthPath(inputs: WealthPathInputs) {
+  const annualReturn = returnRateFromPercent(inputs.annualReturnPercent)
   const milestoneRows = wealthPathMilestones.map((target) => {
-    const months = monthsToTarget(inputs.currentNetWorth, inputs.monthlyInvestment, target)
+    const months = monthsToTarget(inputs.currentNetWorth, inputs.monthlyInvestment, target, annualReturn)
     return { target, months, label: monthLabel(months), date: targetDate(months) }
   })
 
@@ -131,20 +153,24 @@ export function calculateWealthPath(inputs: WealthPathInputs) {
     savingsRate,
     firstMilestoneMonths: milestoneRows[0].months,
   })
-  const chartPoints = buildChartPoints(inputs.currentNetWorth, inputs.monthlyInvestment)
+  const chartPoints = buildChartPoints(inputs.currentNetWorth, inputs.monthlyInvestment, annualReturn)
   const fiveYearRows = Array.from({ length: 5 }, (_, index) => {
     const year = index + 1
     return {
       year,
-      value: futureValue(inputs.currentNetWorth, inputs.monthlyInvestment, year * 12),
+      value: futureValue(inputs.currentNetWorth, inputs.monthlyInvestment, year * 12, annualReturn),
     }
   })
 
-  return { milestoneRows, savingsRate, score, recs, chartPoints, fiveYearRows }
+  return { milestoneRows, savingsRate, score, recs, chartPoints, fiveYearRows, annualReturn }
 }
 
-export function buildChartPoints(current: number, monthlyInvestment: number) {
-  const values = Array.from({ length: 11 }, (_, i) => futureValue(current, monthlyInvestment, i * 12))
+export function buildChartPoints(
+  current: number,
+  monthlyInvestment: number,
+  annualReturn = wealthPathAnnualReturn,
+) {
+  const values = Array.from({ length: 11 }, (_, i) => futureValue(current, monthlyInvestment, i * 12, annualReturn))
   const max = Math.max(100000, ...values)
   return values.map((value, i) => {
     const x = (i / 10) * 100

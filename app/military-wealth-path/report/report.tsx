@@ -6,9 +6,9 @@ import {
   calculateWealthPath,
   compactCurrency,
   currency,
+  futureValue,
   monthsToTarget,
   targetDate,
-  wealthPathAnnualReturn,
 } from '@/lib/wealthPath'
 import type { WealthPathInputs } from '@/lib/wealthPath'
 
@@ -23,6 +23,9 @@ function readStoredInputs(): WealthPathInputs | null {
       currentNetWorth: Number(parsed.currentNetWorth) || 0,
       monthlyInvestment: Number(parsed.monthlyInvestment) || 0,
       monthlyIncome: Number(parsed.monthlyIncome) || 0,
+      // Reports saved before the rate was adjustable fall back to the 12% default.
+      annualReturnPercent:
+        parsed.annualReturnPercent === undefined ? undefined : Number(parsed.annualReturnPercent),
     }
   } catch {
     return null
@@ -49,7 +52,9 @@ export async function buildReportPdf(inputs: WealthPathInputs, result: ReturnTyp
 
   // "What if you invested $200 more?" scenario for the plain-English section
   const baseMillionMonths = result.milestoneRows[2].months
-  const boostedMillionMonths = monthsToTarget(inputs.currentNetWorth, inputs.monthlyInvestment + 200, 1000000)
+  const boostedMillionMonths = monthsToTarget(inputs.currentNetWorth, inputs.monthlyInvestment + 200, 1000000, result.annualReturn)
+  const returnLabel = `${Number((result.annualReturn * 100).toFixed(2))}%`
+  const bahGapTenYears = Math.round(futureValue(0, 400, 120, result.annualReturn) / 1000) * 1000
   const monthsSavedWith200 = baseMillionMonths !== null && boostedMillionMonths !== null
     ? baseMillionMonths - boostedMillionMonths
     : null
@@ -286,7 +291,7 @@ export async function buildReportPdf(inputs: WealthPathInputs, result: ReturnTyp
   doc.text('Path Roadmap', margin, 136)
   doc.setTextColor(201, 168, 76)
   doc.setFontSize(10)
-  doc.text(`Prepared ${reportDate} | Projection uses ${(wealthPathAnnualReturn * 100).toFixed(0)}% annual return, compounded yearly`, margin, 178)
+  doc.text(`Prepared ${reportDate} | Projection uses ${returnLabel} annual return, compounded yearly`, margin, 178)
   y = 248
 
   heading('A Letter From Joe')
@@ -388,7 +393,7 @@ export async function buildReportPdf(inputs: WealthPathInputs, result: ReturnTyp
     color: [79, 90, 73],
   })
   text('1. The BAH gap.', { size: 11, bold: true, gap: 6 })
-  text('If your housing allowance is bigger than your actual rent, that gap is tax-free income. Most soldiers let it disappear into lifestyle. Instead, set up an automatic transfer of the difference into investments on the day BAH hits. A $400/month gap invested is roughly $92,000 in ten years at 12%.', {
+  text(`If your housing allowance is bigger than your actual rent, that gap is tax-free income. Most soldiers let it disappear into lifestyle. Instead, set up an automatic transfer of the difference into investments on the day BAH hits. A $400/month gap invested is roughly ${currency(bahGapTenYears)} in ten years at ${returnLabel}.`, {
     size: 10, color: [79, 90, 73],
   })
   text('2. Combat Zone Tax Exclusion + Roth IRA.', { size: 11, bold: true, gap: 6 })
@@ -626,6 +631,7 @@ export default function MilitaryWealthPathReport() {
             <div><span>Current net worth</span><strong>{currency(inputs.currentNetWorth)}</strong></div>
             <div><span>Monthly investing</span><strong>{currency(inputs.monthlyInvestment)}</strong></div>
             <div><span>Savings rate</span><strong>{percent(result.savingsRate)}</strong></div>
+            <div><span>Assumed annual return</span><strong>{Number((result.annualReturn * 100).toFixed(2))}%</strong></div>
           </div>
           <h2>Milestones</h2>
           {result.milestoneRows.map((row) => (

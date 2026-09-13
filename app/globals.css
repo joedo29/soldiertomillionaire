@@ -3555,6 +3555,11 @@ a.tip-source:hover { color: var(--gold-light); }
   margin-top: 12px;
 }
 
+.mwp-note-warn {
+  color: #9A5B00;
+  margin-top: -4px;
+}
+
 .mwp-score-card {
   display: flex;
   align-items: center;
@@ -4698,7 +4703,7 @@ a.tip-source:hover { color: var(--gold-light); }
     max-width: 900px;
   }
   .mwp-report-preview-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
