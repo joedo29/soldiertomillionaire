@@ -252,6 +252,13 @@ export default function Planner() {
                 value={form.tspContributionPercent}
                 onChange={(e) => set('tspContributionPercent', e.target.value)}
               />
+              <small>
+                The TSP is one piece of your net worth.{' '}
+                <Link href="/military-wealth-path" style={{ color: 'var(--army-light)', fontWeight: 600, textDecoration: 'underline' }}>
+                  Project your dates to $100K, $500K and $1M
+                </Link>
+                .
+              </small>
             </label>
 
             <div className="mr-field-row">

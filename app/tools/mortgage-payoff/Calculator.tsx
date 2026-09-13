@@ -175,6 +175,14 @@ export default function Calculator() {
                 value={form.downPayment}
                 onChange={(e) => set('downPayment', e.target.value)}
               />
+              <small>
+                Using a VA loan? The funding fee is waived if you receive VA disability
+                compensation, which starts at a 10% combined rating.{' '}
+                <Link href="/tools/va-disability-rating" className="mp-inline-link">
+                  Check your combined rating
+                </Link>
+                .
+              </small>
             </label>
 
             <label className="mp-field">

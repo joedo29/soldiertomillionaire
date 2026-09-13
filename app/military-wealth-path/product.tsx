@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import {
   calculateWealthPath,
   compactCurrency,
@@ -243,6 +244,15 @@ Built with Soldier to Millionaire`
               </div>
             ))}
           </div>
+
+          <Link href="/tools/military-retirement" className="tool-crosslink mwp-crosslink">
+            <span className="tool-crosslink-tag">Still serving?</span>
+            <strong>Add the pieces this projection leaves out</strong>
+            <span className="tool-crosslink-body">
+              This path counts what you invest yourself. The Military Retirement Planner adds a
+              20-year pension, the BRS TSP match, VA disability pay and state taxes on retired pay. →
+            </span>
+          </Link>
         </div>
       </section>
 

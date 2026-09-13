@@ -506,11 +506,31 @@ export default function Calculator() {
                 your combined retirement cash flow. →
               </span>
             </Link>
-            <p className="vr-crosslink-more">
-              Separating soon? VA compensation cannot be paid for any period you receive active
-              duty pay, and that includes terminal leave.{' '}
-              <Link href="/tools/terminal-leave">Compare terminal leave with selling it back</Link>.
-            </p>
+            <div className="vr-crosslink-more">
+              <h4>Where else your rating matters</h4>
+              <ul>
+                <li>
+                  <strong>Separating soon?</strong> VA compensation cannot be paid for any period you
+                  receive active duty pay, and that includes terminal leave.{' '}
+                  <Link href="/tools/terminal-leave">Compare terminal leave with selling it back</Link>.
+                </li>
+                <li>
+                  <strong>Buying with a VA loan?</strong> Veterans who receive VA compensation, or
+                  would be entitled to it except for retired or active duty pay, do not pay the VA
+                  funding fee (38 U.S.C. § 3729(c)(1)). A 0% rating on its own pays no
+                  compensation.{' '}
+                  <Link href="/tools/mortgage-payoff">Run the loan</Link>.
+                </li>
+                <li>
+                  <strong>Own a business?</strong> SDVOSB status requires being on record with the
+                  VA as a service-disabled veteran (13 CFR § 128.102).{' '}
+                  <Link href="/tools/federal-contracting-readiness">
+                    Check your federal contracting readiness
+                  </Link>
+                  .
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
