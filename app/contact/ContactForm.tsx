@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { trackLead } from '@/lib/analytics'
 
 const topics = [
   { value: 'general', label: 'General Question' },
@@ -30,6 +31,7 @@ export default function ContactForm() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      trackLead('contact')
       setStatus('success')
     } catch (err: unknown) {
       setStatus('error')

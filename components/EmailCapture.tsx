@@ -1,7 +1,10 @@
 'use client'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { trackLead } from '@/lib/analytics'
 
 export default function EmailCapture() {
+  const pathname = usePathname()
   const [email, setEmail]     = useState('')
   const [status, setStatus]   = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errMsg, setErrMsg]   = useState('')
@@ -19,6 +22,7 @@ export default function EmailCapture() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      trackLead(`email_capture:${pathname || '/'}`)
       setStatus('success')
     } catch (err: unknown) {
       setStatus('error')

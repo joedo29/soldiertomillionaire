@@ -3,6 +3,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import { Analytics } from '@vercel/analytics/next'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <WhatsAppButton />
         <Analytics />
+        <GoogleAnalytics />
       </body>
     </html>
   )

@@ -33,6 +33,7 @@ import {
   type PmeHonors,
   type Rank,
 } from '@/lib/promotionPointsData'
+import { trackLead } from '@/lib/analytics'
 
 const STORAGE_KEY = 'soldier2millionaire:promotion-points'
 const UNLOCK_KEY = 'soldier2millionaire:promotion-points-unlocked'
@@ -136,6 +137,7 @@ export default function Calculator() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      trackLead('tool_army_promotion_points')
       try {
         window.localStorage.setItem(UNLOCK_KEY, '1')
       } catch {

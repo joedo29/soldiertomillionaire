@@ -29,6 +29,7 @@ import {
   STATE_GROUPS,
   LAST_VERIFIED as STATE_VERIFIED,
 } from '@/lib/stateMilitaryTax'
+import { trackLead } from '@/lib/analytics'
 
 const STORAGE_KEY = 'soldier2millionaire:military-retirement'
 const UNLOCK_KEY = 'soldier2millionaire:retirement-xlsx-unlocked'
@@ -150,6 +151,7 @@ export default function Planner() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      trackLead('tool_military_retirement')
       try {
         window.localStorage.setItem(UNLOCK_KEY, '1')
       } catch {

@@ -19,6 +19,7 @@ import {
   SOURCES,
   SUPPLEMENTAL_WITHHOLDING_PCT,
 } from '@/lib/terminalLeaveData'
+import { trackLead } from '@/lib/analytics'
 
 const STORAGE_KEY = 'soldier2millionaire:terminal-leave'
 const UNLOCK_KEY = 'soldier2millionaire:terminal-leave-unlocked'
@@ -135,6 +136,7 @@ export default function Calculator() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      trackLead('tool_terminal_leave')
       try {
         window.localStorage.setItem(UNLOCK_KEY, '1')
       } catch {

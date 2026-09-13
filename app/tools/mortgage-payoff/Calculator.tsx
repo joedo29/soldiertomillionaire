@@ -10,6 +10,7 @@ import {
   validate,
   type MortgageInputs,
 } from '@/lib/mortgage'
+import { trackLead } from '@/lib/analytics'
 
 // Recharts measures its container on mount, so keep it out of the server render.
 const PayoffChart = dynamic(() => import('./PayoffChart'), {
@@ -133,6 +134,7 @@ export default function Calculator() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      trackLead('tool_mortgage_payoff')
       try {
         window.localStorage.setItem(UNLOCK_KEY, '1')
       } catch {

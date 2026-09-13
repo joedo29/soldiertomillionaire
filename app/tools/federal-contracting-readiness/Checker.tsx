@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { questions, evaluate, maxScore, type Answers } from '@/lib/contractingReadiness'
+import { trackLead } from '@/lib/analytics'
 
 export default function Checker() {
   const [answers, setAnswers] = useState<Answers>({})
@@ -38,6 +39,7 @@ export default function Checker() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      trackLead('tool_federal_contracting_readiness')
       setStatus('success')
     } catch (err: unknown) {
       setStatus('error')

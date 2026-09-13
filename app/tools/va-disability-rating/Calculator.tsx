@@ -19,6 +19,7 @@ import {
   DEPENDENTS_MIN_RATING,
   type FamilyStatus,
 } from '@/lib/vaDisabilityRates'
+import { trackLead } from '@/lib/analytics'
 
 const STORAGE_KEY = 'soldier2millionaire:va-rating'
 const UNLOCK_KEY = 'soldier2millionaire:va-rating-xlsx-unlocked'
@@ -161,6 +162,7 @@ export default function Calculator() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      trackLead('tool_va_disability_rating')
       try {
         window.localStorage.setItem(UNLOCK_KEY, '1')
       } catch {
