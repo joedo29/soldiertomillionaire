@@ -13,10 +13,25 @@ import { createHmac, timingSafeEqual } from 'crypto'
 // may not follow the apex -> www redirect, so link straight to www.
 const SITE = 'https://www.soldiertomillionaire.com'
 
-function secret() {
-  const s = process.env.UNSUBSCRIBE_SECRET ?? process.env.RESEND_API_KEY
+/** New links are signed with the first available secret. */
+function signingSecret() {
+  const s = process.env.UNSUBSCRIBE_SECRET || process.env.RESEND_API_KEY
   if (!s) throw new Error('Missing UNSUBSCRIBE_SECRET or RESEND_API_KEY')
   return s
+}
+
+/**
+ * Links are accepted if signed with either secret. Emails sent before
+ * UNSUBSCRIBE_SECRET existed were signed with RESEND_API_KEY, and those links
+ * must keep working. If the Resend key is rotated, old links signed with it stop
+ * verifying; links signed with UNSUBSCRIBE_SECRET are unaffected.
+ */
+function verifyingSecrets() {
+  return [process.env.UNSUBSCRIBE_SECRET, process.env.RESEND_API_KEY].filter((s): s is string => !!s)
+}
+
+function sign(email: string, secret: string) {
+  return createHmac('sha256', secret).update(`unsubscribe:${normalizeEmail(email)}`).digest('base64url')
 }
 
 export function normalizeEmail(email: string) {
@@ -24,17 +39,15 @@ export function normalizeEmail(email: string) {
 }
 
 export function unsubscribeToken(email: string) {
-  return createHmac('sha256', secret()).update(`unsubscribe:${normalizeEmail(email)}`).digest('base64url')
+  return sign(email, signingSecret())
 }
 
 export function verifyUnsubscribeToken(email: string, token: string) {
-  try {
-    const expected = Buffer.from(unsubscribeToken(email))
-    const given = Buffer.from(token)
+  const given = Buffer.from(token)
+  return verifyingSecrets().some((secret) => {
+    const expected = Buffer.from(sign(email, secret))
     return expected.length === given.length && timingSafeEqual(expected, given)
-  } catch {
-    return false
-  }
+  })
 }
 
 /** Email is base64url-encoded so the address is not readable at a glance in the URL. */
