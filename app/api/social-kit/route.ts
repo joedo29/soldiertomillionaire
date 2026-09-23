@@ -1,22 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createHmac, timingSafeEqual } from 'crypto'
+import { isValidSignature, SIGNATURE_HEADER_NAME } from '@sanity/webhook'
 import { sendSocialKitEmail, type SocialCopy } from '@/lib/socialKit'
 
-// ── Verify Sanity webhook signature (same scheme as /api/broadcast) ─────────
-function verifySignature(body: string, header: string, secret: string): boolean {
-  try {
-    const parts = Object.fromEntries(header.split(',').map(p => p.split('=')))
-    const ts = parts['t']
-    const v1 = parts['v1']
-    if (!ts || !v1) return false
-    const expected = createHmac('sha256', secret)
-      .update(`${ts}.${body}`)
-      .digest('hex')
-    return timingSafeEqual(Buffer.from(v1, 'hex'), Buffer.from(expected, 'hex'))
-  } catch {
-    return false
-  }
-}
+// Signature checking is Sanity's own helper, as in /api/broadcast. A hand-rolled
+// HMAC here decoded the signature as hex; Sanity sends base64url, so every
+// webhook delivery failed with 401 and no social kit emails were ever sent.
 
 export async function POST(req: NextRequest) {
   const webhookSecret = process.env.SANITY_WEBHOOK_SECRET
@@ -27,8 +15,8 @@ export async function POST(req: NextRequest) {
   }
 
   const rawBody   = await req.text()
-  const sigHeader = req.headers.get('sanity-webhook-signature') ?? ''
-  if (!verifySignature(rawBody, sigHeader, webhookSecret)) {
+  const sigHeader = req.headers.get(SIGNATURE_HEADER_NAME) ?? ''
+  if (!(await isValidSignature(rawBody, sigHeader, webhookSecret))) {
     return NextResponse.json({ error: 'Invalid signature.' }, { status: 401 })
   }
 
